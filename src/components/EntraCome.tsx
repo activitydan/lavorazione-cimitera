@@ -87,7 +87,7 @@ export function EntraCome() {
             <div className="entra__lista">
               {attivi.map((o) => (
                 <button key={o.id} className="entra__voce" onClick={() => { entra({ ruolo: o.ruolo === 'Amministratore' ? 'amministratore' : 'operatore', operatoreId: o.id }); dopo(); }}>
-                  <span className="avatar" style={{ background: o.colore }}>{o.nome.split(/\s+/).map((p) => p[0]).slice(0, 2).join('')}</span>
+                  <span className="avatar" style={{ borderColor: o.colore }}>{o.nome.split(/\s+/).map((p) => p[0]).slice(0, 2).join('')}</span>
                   <span className="grow">
                     <b>{o.nome}</b>
                     <span>{o.ruolo}</span>

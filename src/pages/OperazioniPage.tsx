@@ -19,6 +19,7 @@ import { aggiungiGiorni, data, dataBreve, euro, GIORNI_BREVI, nomeCompleto, norm
 import { pdfPratica, pdfRegistro } from '../lib/pdf';
 import { setQuery, useRotta } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
+import { tinta, tintaTesto } from '../lib/tinta';
 
 type Tab = 'pratiche' | 'agenda' | 'registro';
 
@@ -27,12 +28,12 @@ const ora = (p: Pratica) => p.dataOra?.slice(11, 16) ?? '';
 
 function BadgePratica({ p }: { p: Pratica }) {
   const st = statoP(p.stato);
-  return <span className="badge badge--sm" style={{ background: `${st.colore}18`, color: st.colore }}>{st.label}</span>;
+  return <span className="badge badge--sm" style={tinta(st.colore)}>{st.label}</span>;
 }
 
 function BadgeTipo({ p }: { p: Pratica }) {
   const c = COLORI_OPERAZIONE[p.tipo];
-  return <span className="badge badge--sm" style={{ background: `${c}18`, color: c }}>{nomeOperazione(p)}</span>;
+  return <span className="badge badge--sm" style={tinta(c)}>{nomeOperazione(p)}</span>;
 }
 
 export function OperazioniPage() {
@@ -93,7 +94,7 @@ function RichiesteAgenzie({ onApri }: { onApri: (r: RichiestaAgenzia) => void })
               <tr key={r.id}>
                 <td className="id">{r.numero}</td>
                 <td><b>{db.agenzie.find((a) => a.id === r.agenziaId)?.nome ?? '—'}</b></td>
-                <td><span className="badge badge--sm" style={{ background: `${COLORI_OPERAZIONE[r.tipo]}18`, color: COLORI_OPERAZIONE[r.tipo] }}>{NOMI_OPERAZIONE[r.tipo]}</span></td>
+                <td><span className="badge badge--sm" style={tinta(COLORI_OPERAZIONE[r.tipo])}>{NOMI_OPERAZIONE[r.tipo]}</span></td>
                 <td>{nomeCompleto(r.defunto)}<div className="tiny muted">Famiglia: {r.richiedente.nome}</div></td>
                 <td className="nowrap">{dataBreve(r.dataOra.slice(0, 10))} · {r.dataOra.slice(11, 16)}</td>
                 <td className="small">{r.note ?? ''}</td>
@@ -512,7 +513,7 @@ function VoceAgenda({ p, tutte }: { p: Pratica; tutte: Pratica[] }) {
         {doppie.length > 0 && <AlertTriangle size={14} color="#D9473F" />}
         {p.stato === 'eseguita' && <CheckCircle2 size={14} color="#3F9A3C" />}
       </span>
-      <span className="small strong" style={{ color: c }}>{NOMI_OPERAZIONE[p.tipo]}</span>
+      <span className="small strong" style={{ color: tintaTesto(c) }}>{NOMI_OPERAZIONE[p.tipo]}</span>
       <b className="ellipsis">{nomeCompleto(p.defunto)}</b>
       <span className="tiny muted ellipsis">{p.schedaId}{s ? ` · ${s.viale}` : ''}</span>
       {agenzia && <span className="tiny muted ellipsis">{agenzia.nome}</span>}

@@ -17,6 +17,7 @@ import { quadranteDi, vialePiuVicino } from '../lib/geo';
 import { precaricaMotore } from '../lib/ocr';
 import { riduciFoto } from '../lib/photo';
 import { href, vai } from '../router';
+import { tinta } from '../lib/tinta';
 
 const PASSI = ['Foto', 'Posizione', 'Classificazione', 'Anagrafica', 'Riepilogo'];
 
@@ -253,7 +254,7 @@ export function RilievoPage() {
             <LocationPicker cimitero={cim} valore={b.pos} onChange={(p) => set({ pos: p })} altezza={380} />
             <div className="row row--wrap gap-8 small">
               <span className="badge badge--blu">Viale più vicino: {vialeAuto || '—'}</span>
-              {q && <span className="badge" style={{ background: `${q.colore}18`, color: q.colore }}>{q.nome}</span>}
+              {q && <span className="badge" style={tinta(q.colore)}>{q.nome}</span>}
             </div>
             <label className="row small" style={{ cursor: 'pointer' }}>
               <Switch small on={inStruttura} onChange={setInStruttura} />

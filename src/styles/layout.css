@@ -70,14 +70,14 @@
   display: grid;
   place-items: center;
 }
-.nav-item__badge--danger { background: var(--danger); }
+.nav-item__badge--danger { background: var(--danger-700); }
 /* icona della voce; su Manutenzioni porta il numero delle aperte, come la campanella degli alert */
 .nav-item__ico { position: relative; display: grid; place-items: center; flex: none; font-style: normal; }
 .nav-item__ico .icon-btn__dot { top: -4px; right: -5px; letter-spacing: 0; }
 .nav-sep {
   margin: 14px 14px 6px;
   font-size: 11px;
-  color: #6f8299;
+  color: var(--navy-muted);
   font-weight: 700;
 }
 
@@ -85,16 +85,6 @@
   padding: 14px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
-.powered {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin-top: 12px;
-  font-size: 11px;
-  letter-spacing: 0.08em;
-  color: #7f92a8;
-}
-.powered img { width: 34px; height: 24px; object-fit: cover; border-radius: var(--radius-xs); background: #fff; }
 
 .main {
   display: flex;
@@ -146,14 +136,12 @@
 
 @media (max-width: 1180px) {
   :root { --sidebar-w: 76px; }
-  .sidebar__brand .wordmark, .nav-item span, .nav-sep, .sidebar__foot .census-mini__text, .powered span, .nav-item__badge { display: none; }
+  .sidebar__brand .wordmark, .nav-item span, .nav-sep, .nav-item__badge { display: none; }
   .sidebar__brand { justify-content: center; padding: 0 8px; }
   .sidebar .sidebar__foot { flex-direction: column; align-items: center; height: auto; padding: 8px 0 10px; gap: 4px; }
   .sidebar__foot .user-chip__txt { display: none; }
   .sidebar .sidebar__foot .campanella { margin: 0; }
   .nav-item { justify-content: center; padding: 0; }
-  .census-mini { padding: 8px; }
-  .powered { justify-content: center; }
 }
 
 @media (max-width: 760px) {
@@ -169,7 +157,7 @@
   }
   .sidebar.is-open { transform: none; box-shadow: var(--shadow-3); }
   .sidebar.is-open .wordmark, .sidebar.is-open .nav-item span, .sidebar.is-open .nav-sep,
-  .sidebar.is-open .census-mini__text, .sidebar.is-open .powered span, .sidebar.is-open .nav-item__badge { display: revert; }
+  .sidebar.is-open .nav-item__badge { display: revert; }
   .sidebar.is-open .nav-item { justify-content: flex-start; padding: 0 14px; }
   .sidebar.is-open .sidebar__brand { justify-content: flex-start; padding: 8px 0 0 16px; }
   .sidebar.is-open .sidebar__brand .wordmark { display: flex; }
@@ -186,6 +174,7 @@
 .sidebar__foot { position: relative; flex: none; height: 50px; display: flex; align-items: flex-start; justify-content: space-between; padding: 5px 6.5px 0 7px; }
 .sidebar__foot .user-chip:hover { background: rgba(255, 255, 255, 0.06); }
 .sidebar__foot .user-chip__txt b { color: #fff; }
+.sidebar__foot .user-chip__txt span { color: var(--navy-muted); }
 .sidebar__foot .campanella { margin-top: 3px; }
 .sidebar__foot .icon-btn:hover { background: rgba(255, 255, 255, 0.08); }
 .sidebar__brand .row { gap: 6px !important; }

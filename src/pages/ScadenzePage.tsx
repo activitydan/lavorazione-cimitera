@@ -133,7 +133,7 @@ function Scadenzario({ righe }: { righe: RigaScadenza[] }) {
                   <input type="checkbox" className="check" aria-label={`Seleziona ${r.schedaId}`} checked={scelte.has(r.chiave)}
                     onChange={(e) => { const n = new Set(scelte); e.target.checked ? n.add(r.chiave) : n.delete(r.chiave); setScelte(n); }} />
                 </td>
-                <td className="nowrap"><b>{data(r.data)}</b><div className="tiny" style={{ color: r.giorni < 0 ? '#D9473F' : undefined }}>{r.giorni < 0 ? `da ${numero(-r.giorni)} giorni` : `tra ${numero(r.giorni)} giorni`}</div></td>
+                <td className="nowrap"><b>{data(r.data)}</b><div className="tiny" style={{ color: r.giorni < 0 ? 'var(--danger-700)' : undefined }}>{r.giorni < 0 ? `da ${numero(-r.giorni)} giorni` : `tra ${numero(r.giorni)} giorni`}</div></td>
                 <td><span className="badge badge--sm">{NOMI_SCADENZA[r.tipo]}</span><div className="tiny muted">{r.titolo}</div></td>
                 <td className="clickable" {...attivabile(() => seleziona(r.schedaId))}><span className="id">{r.schedaId}</span> · {r.viale}<div className="tiny muted">{r.defunti}</div></td>
                 <td>{r.destinatari.length ? <>{r.destinatari[0].nome}{r.destinatari.length > 1 && <span className="muted"> e {r.destinatari.length - 1} altro</span>}<div className="tiny muted">{r.destinatari[0].indirizzo}</div></> : <span className="badge badge--sm badge--arancio">Nessun destinatario</span>}</td>
@@ -267,7 +267,7 @@ function InviiDat() {
                   <td className="num">{numero(c.tutti ?? 0)}</td>
                   <td className="num">{numero(c.consegnato ?? 0)}</td>
                   <td className="num">{numero(c.notificato ?? 0)}</td>
-                  <td className="num"><b style={{ color: c.non_consegnato ? '#D9473F' : undefined }}>{numero(c.non_consegnato ?? 0)}</b></td>
+                  <td className="num"><b style={{ color: c.non_consegnato ? 'var(--danger-700)' : undefined }}>{numero(c.non_consegnato ?? 0)}</b></td>
                   <td>{l.simulato && <span className="badge badge--sm badge--arancio">Simulato</span>}{(c.in_lavorazione || c.spedito) ? <span className="badge badge--sm badge--blu" style={{ marginLeft: 4 }}>In corso</span> : null}</td>
                 </tr>
               );

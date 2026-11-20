@@ -18,6 +18,7 @@ import { quadranteDi, vialePiuVicino } from '../lib/geo';
 import { useTelefono } from '../lib/schermo';
 import { setQuery, useRotta, vai } from '../router';
 import { attivabile } from '../lib/tastiera';
+import { tinta } from '../lib/tinta';
 
 type Tab = 'avanzamento' | 'quadranti' | 'operatori' | 'verifiche' | 'strutture';
 const ORDINE_STRUTTURE: Struttura['tipo'][] = ['colombaio', 'cappella', 'ossario', 'cinerario'];
@@ -171,7 +172,7 @@ function Avanzamento() {
                 const p = percentuale(qs.length, q.stimaManufatti);
                 return (
                   <tr key={q.id} className="clickable" {...attivabile(() => vai(`/censimento?tab=quadranti&q=${q.id}`))}>
-                    <td><span className="row gap-8"><span className="q-row__code" style={{ background: q.colore }}>{q.codice}</span><b>{q.nome.split('·')[1]?.trim() ?? q.nome}</b></span></td>
+                    <td><span className="row gap-8"><span className="q-row__code" style={{ borderColor: q.colore }}>{q.codice}</span><b>{q.nome.split('·')[1]?.trim() ?? q.nome}</b></span></td>
                     <td>{op ? <span className="row gap-8"><Avatar nome={op.nome} colore={op.colore} size="sm" />{op.nome}</span> : <span className="muted">Non assegnato</span>}</td>
                     <td><div className="row gap-8"><div className="grow"><Progress value={qs.length} max={q.stimaManufatti} colore={q.colore} /></div><b className="mono small">{p}%</b></div></td>
                     <td className="num nowrap"><b>{numero(qs.length)}</b> <span className="muted">su {numero(q.stimaManufatti)}</span></td>
@@ -297,7 +298,7 @@ function Quadranti() {
             const op = db.operatori.find((o) => o.id === q.operatoreId);
             return (
               <div key={q.id} className={`quad__item ${evid === q.id ? 'is-sel' : ''}`} role="button" aria-pressed={evid === q.id} {...attivabile(() => setQuery('q', evid === q.id ? null : q.id))}>
-                <span className="q-row__code" style={{ background: q.colore }}>{q.codice}</span>
+                <span className="q-row__code" style={{ borderColor: q.colore }}>{q.codice}</span>
                 <div className="grow" style={{ minWidth: 0 }}>
                   <div className="row row--between"><b className="ellipsis">{q.nome}</b><span className="small mono">{percentuale(n, q.stimaManufatti)}%</span></div>
                   <Progress value={n} max={q.stimaManufatti} small colore={q.colore} />
@@ -347,7 +348,7 @@ function Operatori() {
                   <td><span className="row gap-8"><Avatar nome={o.nome} colore={o.colore} /><span><b>{o.nome}</b>{!o.attivo && <div className="tiny muted">Non attivo</div>}</span></span></td>
                   <td>
                     <span className="row row--wrap gap-4">
-                      {suoi.map((q) => <span key={q.id} className="badge badge--sm" style={{ background: `${q.colore}18`, color: q.colore }}>{q.codice}</span>)}
+                      {suoi.map((q) => <span key={q.id} className="badge badge--sm" style={tinta(q.colore)}>{q.codice}</span>)}
                       {!suoi.length && <span className="muted">—</span>}
                     </span>
                   </td>
@@ -558,7 +559,7 @@ function Strutture() {
                   <td className="nowrap">{st.viale}</td>
                   <td className="num">{numero(occ.totale)}</td>
                   <td className="num">{numero(occ.occupati)}</td>
-                  <td className="num"><b style={{ color: occ.liberi ? '#3F9A3C' : undefined }}>{numero(occ.liberi)}</b></td>
+                  <td className="num"><b style={{ color: occ.liberi ? 'var(--verde-600)' : undefined }}>{numero(occ.liberi)}</b></td>
                   <td><div className="row gap-8"><div className="grow"><Progress value={occ.occupati} max={occ.totale} verde small /></div><span className="mono small">{percentuale(occ.occupati, occ.totale)}%</span></div></td>
                   <td>
                     <span className="row gap-4" style={{ justifyContent: 'flex-end' }}>

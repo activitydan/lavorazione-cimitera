@@ -203,5 +203,5 @@
 .map-legend__item { display: inline-flex; align-items: center; gap: 7px; border: none; background: transparent; padding: 3px 4px; border-radius: var(--radius-xs); font-weight: 700; color: inherit; }
 .map-legend__item:hover { background: var(--surface-2); }
 .map-legend__item.is-off { opacity: 0.38; }
-.map-legend__item .n { color: var(--faint); font-weight: 700; font-size: 12px; }
+.map-legend__item .n { color: var(--muted); font-weight: 700; font-size: 12px; }
 .map-legend__sep { width: 1px; height: 20px; background: var(--border); }

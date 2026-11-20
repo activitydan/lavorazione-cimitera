@@ -32,8 +32,8 @@
 
 /* ---- distanza tra i riquadri: 16 px ovunque ---- */
 .page:not(.page--home) :is(
-  .col.gap-16, .kpi-grid, .report-grid, .report-2col, .op-grid, .str-grid, .manut__grid, .anagrafe-stat,
-  .export-grid, .quad, .cal-wrap, .ricerca, .pro, .elenchi-grid, .scheda-estesa, .scheda-estesa__side, .griglia
+  .col.gap-16, .kpi-grid, .report-grid, .report-2col, .op-grid, .str-grid, .manut__grid,
+  .quad, .cal-wrap, .ricerca, .pro, .elenchi-grid, .scheda-estesa, .scheda-estesa__side, .griglia
 ) { gap: var(--sp-riquadri); }
 
 /* riquadri affiancati alti uguali: non resta un buco sotto il più basso */
@@ -44,7 +44,7 @@
 .page:not(.page--home) .section-title:first-child { margin-top: 0; }
 
 /* ---- margini interni dei riquadri ---- */
-.page:not(.page--home) :is(.card--pad, .kpi-card, .export-card, .str-card) { padding: var(--sp-riquadri); }
+.page:not(.page--home) :is(.card--pad, .kpi-card, .str-card) { padding: var(--sp-riquadri); }
 .page:not(.page--home) .card__head { padding: var(--sp-testa) var(--sp-riquadri); }
 .page:not(.page--home) .card__body { padding: var(--sp-riquadri); }
 .page:not(.page--home) .card__foot { padding: var(--sp-piede) var(--sp-riquadri); }

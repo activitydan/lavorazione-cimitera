@@ -18,6 +18,7 @@ import { segnapostoImmagine } from '../lib/photo';
 import { useTelefono } from '../lib/schermo';
 import { setQuery, useRotta, vai } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
+import { tinta } from '../lib/tinta';
 
 type Vista = 'elenco' | 'calendario';
 const PER_PAGINA = 25;
@@ -125,7 +126,7 @@ export function ManutenzioniPage() {
                       <span className="tiny muted">{m.schedaId || m.luogo}{s ? ` · ${s.viale}` : ''}</span>
                       <span className="tiny muted">{m.dataProgrammata && !chiusa(m) ? `Programmata ${dataBreve(m.dataProgrammata)}` : `Segnalata ${dataBreve(m.segnalataIl)}`}</span>
                     </span>
-                    <span className="badge badge--sm" style={{ color: pr.colore, background: `${pr.colore}14` }}>{pr.label}</span>
+                    <span className="badge badge--sm" style={tinta(pr.colore)}>{pr.label}</span>
                   </button>
                 );
               })}
@@ -145,13 +146,13 @@ export function ManutenzioniPage() {
                       <div className="ticket__body">
                         <div className="row row--between">
                           <span className="tiny muted strong">{m.id} <DaInviare riferimento={m.id} /></span>
-                          <span className="badge badge--sm" style={{ background: `${st.colore}18`, color: st.colore }}>{st.label}</span>
+                          <span className="badge badge--sm" style={tinta(st.colore)}>{st.label}</span>
                         </div>
                         <b className="ticket__title">{labelLista(config.categorieManutenzione, m.categoria)}</b>
                         <span className="small muted ellipsis">{m.schedaId ? `${m.schedaId} · ${s ? descrizioneScheda(s) : ''}` : `Parte comune · ${m.luogo ?? ''}`}</span>
                         <span className="small ticket__desc">{m.descrizione}</span>
                         <div className="row row--between mt-8">
-                          <span className="badge badge--sm" style={{ color: pr.colore, background: `${pr.colore}14` }}>{pr.label}</span>
+                          <span className="badge badge--sm" style={tinta(pr.colore)}>{pr.label}</span>
                           <span className="tiny muted">
                             {m.stato === 'risolta' ? `Risolta ${dataBreve(m.risoltaIl)}` : m.stato === 'annullata' ? `Annullata ${dataBreve(m.annullataIl)}` : m.dataProgrammata ? `Programmata ${dataBreve(m.dataProgrammata)}` : `Segnalata ${dataBreve(m.segnalataIl)}`}
                           </span>
@@ -341,8 +342,8 @@ function DettaglioManutenzione({ m, onChiudi }: { m: Manutenzione; onChiudi: () 
         <div className="modal__head">
           <div>
             <div className="row gap-8">
-              <span className="badge" style={{ background: `${st.colore}18`, color: st.colore }}>{st.label}</span>
-              <span className="badge" style={{ color: pr.colore, background: `${pr.colore}14` }}>Priorità {pr.label.toLowerCase()}</span>
+              <span className="badge" style={tinta(st.colore)}>{st.label}</span>
+              <span className="badge" style={tinta(pr.colore)}>Priorità {pr.label.toLowerCase()}</span>
             </div>
             <h2 className="mt-8">{labelLista(config.categorieManutenzione, m.categoria)} · {m.id}</h2>
             <p>{s ? `${s.id} · ${descrizioneScheda(s)} · ${s.viale}` : m.schedaId || `Parte comune · ${m.luogo ?? ''}`}</p>

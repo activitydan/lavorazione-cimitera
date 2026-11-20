@@ -184,7 +184,7 @@
 .alert-item .grow { display: flex; flex-direction: column; font-size: 13px; min-width: 0; }
 .alert-item.is-read { opacity: 0.55; }
 .q-row { display: flex; align-items: center; gap: 9px; color: inherit; text-decoration: none !important; }
-.q-row__code { width: 24px; height: 24px; border-radius: var(--radius-xs); color: #fff; display: grid; place-items: center; font-weight: 700; font-size: 12px; flex: none; }
+.q-row__code { width: 24px; height: 24px; border-radius: var(--radius-xs); background: var(--surface); border: 2px solid var(--border-strong); color: var(--text); display: grid; place-items: center; font-weight: 700; font-size: 12px; flex: none; }
 .mini-kpis { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
 .mini-kpis a { display: flex; flex-direction: column; align-items: center; padding: 8px 2px; border-radius: var(--radius-sm); background: var(--surface-2); color: inherit; text-decoration: none !important; }
 .mini-kpis a:hover { background: var(--blu-50); }

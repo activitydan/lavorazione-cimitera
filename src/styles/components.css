@@ -13,7 +13,7 @@
 .wordmark__sub b { color: var(--navy); }
 .wordmark__sub i { font-style: normal; font-weight: 800; color: var(--verde-600); }
 .wordmark--dark .wordmark__name { color: #fff; }
-.wordmark--dark .wordmark__sub { color: #8ea2b9; }
+.wordmark--dark .wordmark__sub { color: var(--navy-muted); }
 .wordmark--dark .wordmark__sub b { color: #fff; }
 .wordmark--dark .wordmark__sub i { color: var(--verde); }
 .mark { flex: none; display: block; }
@@ -42,7 +42,7 @@
 .btn--primary:hover { background: var(--blu-600); border-color: var(--blu-600); color: #fff; }
 .btn--success { background: var(--verde-600); border-color: var(--verde-600); color: #fff; }
 .btn--success:hover { background: var(--verde-700); border-color: var(--verde-700); color: #fff; }
-.btn--danger { color: var(--danger); border-color: var(--danger-200); }
+.btn--danger { color: var(--danger-700); border-color: var(--danger-200); }
 .btn--danger:hover { background: var(--danger-50); color: var(--danger-700); border-color: var(--danger-200); }
 .btn--ghost { border-color: transparent; background: transparent; }
 .btn--ghost:hover { background: var(--surface-3); border-color: transparent; }
@@ -74,7 +74,7 @@
   height: 18px;
   padding: 0 5px;
   border-radius: 999px;
-  background: var(--danger);
+  background: var(--danger-700);
   color: #fff;
   font-size: 11px;
   font-weight: 700;
@@ -103,6 +103,7 @@
 .card__body { padding: 16px 18px; }
 .card__foot { padding: 12px 18px; border-top: 1px solid var(--border); }
 .card--link { transition: border-color 0.15s; cursor: pointer; }
+button.card { text-align: left; color: inherit; }
 .card--link:hover { border-color: var(--blu); }
 
 .section-title {
@@ -132,7 +133,7 @@
 .badge--sm { height: 20px; padding: 0 7px; font-size: 11px; }
 .badge--outline { background: #fff; border-color: var(--border); }
 .badge--blu { background: var(--blu-50); color: var(--blu); }
-.badge--verde { background: var(--verde-50); color: var(--verde-600); }
+.badge--verde { background: var(--verde-50); color: var(--verde-700); }
 .badge--rosso { background: var(--danger-50); color: var(--danger-700); }
 .badge--giallo { background: var(--warn-50); color: var(--warn-700); }
 .badge--arancio { background: var(--orange-50); color: var(--orange-700); }
@@ -214,7 +215,7 @@
 .input:focus, .select:focus, .textarea:focus { outline: none; border-color: var(--blu); box-shadow: var(--focus); }
 .input--sm, .select--sm { height: 32px; font-size: 13px; border-radius: var(--radius-sm); }
 .input-icon { position: relative; }
-.input-icon > svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
+.input-icon > svg { position: absolute; left: 11px; top: 50%; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
 .input-icon > .input { padding-left: 36px; }
 .grid-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 .grid-form--3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
@@ -346,9 +347,6 @@
 .progress--sm { height: 6px; }
 .progress--verde > span { background: var(--verde-600); }
 
-.bar-list { display: flex; flex-direction: column; gap: 10px; }
-.bar-list__row { display: grid; grid-template-columns: minmax(90px, 160px) 1fr 54px; align-items: center; gap: 10px; font-size: 13px; }
-.bar-list__row .num { text-align: right; font-weight: 700; font-variant-numeric: tabular-nums; }
 
 .legend { display: flex; flex-wrap: wrap; gap: 6px 14px; font-size: 12px; color: var(--text-2); }
 .legend__item { display: inline-flex; align-items: center; gap: 6px; }
@@ -360,7 +358,9 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  color: #fff;
+  background: var(--surface);
+  border: 2px solid var(--border-strong); /* il colore dell'operatore arriva dalla pagina */
+  color: var(--text-2);
   font-weight: 700;
   font-size: 12px;
   flex: none;
@@ -529,7 +529,6 @@ button.list-item:hover, a.list-item:hover { background: var(--surface-2); text-d
 }
 .drop:hover { border-color: var(--blu); background: var(--blu-50); }
 
-.kbd { font-size: 11px; border: 1px solid var(--border-strong); border-bottom-width: 2px; border-radius: var(--radius-xs); padding: 0 5px; color: var(--muted); background: #fff; }
 
 .spinner { width: 18px; height: 18px; border-radius: 50%; border: 2.5px solid rgba(27, 90, 143, 0.2); border-top-color: var(--blu); animation: spin 0.8s linear infinite; }
 @keyframes spin { to { transform: rotate(360deg); } }

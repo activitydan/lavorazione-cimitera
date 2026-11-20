@@ -12,6 +12,7 @@ import { aggiungiGiorni, data, dataBreve, nomeCompleto, oggiISO } from '../lib/f
 import { googleMapsIndicazioni } from '../lib/geo';
 import { setQuery, useRotta, vai } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
+import { tinta } from '../lib/tinta';
 
 // L'area dell'agenzia funebre: vede solo le sue operazioni e le sue richieste.
 // Propone giorno e ora; la postazione la assegna l'ufficio quando apre la pratica.
@@ -21,12 +22,12 @@ const CLASSE_RICHIESTA: Record<RichiestaAgenzia['stato'], string> = { in_attesa:
 
 function BadgeTipo({ tipo, testo }: { tipo: TipoOperazione; testo?: string }) {
   const c = COLORI_OPERAZIONE[tipo];
-  return <span className="badge badge--sm" style={{ background: `${c}18`, color: c }}>{testo ?? NOMI_OPERAZIONE[tipo]}</span>;
+  return <span className="badge badge--sm" style={tinta(c)}>{testo ?? NOMI_OPERAZIONE[tipo]}</span>;
 }
 
 function BadgeStato({ p }: { p: Pratica }) {
   const st = STATI_PRATICA.find((x) => x.id === p.stato)!;
-  return <span className="badge badge--sm" style={{ background: `${st.colore}1a`, color: st.colore }}>{st.label}</span>;
+  return <span className="badge badge--sm" style={tinta(st.colore)}>{st.label}</span>;
 }
 
 function dove(s: Scheda | undefined, db: ReturnType<typeof useStore.getState>['db']): string {

@@ -25,8 +25,9 @@
   --border-hover: #aab6c4; /* bordo di campi e pulsanti al passaggio */
   --text: #14243a;
   --text-2: #33465c;
-  --muted: #627287;
-  --faint: #93a0b1;
+  --muted: #5d6d82; /* etichette e note: si legge su bianco e su tutti i grigi di servizio (4.6:1 o più) */
+  --faint: #93a0b1; /* solo segni grafici secondari, mai un testo da leggere */
+  --navy-muted: #8ea2b9; /* testo secondario sul blu notte del menu */
 
   --ok: #3f9a3c;
   --warn: #e9be1f;
@@ -56,7 +57,9 @@
   --font-display: 'Montserrat', 'Nunito Sans Variable', system-ui, sans-serif;
   --sidebar-w: 190px;
   --topbar-h: 64px;
-  --focus: 0 0 0 3px rgba(27, 90, 143, 0.28);
+  --focus: 0 0 0 3px rgba(27, 90, 143, 0.28); /* campi: il bordo diventa blu, l'anello lo accompagna */
+  --focus-ring: 0 0 0 2px #fff, 0 0 0 4px var(--blu); /* tutto il resto: anello pieno, si vede su ogni fondo */
+  accent-color: var(--blu);
 }
 
 *,
@@ -99,14 +102,15 @@ h1, h2, h3, h4 { text-wrap: balance; }
 
 p { margin: 0; text-wrap: pretty; }
 a { color: var(--blu); text-decoration: none; }
-a:hover { text-decoration: underline; }
+a:hover { text-decoration: underline; text-underline-offset: 2px; }
+input, textarea { caret-color: var(--blu); }
 button, input, select, textarea { font: inherit; color: inherit; }
 button { cursor: pointer; }
 img { max-width: 100%; display: block; }
 
 :focus-visible {
   outline: none;
-  box-shadow: var(--focus);
+  box-shadow: var(--focus-ring);
 }
 
 ::selection {
@@ -114,7 +118,6 @@ img { max-width: 100%; display: block; }
 }
 
 .muted { color: var(--muted); }
-.faint { color: var(--faint); }
 .small { font-size: 13px; }
 .tiny { font-size: 12px; }
 .strong { font-weight: 700; }
@@ -147,6 +150,8 @@ img { max-width: 100%; display: block; }
 ::-webkit-scrollbar-thumb { background: #c9d1db; border-radius: 999px; border: 2px solid transparent; background-clip: padding-box; }
 ::-webkit-scrollbar-track { background: transparent; }
 
+/* movimento ridotto: niente passaggi animati; restano fermi ma visibili i segnali che dicono "sto lavorando" */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+  .spinner { animation-duration: 1.6s !important; animation-iteration-count: infinite !important; }
 }

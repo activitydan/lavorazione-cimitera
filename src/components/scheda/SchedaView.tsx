@@ -23,6 +23,7 @@ import { InputCampo, ValoreOpzione } from './Campi';
 import { Documenti, Provvisoria } from './Documenti';
 import { FotoScheda } from './Media';
 import { SchedaForm } from './SchedaForm';
+import { tinta } from '../../lib/tinta';
 
 export function SchedaView({ s, estesa }: { s: Scheda; estesa?: boolean }) {
   const [modifica, setModifica] = useState(false);
@@ -228,7 +229,7 @@ export function SchedaView({ s, estesa }: { s: Scheda; estesa?: boolean }) {
                     <b>{nomeOperazione(p)}</b>
                     <span className="small muted"> · {nomeCompleto(p.defunto)} · {dataBreve((p.dataOra ?? p.apertaIl).slice(0, 10))}</span>
                   </span>
-                  <span className="badge badge--sm" style={{ background: `${st.colore}1a`, color: st.colore }}>{st.label}</span>
+                  <span className="badge badge--sm" style={tinta(st.colore)}>{st.label}</span>
                 </>
               );
               return telefono ? <div key={p.id} className="mini-row">{riga}</div> : <a key={p.id} className="mini-row" href={href(`/operazioni?id=${p.id}`)}>{riga}</a>;
@@ -252,8 +253,8 @@ export function SchedaView({ s, estesa }: { s: Scheda; estesa?: boolean }) {
                     <b>{labelLista(config.categorieManutenzione, m.categoria)}</b>
                     <span className="small muted"> · {dataBreve(m.segnalataIl)}</span>
                   </span>
-                  <span className="badge badge--sm" style={{ background: `${st.colore}1a`, color: st.colore }}>{st.label}</span>
-                  {m.stato !== 'risolta' && <span className="badge badge--sm" style={{ color: prioritaDef(m.priorita).colore }}>{prioritaDef(m.priorita).label}</span>}
+                  <span className="badge badge--sm" style={tinta(st.colore)}>{st.label}</span>
+                  {m.stato !== 'risolta' && <span className="badge badge--sm" style={tinta(prioritaDef(m.priorita).colore)}>{prioritaDef(m.priorita).label}</span>}
                 </a>
               );
             })}

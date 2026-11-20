@@ -107,6 +107,8 @@ export function App() {
   useEffect(() => {
     setUi({ menuMobile: false, parete: null, modale: null });
     if (r.parti[0] !== 'mappa' && r.parti[0] !== undefined) setUi({ pannello: false });
+    // una pagina nuova si legge dall'inizio, non da dove era arrivata quella di prima
+    document.querySelector('.content')?.scrollTo(0, 0);
   }, [r.path]);
 
   if (!pronto || errore) return <Caricamento errore={errore} />;

@@ -7,30 +7,38 @@ colors:
   navy-950: "#0b1524"
   blu: "#1b5a8f"
   blu-600: "#164d7b"
+  blu-200: "#9cc0df"
   blu-100: "#d5e5f2"
   blu-50: "#eaf2f9"
   verde: "#79aa4f"
+  verde-700: "#3f7224"
   verde-600: "#4a822b"
   verde-50: "#eef6e7"
+  navy-muted: "#8ea2b9"
   bg: "#f2f4f7"
   surface: "#ffffff"
   surface-2: "#f7f8fa"
   surface-3: "#eef1f5"
   border: "#e2e7ee"
   border-strong: "#cdd5df"
+  border-soft: "#edf0f4"
+  border-hover: "#aab6c4"
   text: "#14243a"
   text-2: "#33465c"
-  muted: "#627287"
+  muted: "#5d6d82"
   faint: "#93a0b1"
   ok: "#3f9a3c"
   warn: "#e9be1f"
   warn-50: "#fdf6dc"
+  warn-200: "#f3e1a6"
   warn-700: "#8a6a00"
   danger: "#d9473f"
   danger-50: "#fdeeed"
+  danger-200: "#efc4c1"
   danger-700: "#b8322b"
   orange: "#e07b22"
   orange-50: "#fdf0e4"
+  orange-200: "#f1d3ad"
   orange-700: "#a85710"
 typography:
   numero:
@@ -210,18 +218,22 @@ Una base di grigi freddi, il blu notte del marchio per il menu, un blu per le az
 - **Fondo pagina** (`bg`): dietro ai riquadri.
 - **Bianco** (`surface`): riquadri, finestre, campi.
 - **Grigi di servizio** (`surface-2`, `surface-3`): intestazioni delle tabelle, righe al passaggio del mouse, binari delle barre.
-- **Bordi** (`border`, `border-strong`): `border` separa i riquadri e le righe; `border-strong` disegna campi e pulsanti.
-- **Testo** (`text`, `text-2`, `muted`): `text` per il contenuto, `text-2` per i pulsanti e le voci secondarie, `muted` per etichette e note.
-- **Grigio spento** (`faint`): solo icone secondarie e segnaposto. Mai per un testo da leggere.
+- **Bordi** (`border`, `border-strong`, `border-soft`, `border-hover`): `border` separa i riquadri; `border-soft` le righe dentro tabelle ed elenchi; `border-strong` disegna campi e pulsanti, che al passaggio prendono `border-hover`.
+- **Testo** (`text`, `text-2`, `muted`): `text` per il contenuto, `text-2` per i pulsanti e le voci secondarie, `muted` per etichette e note. `muted` si legge su bianco e su tutti i grigi di servizio (contrasto di almeno 4,6 a 1).
+- **Testo sul blu notte** (`navy-muted`): le scritte secondarie del menu laterale.
+- **Grigio spento** (`faint`): solo segni grafici secondari. Mai per un testo da leggere.
 
 ### Stati
-- **A posto** (`ok`), **Attenzione** (`warn`), **Urgente** (`danger`), **Da fare** (`orange`): pallini sulla mappa, etichette di stato, avvisi. Ogni stato ha la sua tinta chiara per lo sfondo (`-50`) e la sua tinta scura per il testo (`-700`).
-- I colori dei tipi di sepoltura, degli operatori e delle pratiche si scelgono in Impostazioni: sono dati, non decorazione, e compaiono solo come pallino, bordo a sinistra o cerchio con le iniziali.
+- **A posto** (`ok`), **Attenzione** (`warn`), **Urgente** (`danger`), **Da fare** (`orange`): pallini sulla mappa, etichette di stato, avvisi. Ogni stato ha la tinta chiara per lo sfondo (`-50`), una per il bordo (`-200`) e la tinta scura per il testo e per i contatori (`-700`). Il colore pieno non si usa per il testo piccolo: non si legge abbastanza.
+- I colori dei tipi di sepoltura, dei quadranti, degli operatori e delle pratiche si scelgono in Impostazioni: sono dati, non decorazione. Compaiono come pallino, bordo o tinta di un'etichetta, mai come fondo pieno sotto un testo.
+- I colori della planimetria e delle scritte sulla mappa stanno in `src/styles/map.css`: sono cartografia, non interfaccia.
 
 ### Named Rules
 **La regola del colore che parla.** Un colore si usa solo se dice qualcosa: un'azione (blu), il marchio o una conferma (verde), uno stato. Se togliendolo non si perde nessuna informazione, va tolto.
 
 **La regola delle tinte con il nome.** Nessun colore scritto a mano nelle pagine. Ogni colore è una variabile di `src/styles/base.css`; se ne serve uno nuovo, si aggiunge lì con un nome.
+
+**La regola del dato che si legge.** Quando il colore di un dato diventa testo passa da `tintaTesto()` o `tinta()` (`src/lib/tinta.ts`), che lo scuriscono quanto basta per leggersi: stessa tinta, contrasto di almeno 4,5 a 1.
 
 **La regola della tinta unita.** Niente sfumature. Fanno eccezione solo quelle che sono informazione: la quadrettatura della planimetria, il selettore "colore a scelta", la barra che scorre mentre l'app legge una lapide dalla foto, il tratteggio delle voci in attesa nel calendario.
 
@@ -230,7 +242,7 @@ Una base di grigi freddi, il blu notte del marchio per il menu, un blu per le az
 **Display Font:** Montserrat 700 e 800 (poi Nunito Sans, system-ui)
 **Body Font:** Nunito Sans Variable (poi system-ui, Segoe UI)
 
-**Character:** Montserrat dà il tono del marchio a titoli, numeri e codici. Nunito Sans porta tutto il resto: è morbido ma si legge bene anche piccolo, nelle tabelle e sul telefono.
+**Character:** Montserrat dà il tono del marchio a titoli, numeri e codici. Nunito Sans porta tutto il resto: è morbido ma si legge bene anche piccolo, nelle tabelle e sul telefono. Il carattere a spaziatura fissa del sistema compare in un solo punto: il testo grezzo letto dalla foto di una lapide.
 
 ### Hierarchy
 - **Numero** (Montserrat 800, 28 px, interlinea 1.1): i numeri grandi dei riepiloghi. Sempre con le cifre allineate (`tabular-nums`).
@@ -265,7 +277,7 @@ Il sistema è piatto. I riquadri si staccano dal fondo con un bordo da 1 px e co
 - **Sulla mappa, piccolo** (`--shadow-1`: `0 1px 2px rgba(16, 24, 40, 0.1)`): le etichette della legenda e i selettori appoggiati sulla mappa.
 - **Sospeso** (`--shadow-2`: `0 6px 16px rgba(16, 24, 40, 0.12), 0 1px 3px rgba(16, 24, 40, 0.08)`): menu a comparsa, comandi e riquadri sopra la mappa, messaggi a scomparsa, pannello laterale.
 - **Finestra** (`--shadow-3`: `0 16px 40px rgba(10, 30, 60, 0.2)`): le finestre al centro dello schermo, sopra il velo scuro.
-- **Focus** (`--focus`: `0 0 0 3px rgba(27, 90, 143, 0.28)`): l'anello attorno all'elemento su cui si trova la tastiera. Non è un'ombra decorativa e non si toglie mai.
+- **Focus** (`--focus-ring`: `0 0 0 2px #fff, 0 0 0 4px` blu): l'anello attorno all'elemento su cui si trova la tastiera, pieno e staccato da un filo bianco così si vede su ogni fondo, anche sul menu scuro. Nei campi il bordo diventa blu e lo accompagna un anello più leggero (`--focus`). Non è un'ombra decorativa e non si toglie mai.
 
 ### Named Rules
 **La regola del piatto.** A riposo niente ombra. Al passaggio del mouse cambia il colore del bordo o dello sfondo, mai l'ombra, e niente si solleva o si sposta.
@@ -306,7 +318,12 @@ Filtri che si accendono e si spengono.
 
 ### Badges
 - **Style:** tondo, altezza 24 px (20 px il piccolo), testo 12 px a peso 700, fondo chiaro e testo scuro della stessa tinta (`-50` e `-700`).
-- Servono solo per lo stato di una cosa. Lo stato è sempre scritto, mai detto dal solo colore.
+- Servono solo per lo stato o il tipo di una cosa. Lo stato è sempre scritto, mai detto dal solo colore.
+- Le etichette nel colore di un dato (tipo di operazione, priorità, quadrante) prendono fondo e testo da `tinta()`.
+
+### Avatar e sigle
+- **Operatore:** cerchio bianco con le iniziali scure e un bordo da 2 px del colore dell'operatore. Mai iniziali bianche su fondo colorato: con i colori chiari non si leggono.
+- **Quadrante:** quadratino bianco con la lettera scura e il bordo del colore del quadrante, lo stesso della mappa.
 
 ### Cards / Containers
 - **Corner Style:** 8 px.
@@ -346,6 +363,7 @@ Il componente che distingue l'app. Pallini pieni del colore dello stato con bord
 - **Do** usare le sette misure di testo (11, 12, 13, 14, 16, 20, 28 px) e i tre pesi di Nunito Sans (400, 600, 700).
 - **Do** scrivere le etichette normali, con la sola iniziale maiuscola.
 - **Do** scrivere sempre lo stato a parole accanto al colore.
+- **Do** passare da `tinta()` o `tintaTesto()` ogni volta che il colore di un dato diventa testo.
 - **Do** lasciare l'anello del focus su tutto quello che si può premere, righe delle tabelle comprese.
 - **Do** tenere 16 px tra i riquadri e scegliere le altre distanze tra 4, 8, 12, 16 e 24.
 - **Do** controllare ogni pagina a 1280 px, a 1440 px e sul telefono prima di chiuderla.

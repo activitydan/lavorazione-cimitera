@@ -11,6 +11,7 @@ import { data, dataOra, nomeCompleto } from '../lib/format';
 import { pdfCartelloQr } from '../lib/pdf';
 import { href, setQuery, useRotta } from '../router';
 import { attivabile } from '../lib/tastiera';
+import { tinta } from '../lib/tinta';
 
 type Tab = 'operatori' | 'agenzie' | 'cittadini' | 'regole' | 'registro';
 const COLORI = ['#2F6FB3', '#8E5BB5', '#1E8C8C', '#C0487A', '#5E9A3A', '#E07B22', '#4F5FB8', '#B8860B', '#D9473F', '#0A2F55'];
@@ -165,7 +166,7 @@ function RigaOperatore({ o, onApri, onModifica, scelto }: { o: Operatore; onApri
       <td className="small">{o.telefono}<br /><span className="muted">{o.email}</span></td>
       <td>
         <span className="row row--wrap gap-4">
-          {quadranti.map((q) => <span key={q.id} className="badge badge--sm" style={{ background: `${q.colore}18`, color: q.colore }}>{q.codice}</span>)}
+          {quadranti.map((q) => <span key={q.id} className="badge badge--sm" style={tinta(q.colore)}>{q.codice}</span>)}
           {!quadranti.length && <span className="muted">—</span>}
         </span>
       </td>

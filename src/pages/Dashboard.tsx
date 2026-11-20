@@ -109,7 +109,7 @@ export function Dashboard() {
                   <b>{p.dataOra!.slice(11, 16)} · {NOMI_OPERAZIONE[p.tipo]} · {nomeCompleto(p.defunto)}</b>
                   <span className="small muted">{p.schedaId} · {(p.operatoriIds ?? []).map((id) => db.operatori.find((o) => o.id === id)?.nome).filter(Boolean).join(', ')}</span>
                 </span>
-                <span className="tiny faint nowrap">{p.dataOra!.startsWith(oggi) ? 'oggi' : 'domani'}</span>
+                <span className="tiny muted nowrap">{p.dataOra!.startsWith(oggi) ? 'oggi' : 'domani'}</span>
               </a>
             ))}
             {telefono && agenda.length > 5 && <p className="small muted">E altre {agenda.length - 5}: le trovi nel calendario qui sotto.</p>}

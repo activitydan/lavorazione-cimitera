@@ -5,6 +5,7 @@ import {
 import { useStore } from '../../data/store';
 import { statoDef, tipologiaDef } from '../../data/selectors';
 import { iniziali } from '../../lib/format';
+import { tinta } from '../../lib/tinta';
 
 // ---------------------------------------------------------------------------
 // Icone delle tipologie e dei campi (il configuratore usa questi nomi)
@@ -141,7 +142,7 @@ export function TipologiaBadge({ tipologia, small }: { tipologia: string; small?
   const config = useStore((s) => s.config);
   const d = tipologiaDef(config, tipologia);
   return (
-    <span className={`badge ${small ? 'badge--sm' : ''}`} style={{ background: `${d.colore}18`, color: d.colore }}>
+    <span className={`badge ${small ? 'badge--sm' : ''}`} style={tinta(d.colore)}>
       <Icona nome={d.icona} size={small ? 11 : 13} />
       {d.label}
     </span>
@@ -159,7 +160,7 @@ export function Progress({ value, max = 100, verde, small, colore }: { value: nu
 
 export function Avatar({ nome, colore = '#1B5A8F', size }: { nome: string; colore?: string; size?: 'sm' | 'lg' }) {
   return (
-    <span className={`avatar ${size ? `avatar--${size}` : ''}`} style={{ background: colore }} title={nome}>
+    <span className={`avatar ${size ? `avatar--${size}` : ''}`} style={{ borderColor: colore }} title={nome}>
       {iniziali(nome)}
     </span>
   );

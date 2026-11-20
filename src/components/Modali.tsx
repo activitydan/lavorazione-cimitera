@@ -13,6 +13,7 @@ import { LocationPicker } from './map/LocationPicker';
 import { ScegliFoto } from './scheda/Media';
 import { SchedaView } from './scheda/SchedaView';
 import { Field, Modal, Seg, StatoBadge } from './ui';
+import { tintaTesto } from '../lib/tinta';
 
 /** Pannello laterale della scheda selezionata (mappa, ricerca, anagrafe...). */
 export function PannelloScheda() {
@@ -141,7 +142,7 @@ function ModaleManutenzione({ schedaId, categoriaIniziale }: { schedaId?: string
           </Field>
           <Field label="Priorità">
             <div className="seg seg--light">
-              {PRIORITA.map((p) => <button key={p.id} type="button" className={priorita === p.id ? 'is-on' : ''} onClick={() => setPriorita(p.id)} style={priorita === p.id ? { color: p.colore } : undefined}>{p.label}</button>)}
+              {PRIORITA.map((p) => <button key={p.id} type="button" className={priorita === p.id ? 'is-on' : ''} onClick={() => setPriorita(p.id)} style={priorita === p.id ? { color: tintaTesto(p.colore) } : undefined}>{p.label}</button>)}
             </div>
           </Field>
         </div>

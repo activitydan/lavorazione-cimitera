@@ -83,7 +83,7 @@ function RiquadroUtente({ chiudiMenu }: { chiudiMenu: () => void }) {
   return (
     <div ref={ref} className="utente">
       <button className="user-chip" onClick={() => setAperto(!aperto)} title={`${utente.nome} · ${utente.etichettaRuolo}`} aria-haspopup="menu" aria-expanded={aperto}>
-        <span className="avatar avatar--sm" style={{ background: utente.colore }}>{utente.sigla}</span>
+        <span className="avatar avatar--sm" style={{ borderColor: utente.colore }}>{utente.sigla}</span>
         <span className="user-chip__txt">
           <b>{utente.nome}</b>
           <span>{utente.etichettaRuolo}</span>
