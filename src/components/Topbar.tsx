@@ -1,9 +1,12 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { Bell, Check, ChevronDown, FileText, Layers, Lightbulb, Menu, MapPin, MapPinPlus, Plus, Satellite, ScrollText, Search, Route as RouteIcon, Wrench } from 'lucide-react';
+import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
+import { Bell, Check, ChevronDown, FileText, Layers, Lightbulb, Menu, MapPin, MapPinPlus, Plus, Satellite, ScrollText, Search, Wrench } from 'lucide-react';
 import { apriModale, segnaLetti, seleziona, setCimitero, setFiltri, setUi, resetFiltri, useStore, volaA } from '../data/store';
 import { descrizioneScheda, NOMI_CATEGORIA_ALERT, testoRicerca, useAlert, useCimitero, useDatiCimitero, useSchedeCimitero, type AlertItem } from '../data/selectors';
-import type { CategoriaAlert, StileMappa } from '../data/types';
-import { dataBreve, normalizza, numero } from '../lib/format';
+import type { CategoriaAlert, Concessione, Pratica, Scheda, StileMappa, UtenzaVotiva } from '../data/types';
+import { NOMI_TIPO_CONCESSIONE, nomeSoggetto, nomiConcessionari, scadenzaLeggibile } from '../data/concessioni';
+import { STATI_PRATICA, nomeOperazione } from '../data/pratiche';
+import { NOMI_STATO_UTENZA, nomeDefuntoUtenza, statoUtenza } from '../data/utenze';
+import { dataBreve, nomeCompleto, normalizza, numero } from '../lib/format';
 import { centroide } from '../lib/geo';
 import { useTelefono } from '../lib/schermo';
 import { useRotta, vai } from '../router';
@@ -59,10 +62,28 @@ function SelettoreCimitero() {
   );
 }
 
+type Area = { tipo: 'viale' | 'quadrante'; id: string; label: string; lat: number; lng: number };
+type Trovato =
+  | { k: 'scheda'; s: Scheda }
+  | { k: 'concessione'; c: Concessione }
+  | { k: 'pratica'; p: Pratica }
+  | { k: 'utenza'; u: UtenzaVotiva }
+  | { k: 'area'; a: Area };
+const GRUPPO: Record<Trovato['k'], string> = {
+  scheda: 'Postazioni e defunti', concessione: 'Concessioni', pratica: 'Pratiche', utenza: 'Utenze votive', area: 'Aree sulla mappa',
+};
+const chiave = (r: Trovato) => (r.k === 'scheda' ? r.s.id : r.k === 'concessione' ? r.c.id : r.k === 'pratica' ? r.p.id : r.k === 'utenza' ? r.u.id : r.a.id);
+
+/** Una ricerca sola per tutto il lavoro d'ufficio: postazioni e defunti, concessioni, pratiche, utenze votive, aree. */
 function RicercaGlobale() {
   const schede = useSchedeCimitero();
   const { viali, quadranti } = useDatiCimitero();
+  const cimitero = useCimitero();
+  const concessioni = useStore((st) => st.db.concessioni);
+  const pratiche = useStore((st) => st.db.pratiche);
+  const utenze = useStore((st) => st.db.utenze);
   const rotta = useRotta();
+  const telefono = useTelefono();
   const [q, setQ] = useState('');
   const [aperto, setAperto] = useState(false);
   const [att, setAtt] = useState(0);
@@ -81,11 +102,23 @@ function RicercaGlobale() {
     return () => window.removeEventListener('keydown', k);
   }, []);
 
-  const risultati = useMemo(() => {
+  const risultati = useMemo<Trovato[]>(() => {
     const t = normalizza(q);
     if (t.length < 2) return [];
     const parole = t.split(/\s+/);
-    const aree: { tipo: 'viale' | 'quadrante'; id: string; label: string; lat: number; lng: number }[] = [];
+    const dentro = (testo: string) => {
+      const n = normalizza(testo);
+      return parole.every((p) => n.includes(p));
+    };
+    const out: Trovato[] = schede.filter((sc) => parole.every((p) => testoRicerca(sc).includes(p))).slice(0, 6).map((sc) => ({ k: 'scheda' as const, s: sc }));
+    // concessioni, pratiche e utenze si lavorano dal computer: sul telefono la ricerca resta su postazioni e aree
+    if (!telefono) {
+      const qui = cimitero?.id;
+      out.push(...concessioni.filter((c) => c.cimiteroId === qui && dentro(`${c.numero} ${c.concessionari.map(nomeSoggetto).join(' ')}`)).slice(0, 3).map((c) => ({ k: 'concessione' as const, c })));
+      out.push(...pratiche.filter((p) => p.cimiteroId === qui && dentro(`${p.numero} ${nomeCompleto(p.defunto)}`)).slice(0, 3).map((p) => ({ k: 'pratica' as const, p })));
+      out.push(...utenze.filter((u) => u.cimiteroId === qui && dentro(`${u.numero} ${nomeSoggetto(u.abbonato)} ${nomeDefuntoUtenza(u)}`)).slice(0, 3).map((u) => ({ k: 'utenza' as const, u })));
+    }
+    const aree: Area[] = [];
     for (const v of viali)
       if (normalizza(v.nome).includes(t) && v.tracciato.length) {
         const c = centroide(v.tracciato);
@@ -96,26 +129,60 @@ function RicercaGlobale() {
         const c = centroide(qd.poligono);
         aree.push({ tipo: 'quadrante', id: qd.id, label: qd.nome, lat: c[0], lng: c[1] });
       }
-    const sch = schede.filter((s) => parole.every((p) => testoRicerca(s).includes(p))).slice(0, 8);
-    return [...aree.slice(0, 3).map((a) => ({ k: 'area' as const, a })), ...sch.map((s) => ({ k: 'scheda' as const, s }))];
-  }, [q, schede, viali, quadranti]);
+    out.push(...aree.slice(0, 3).map((a) => ({ k: 'area' as const, a })));
+    return out;
+  }, [q, schede, viali, quadranti, concessioni, pratiche, utenze, cimitero?.id, telefono]);
 
   const scegli = (i: number) => {
     const r = risultati[i];
     if (!r) return;
     setAperto(false);
-    if (!['/', '/mappa'].includes(rotta.path)) vai('/mappa');
+    setQ('');
     if (r.k === 'scheda') {
-      seleziona(r.s.id, { vola: true });
-    } else {
+      // resti dove sei: la scheda si apre nel pannello di lato; sulla mappa ci si vola sopra
+      if (rotta.path.startsWith('/scheda/')) vai(`/scheda/${r.s.id}`);
+      else seleziona(r.s.id, { vola: rotta.path === '/' || rotta.path === '/mappa' });
+    } else if (r.k === 'concessione') vai(`/concessioni?id=${r.c.id}`);
+    else if (r.k === 'pratica') vai(`/operazioni?id=${r.p.id}`);
+    else if (r.k === 'utenza') vai(`/illuminazione-votiva?id=${r.u.id}`);
+    else {
+      // un'area si guarda sulla mappa
+      if (!['/', '/mappa'].includes(rotta.path)) vai('/mappa');
       seleziona(null);
       if (r.a.tipo === 'viale') resetFiltri({ viali: [r.a.label] });
       else resetFiltri({ quadranti: [r.a.id] });
       volaA(r.a.lat, r.a.lng, 18.75);
     }
-    setQ('');
   };
 
+  const riga = (r: Trovato) => {
+    if (r.k === 'scheda')
+      return (
+        <>
+          <span className="grow" style={{ minWidth: 0 }}>
+            <b className="ellipsis" style={{ display: 'block' }}>{descrizioneScheda(r.s)}</b>
+            <span className="tiny muted">
+              {r.s.id} · {r.s.viale}
+              {r.s.defunti[0]?.dataMorte ? ` · † ${dataBreve(r.s.defunti[0].dataMorte)}` : ''}
+            </span>
+          </span>
+          <StatoBadge stato={r.s.stato} small />
+        </>
+      );
+    const [titolo, sotto] =
+      r.k === 'concessione' ? [`${r.c.numero} · ${nomiConcessionari(r.c)}`, `${NOMI_TIPO_CONCESSIONE[r.c.tipo]} · ${r.c.perpetua ? 'perpetua' : `scade il ${scadenzaLeggibile(r.c)}`}`]
+      : r.k === 'pratica' ? [`${r.p.numero} · ${nomeCompleto(r.p.defunto)}`, `${nomeOperazione(r.p)} · ${STATI_PRATICA.find((x) => x.id === r.p.stato)?.label ?? ''}`]
+      : r.k === 'utenza' ? [`${r.u.numero} · ${nomeSoggetto(r.u.abbonato)}`, `${nomeDefuntoUtenza(r.u)} · ${NOMI_STATO_UTENZA[statoUtenza(r.u)]}`]
+      : [r.a.label, r.a.tipo === 'viale' ? 'Viale · filtra le schede sulla mappa' : 'Quadrante · filtra le schede sulla mappa'];
+    return (
+      <span className="grow" style={{ minWidth: 0 }}>
+        <b className="ellipsis" style={{ display: 'block' }}>{titolo}</b>
+        <span className="tiny muted ellipsis" style={{ display: 'block' }}>{sotto}</span>
+      </span>
+    );
+  };
+
+  const etichetta = telefono ? 'Cerca per nome, ID o area' : 'Cerca per nome, numero o area';
   return (
     <div ref={ref} className="gsearch">
       <div className="input-icon input-icon--dx">
@@ -123,7 +190,7 @@ function RicercaGlobale() {
         <input
           ref={input}
           className="input"
-          placeholder="Cerca per nome, ID o area…"
+          placeholder={`${etichetta}…`}
           value={q}
           onChange={(e) => {
             setQ(e.target.value);
@@ -141,37 +208,20 @@ function RicercaGlobale() {
             } else if (e.key === 'Enter') scegli(att);
             else if (e.key === 'Escape') setAperto(false);
           }}
-          aria-label="Cerca per nome, ID o area"
+          aria-label={telefono ? etichetta : 'Cerca postazioni, defunti, concessioni, pratiche, utenze votive e aree'}
         />
       </div>
       {aperto && q.trim().length >= 2 && (
         <div className="popover gsearch__pop">
           {risultati.length === 0 && <div className="small muted" style={{ padding: 16 }}>Nessun risultato per “{q}”</div>}
-          {risultati.map((r, i) =>
-            r.k === 'area' ? (
-              <button key={r.a.id} className={`popover__item ${i === att ? 'is-active' : ''}`} onMouseEnter={() => setAtt(i)} onClick={() => scegli(i)}>
-                <span className="list-item__icon">
-                  {r.a.tipo === 'viale' ? <RouteIcon size={16} /> : <Layers size={16} />}
-                </span>
-                <span className="grow">
-                  <b>{r.a.label}</b>
-                  <br />
-                  <span className="tiny muted">{r.a.tipo === 'viale' ? 'Viale · filtra le schede sulla mappa' : 'Quadrante · filtra le schede sulla mappa'}</span>
-                </span>
+          {risultati.map((r, i) => (
+            <Fragment key={`${r.k}-${chiave(r)}`}>
+              {(i === 0 || risultati[i - 1].k !== r.k) && <div className="gsearch__gruppo">{GRUPPO[r.k]}</div>}
+              <button className={`popover__item ${i === att ? 'is-active' : ''}`} onMouseEnter={() => setAtt(i)} onClick={() => scegli(i)}>
+                {riga(r)}
               </button>
-            ) : (
-              <button key={r.s.id} className={`popover__item ${i === att ? 'is-active' : ''}`} onMouseEnter={() => setAtt(i)} onClick={() => scegli(i)}>
-                <span className="grow" style={{ minWidth: 0 }}>
-                  <b className="ellipsis" style={{ display: 'block' }}>{descrizioneScheda(r.s)}</b>
-                  <span className="tiny muted">
-                    {r.s.id} · {r.s.viale}
-                    {r.s.defunti[0]?.dataMorte ? ` · † ${dataBreve(r.s.defunti[0].dataMorte)}` : ''}
-                  </span>
-                </span>
-                <StatoBadge stato={r.s.stato} small />
-              </button>
-            ),
-          )}
+            </Fragment>
+          ))}
         </div>
       )}
     </div>
