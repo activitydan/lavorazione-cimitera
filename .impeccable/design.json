@@ -1,0 +1,682 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-11-20T15:36:20Z",
+  "title": "Design System: CimiTera",
+  "extensions": {
+    "colorMeta": {
+      "navy": {
+        "role": "tertiary",
+        "displayName": "Blu notte",
+        "canonical": "#0a2f55",
+        "tonalRamp": [
+          "#051222",
+          "#182c44",
+          "#2e4969",
+          "#466890",
+          "#6689b2",
+          "#8cabce",
+          "#b4cdeb",
+          "#ddf1ff"
+        ]
+      },
+      "navy-900": {
+        "role": "tertiary",
+        "displayName": "Blu notte del menu",
+        "canonical": "#0f1b2d",
+        "tonalRamp": [
+          "#0c121a",
+          "#242c38",
+          "#3d4859",
+          "#59677c",
+          "#79879c",
+          "#9ca9bb",
+          "#c1cbdb",
+          "#e7effb"
+        ]
+      },
+      "navy-950": {
+        "role": "tertiary",
+        "displayName": "Blu notte profondo",
+        "canonical": "#0b1524",
+        "tonalRamp": [
+          "#0d1219",
+          "#252c36",
+          "#3f4856",
+          "#5b6779",
+          "#7b8799",
+          "#9ea9b9",
+          "#c2cbd9",
+          "#e8effa"
+        ]
+      },
+      "blu": {
+        "role": "primary",
+        "displayName": "Blu d'azione",
+        "canonical": "#1b5a8f",
+        "tonalRamp": [
+          "#001227",
+          "#092d4b",
+          "#1d4a72",
+          "#326a9c",
+          "#548bbf",
+          "#7eadda",
+          "#a9cff5",
+          "#daf2ff"
+        ]
+      },
+      "blu-600": {
+        "role": "primary",
+        "displayName": "Blu d'azione scuro",
+        "canonical": "#164d7b",
+        "tonalRamp": [
+          "#011225",
+          "#0f2d48",
+          "#234a6e",
+          "#396a97",
+          "#5a8bb9",
+          "#83acd4",
+          "#adcff0",
+          "#daf2ff"
+        ]
+      },
+      "blu-100": {
+        "role": "primary",
+        "displayName": "Blu chiaro, bordo",
+        "canonical": "#d5e5f2",
+        "tonalRamp": [
+          "#0d1217",
+          "#252c33",
+          "#3f4951",
+          "#5b6872",
+          "#7b8893",
+          "#9ea9b3",
+          "#c2ccd4",
+          "#e8f0f6"
+        ]
+      },
+      "blu-50": {
+        "role": "primary",
+        "displayName": "Blu chiaro, fondo",
+        "canonical": "#eaf2f9",
+        "tonalRamp": [
+          "#0f1214",
+          "#282c2f",
+          "#43484d",
+          "#61676d",
+          "#80878d",
+          "#a3a8ae",
+          "#c6cbcf",
+          "#ebeff2"
+        ]
+      },
+      "verde": {
+        "role": "secondary",
+        "displayName": "Verde chiaro del marchio",
+        "canonical": "#79aa4f",
+        "tonalRamp": [
+          "#061700",
+          "#1a3300",
+          "#31530b",
+          "#49741e",
+          "#699543",
+          "#8fb671",
+          "#b6d79f",
+          "#dff8cd"
+        ]
+      },
+      "verde-600": {
+        "role": "secondary",
+        "displayName": "Verde del marchio",
+        "canonical": "#4a822b",
+        "tonalRamp": [
+          "#031700",
+          "#153401",
+          "#2b5412",
+          "#427526",
+          "#629749",
+          "#8ab775",
+          "#b2d8a2",
+          "#dcf9cf"
+        ]
+      },
+      "verde-50": {
+        "role": "secondary",
+        "displayName": "Verde chiaro, fondo",
+        "canonical": "#eef6e7",
+        "tonalRamp": [
+          "#10130e",
+          "#292d26",
+          "#454a40",
+          "#62695d",
+          "#82897c",
+          "#a4aa9f",
+          "#c8ccc3",
+          "#ecf0e9"
+        ]
+      },
+      "bg": {
+        "role": "neutral",
+        "displayName": "Fondo pagina",
+        "canonical": "#f2f4f7",
+        "tonalRamp": [
+          "#111213",
+          "#2a2b2d",
+          "#46484a",
+          "#656668",
+          "#858689",
+          "#a6a8aa",
+          "#c9cacc",
+          "#edeef0"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Bianco",
+        "canonical": "#ffffff",
+        "tonalRamp": [
+          "#121212",
+          "#2b2b2b",
+          "#484848",
+          "#666666",
+          "#868686",
+          "#a8a8a8",
+          "#cacaca",
+          "#eeeeee"
+        ]
+      },
+      "surface-2": {
+        "role": "neutral",
+        "displayName": "Grigio di servizio chiaro",
+        "canonical": "#f7f8fa",
+        "tonalRamp": [
+          "#111212",
+          "#2b2b2c",
+          "#474849",
+          "#656668",
+          "#858688",
+          "#a7a8a9",
+          "#cacacc",
+          "#eeeeef"
+        ]
+      },
+      "surface-3": {
+        "role": "neutral",
+        "displayName": "Grigio di servizio",
+        "canonical": "#eef1f5",
+        "tonalRamp": [
+          "#111213",
+          "#2a2b2d",
+          "#46484a",
+          "#646669",
+          "#84868a",
+          "#a6a8ab",
+          "#c9cbcd",
+          "#edeef0"
+        ]
+      },
+      "border": {
+        "role": "neutral",
+        "displayName": "Bordo",
+        "canonical": "#e2e7ee",
+        "tonalRamp": [
+          "#101214",
+          "#292b2f",
+          "#45484c",
+          "#62666c",
+          "#82868c",
+          "#a4a8ad",
+          "#c8cbcf",
+          "#eceff2"
+        ]
+      },
+      "border-strong": {
+        "role": "neutral",
+        "displayName": "Bordo dei campi",
+        "canonical": "#cdd5df",
+        "tonalRamp": [
+          "#0f1215",
+          "#282c31",
+          "#43484f",
+          "#60676f",
+          "#80878f",
+          "#a2a8b0",
+          "#c6cbd1",
+          "#ebeff4"
+        ]
+      },
+      "text": {
+        "role": "neutral",
+        "displayName": "Testo",
+        "canonical": "#14243a",
+        "tonalRamp": [
+          "#0b121c",
+          "#222c3a",
+          "#3b495c",
+          "#56677f",
+          "#7688a1",
+          "#99a9bf",
+          "#bfccde",
+          "#e5effe"
+        ]
+      },
+      "text-2": {
+        "role": "neutral",
+        "displayName": "Testo secondario",
+        "canonical": "#33465c",
+        "tonalRamp": [
+          "#0a121b",
+          "#212c39",
+          "#3a495a",
+          "#55687e",
+          "#75889f",
+          "#99aabd",
+          "#beccdd",
+          "#e5f0fd"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Testo delle etichette",
+        "canonical": "#627287",
+        "tonalRamp": [
+          "#0c121a",
+          "#232c37",
+          "#3d4958",
+          "#59677b",
+          "#78889b",
+          "#9ca9ba",
+          "#c1ccda",
+          "#e7effb"
+        ]
+      },
+      "faint": {
+        "role": "neutral",
+        "displayName": "Grigio spento",
+        "canonical": "#93a0b1",
+        "tonalRamp": [
+          "#0d1218",
+          "#252c35",
+          "#404854",
+          "#5c6776",
+          "#7c8796",
+          "#9fa9b6",
+          "#c3cbd6",
+          "#e8eff8"
+        ]
+      },
+      "ok": {
+        "role": "state",
+        "displayName": "A posto",
+        "canonical": "#3f9a3c",
+        "tonalRamp": [
+          "#001800",
+          "#003700",
+          "#0f570f",
+          "#247a23",
+          "#4a9c47",
+          "#78bb74",
+          "#a5dba1",
+          "#d2fcce"
+        ]
+      },
+      "warn": {
+        "role": "state",
+        "displayName": "Attenzione",
+        "canonical": "#e9be1f",
+        "tonalRamp": [
+          "#191000",
+          "#382900",
+          "#5a4500",
+          "#7d6300",
+          "#a48200",
+          "#c4a53e",
+          "#e2c97c",
+          "#ffeeb4"
+        ]
+      },
+      "warn-50": {
+        "role": "state",
+        "displayName": "Attenzione, fondo",
+        "canonical": "#fdf6dc",
+        "tonalRamp": [
+          "#141209",
+          "#2f2b1f",
+          "#4c4837",
+          "#6c6651",
+          "#8c8671",
+          "#ada895",
+          "#cfcbbb",
+          "#f2efe2"
+        ]
+      },
+      "warn-700": {
+        "role": "state",
+        "displayName": "Attenzione, testo",
+        "canonical": "#8a6a00",
+        "tonalRamp": [
+          "#1b0f00",
+          "#3a2800",
+          "#5b4400",
+          "#7f6203",
+          "#a08235",
+          "#bea567",
+          "#dec997",
+          "#fdedc7"
+        ]
+      },
+      "danger": {
+        "role": "state",
+        "displayName": "Urgente",
+        "canonical": "#d9473f",
+        "tonalRamp": [
+          "#2f0000",
+          "#580104",
+          "#841716",
+          "#b42e29",
+          "#d9544b",
+          "#f48276",
+          "#ffb1a6",
+          "#ffe6e1"
+        ]
+      },
+      "danger-50": {
+        "role": "state",
+        "displayName": "Urgente, fondo",
+        "canonical": "#fdeeed",
+        "tonalRamp": [
+          "#151010",
+          "#302929",
+          "#4e4544",
+          "#6f6362",
+          "#8f8382",
+          "#b0a5a4",
+          "#d1c8c7",
+          "#f4ecec"
+        ]
+      },
+      "danger-700": {
+        "role": "state",
+        "displayName": "Urgente, testo",
+        "canonical": "#b8322b",
+        "tonalRamp": [
+          "#2d0000",
+          "#560707",
+          "#811e19",
+          "#af342d",
+          "#d5594e",
+          "#f08578",
+          "#ffb3a8",
+          "#ffe5e0"
+        ]
+      },
+      "orange": {
+        "role": "state",
+        "displayName": "Da fare",
+        "canonical": "#e07b22",
+        "tonalRamp": [
+          "#290300",
+          "#4e1800",
+          "#773000",
+          "#a24900",
+          "#c66b19",
+          "#e19259",
+          "#fcba8c",
+          "#ffe6cc"
+        ]
+      },
+      "orange-50": {
+        "role": "state",
+        "displayName": "Da fare, fondo",
+        "canonical": "#fdf0e4",
+        "tonalRamp": [
+          "#15110d",
+          "#302a24",
+          "#4e463e",
+          "#6e645a",
+          "#8f847a",
+          "#afa69d",
+          "#d1c9c2",
+          "#f3ede8"
+        ]
+      },
+      "orange-700": {
+        "role": "state",
+        "displayName": "Da fare, testo",
+        "canonical": "#a85710",
+        "tonalRamp": [
+          "#250600",
+          "#491c00",
+          "#703500",
+          "#9a4f0f",
+          "#bd7039",
+          "#d9966a",
+          "#f5bd99",
+          "#ffe6cf"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "numero": {
+        "displayName": "Numero",
+        "purpose": "I numeri grandi dei riepiloghi."
+      },
+      "titolo-pagina": {
+        "displayName": "Titolo di pagina",
+        "purpose": "Uno per pagina."
+      },
+      "titolo-finestra": {
+        "displayName": "Titolo di finestra",
+        "purpose": "Finestre, pannelli, nome del defunto nella scheda."
+      },
+      "titolo-riquadro": {
+        "displayName": "Titolo di riquadro",
+        "purpose": "L'intestazione di ogni riquadro."
+      },
+      "testo": {
+        "displayName": "Testo",
+        "purpose": "Il contenuto."
+      },
+      "testo-fitto": {
+        "displayName": "Testo fitto",
+        "purpose": "Tabelle, elenchi, pulsanti, filtri."
+      },
+      "etichetta": {
+        "displayName": "Etichetta",
+        "purpose": "Nomi dei campi, intestazioni delle tabelle, note, etichette di stato."
+      },
+      "minuto": {
+        "displayName": "Minuto",
+        "purpose": "Contatori, voci del calendario, assi dei grafici, scritte sulla mappa."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-1",
+        "value": "0 1px 2px rgba(16, 24, 40, 0.1)",
+        "purpose": "Etichette e selettori appoggiati sulla mappa."
+      },
+      {
+        "name": "shadow-2",
+        "value": "0 6px 16px rgba(16, 24, 40, 0.12), 0 1px 3px rgba(16, 24, 40, 0.08)",
+        "purpose": "Menu a comparsa, comandi sopra la mappa, messaggi, pannello laterale."
+      },
+      {
+        "name": "shadow-3",
+        "value": "0 16px 40px rgba(10, 30, 60, 0.2)",
+        "purpose": "Finestre al centro dello schermo."
+      },
+      {
+        "name": "focus",
+        "value": "0 0 0 3px rgba(27, 90, 143, 0.28)",
+        "purpose": "Anello attorno all'elemento su cui si trova la tastiera."
+      }
+    ],
+    "motion": [
+      {
+        "name": "passaggio",
+        "value": "0.15s ease",
+        "purpose": "Cambio di colore al passaggio del mouse e al focus."
+      },
+      {
+        "name": "comparsa",
+        "value": "0.15s ease",
+        "purpose": "Finestre e menu compaiono in dissolvenza."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "telefono",
+        "value": "760px"
+      },
+      {
+        "name": "colonne",
+        "value": "1100px"
+      },
+      {
+        "name": "menu-icone",
+        "value": "1180px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pulsante principale",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "L'azione principale della schermata. Uno per schermata.",
+      "html": "<button class=\"ds-btn ds-btn-primary\">Nuovo rilievo</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); } .ds-btn-primary { background: var(--blu, #1b5a8f); border-color: var(--blu, #1b5a8f); color: #fff; } .ds-btn-primary:hover { background: var(--blu-600, #164d7b); border-color: var(--blu-600, #164d7b); color: #fff; }"
+    },
+    {
+      "name": "Pulsante normale",
+      "kind": "button",
+      "refersTo": "button",
+      "description": "Tutte le altre azioni.",
+      "html": "<button class=\"ds-btn\">Esporta</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); }"
+    },
+    {
+      "name": "Pulsante di conferma",
+      "kind": "button",
+      "refersTo": "button-success",
+      "description": "Chiude un lavoro: \"Salva\", \"Fatto\".",
+      "html": "<button class=\"ds-btn ds-btn-success\">Salva la scheda</button>",
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); } .ds-btn-success { background: var(--verde-600, #4a822b); border-color: var(--verde-600, #4a822b); color: #fff; } .ds-btn-success:hover { background: #3f7224; border-color: #3f7224; color: #fff; }"
+    },
+    {
+      "name": "Campo",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Campo di testo con la sua etichetta sopra.",
+      "html": "<label class=\"ds-field\"><span>Cognome</span><input class=\"ds-input\" placeholder=\"Es. Cascone\"></label>",
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; } .ds-field span { font-size: 12px; font-weight: 700; color: var(--text-2, #33465c); } .ds-input { height: 38px; padding: 0 11px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: #fff; color: var(--text, #14243a); font: inherit; font-size: 14px; transition: border-color 0.15s, box-shadow 0.15s; } .ds-input:hover { border-color: #aab6c4; } .ds-input:focus { outline: none; border-color: var(--blu, #1b5a8f); box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); }"
+    },
+    {
+      "name": "Filtro",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "Filtro che si accende e si spegne.",
+      "html": "<span class=\"ds-chips\"><button class=\"ds-chip ds-chip-on\">Loculi</button><button class=\"ds-chip\">Cappelle</button></span>",
+      "css": ".ds-chips { display: inline-flex; gap: 8px; } .ds-chip { display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: #fff; color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: border-color 0.15s, background 0.15s; } .ds-chip:hover { border-color: #9fb0c2; } .ds-chip-on { background: var(--blu-50, #eaf2f9); border-color: #9cc0df; color: var(--navy, #0a2f55); } .ds-chip:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); }"
+    },
+    {
+      "name": "Etichetta di stato",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Dice lo stato di una cosa, sempre a parole.",
+      "html": "<span class=\"ds-badges\"><span class=\"ds-badge ds-badge-verde\">In regola</span><span class=\"ds-badge ds-badge-giallo\">In scadenza</span><span class=\"ds-badge ds-badge-rosso\">Scaduta</span></span>",
+      "css": ".ds-badges { display: inline-flex; gap: 8px; } .ds-badge { display: inline-flex; align-items: center; height: 24px; padding: 0 9px; border-radius: 999px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-size: 12px; font-weight: 700; white-space: nowrap; } .ds-badge-verde { background: var(--verde-50, #eef6e7); color: var(--verde-600, #4a822b); } .ds-badge-giallo { background: #fdf6dc; color: #8a6a00; } .ds-badge-rosso { background: #fdeeed; color: #b8322b; }"
+    },
+    {
+      "name": "Riquadro",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Il contenitore di ogni pagina: piatto, con un bordo.",
+      "html": "<section class=\"ds-card\"><header><h3>Schede censite</h3></header><div><b>4.218</b><span>su 9.600 stimate</span></div></section>",
+      "css": ".ds-card { width: 260px; background: var(--surface, #fff); border: 1px solid var(--border, #e2e7ee); border-radius: 8px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; color: var(--text, #14243a); } .ds-card header { padding: 14px 16px; border-bottom: 1px solid var(--border, #e2e7ee); } .ds-card h3 { margin: 0; font-family: Montserrat, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; } .ds-card div { padding: 16px; display: flex; flex-direction: column; gap: 2px; } .ds-card b { font-family: Montserrat, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; } .ds-card span { font-size: 12px; color: var(--muted, #627287); }"
+    },
+    {
+      "name": "Voce del menu",
+      "kind": "nav",
+      "refersTo": "nav-item",
+      "description": "Menu laterale blu notte, voce attiva in blu pieno.",
+      "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item ds-nav-on\" href=\"#\">Dashboard</a><a class=\"ds-nav-item\" href=\"#\">Ricerca</a><a class=\"ds-nav-item\" href=\"#\">Concessioni</a></nav>",
+      "css": ".ds-nav { width: 212px; padding: 12px; display: flex; flex-direction: column; gap: 3px; background: var(--navy-900, #0f1b2d); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; } .ds-nav-item { display: flex; align-items: center; height: 44px; padding: 0 14px; border-radius: 6px; color: #c9d5e3; font-weight: 700; font-size: 14px; text-decoration: none; transition: background 0.15s, color 0.15s; } .ds-nav-item:hover { background: rgba(255, 255, 255, 0.06); color: #fff; } .ds-nav-on, .ds-nav-on:hover { background: var(--blu, #1b5a8f); color: #fff; } .ds-nav-item:focus-visible { outline: none; box-shadow: 0 0 0 3px rgba(121, 170, 79, 0.6); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Il registro comunale",
+    "overview": "CimiTera è lo strumento di lavoro di un ufficio comunale: un registro tenuto in ordine. Righe, numeri, stati e una mappa. Chi lo usa ci passa la giornata, spesso in piedi con il telefono in mano tra i viali: deve trovare subito il dato e non notare l'interfaccia. L'aspetto è istituzionale e sobrio. Il carattere viene dal marchio (blu notte e verde), dalla mappa e dalla precisione degli allineamenti, non dagli effetti.\n\nLa regola di fondo è sottrarre. Ogni colore dice qualcosa (uno stato, un'azione, il marchio); ogni ombra indica che qualcosa sta sopra a qualcos'altro; ogni angolo viene da una scala di quattro misure. Quello che serve solo a decorare non c'è: niente sfumature, niente riquadrini pastello dietro le icone, niente aloni, niente riquadri che si sollevano al passaggio del mouse.\n\nI colori e i caratteri sono quelli scelti con il cliente e non si cambiano. La home su computer è lo standard: margini, distanze e misure delle altre pagine sono presi da lì.",
+    "keyCharacteristics": [
+      "Piatto: i riquadri hanno un bordo da 1 px e nessuna ombra.",
+      "Fitto ma ordinato: testo a 14 px, tabelle e pulsanti a 13 px, distanze da 4, 8, 12, 16, 24.",
+      "Un solo colore d'azione (blu). Il verde è il marchio e la conferma.",
+      "I colori vivaci sono riservati agli stati e alla mappa.",
+      "Stessa cosa, stesso aspetto: pulsanti, campi e riquadri identici in tutte le pagine.",
+      "Tutto si usa anche con la tastiera, e sul telefono con un dito."
+    ],
+    "rules": [
+      {
+        "name": "La regola del colore che parla",
+        "body": "Un colore si usa solo se dice qualcosa: un'azione (blu), il marchio o una conferma (verde), uno stato. Se togliendolo non si perde nessuna informazione, va tolto.",
+        "section": "colors"
+      },
+      {
+        "name": "La regola delle tinte con il nome",
+        "body": "Nessun colore scritto a mano nelle pagine. Ogni colore è una variabile di `src/styles/base.css`; se ne serve uno nuovo, si aggiunge lì con un nome.",
+        "section": "colors"
+      },
+      {
+        "name": "La regola della tinta unita",
+        "body": "Niente sfumature. Fanno eccezione solo quelle che sono informazione: la quadrettatura della planimetria, il selettore \"colore a scelta\", la barra che scorre mentre l'app legge una lapide dalla foto, il tratteggio delle voci in attesa nel calendario.",
+        "section": "colors"
+      },
+      {
+        "name": "La regola delle sette misure",
+        "body": "Il testo usa solo 11, 12, 13, 14, 16, 20 e 28 px. Niente mezzi pixel. Le misure del marchio (nome e riga \"by DAT | HYA Group\") sono del cliente e restano fuori dalla scala.",
+        "section": "typography"
+      },
+      {
+        "name": "La regola delle minuscole",
+        "body": "Le etichette si scrivono normali, con la sola iniziale maiuscola. Niente maiuscolo spaziato. Fanno eccezione i nomi dei viali e delle aree sulla mappa, come nelle carte, e la riga sotto il marchio.",
+        "section": "typography"
+      },
+      {
+        "name": "La regola dei tre pesi",
+        "body": "Nunito Sans si usa a 400 (testo), 600 (voce in evidenza) e 700 (etichette, pulsanti, intestazioni). L'800 è solo di Montserrat: titoli di pagina, numeri e codici.",
+        "section": "typography"
+      },
+      {
+        "name": "La regola del piatto",
+        "body": "A riposo niente ombra. Al passaggio del mouse cambia il colore del bordo o dello sfondo, mai l'ombra, e niente si solleva o si sposta.",
+        "section": "elevation"
+      },
+      {
+        "name": "La regola dell'ombra che serve",
+        "body": "Un'ombra è ammessa solo se l'elemento copre altro contenuto (mappa, pagina, finestra). Niente aloni colorati attorno a pulsanti, voci attive, pallini o caselle scelte.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do usare solo le variabili di `src/styles/base.css` per colori, angoli e ombre.",
+      "Do tenere i riquadri piatti: bordo da 1 px `border`, angolo 8 px, nessuna ombra.",
+      "Do usare le sette misure di testo (11, 12, 13, 14, 16, 20, 28 px) e i tre pesi di Nunito Sans (400, 600, 700).",
+      "Do scrivere le etichette normali, con la sola iniziale maiuscola.",
+      "Do scrivere sempre lo stato a parole accanto al colore.",
+      "Do lasciare l'anello del focus su tutto quello che si può premere, righe delle tabelle comprese.",
+      "Do tenere 16 px tra i riquadri e scegliere le altre distanze tra 4, 8, 12, 16 e 24.",
+      "Do controllare ogni pagina a 1280 px, a 1440 px e sul telefono prima di chiuderla."
+    ],
+    "donts": [
+      "Don't usare sfumature di colore, né sugli sfondi né sul testo né sulle barre.",
+      "Don't mettere le icone dentro riquadrini pastello.",
+      "Don't aggiungere ombre, aloni o sollevamenti al passaggio del mouse.",
+      "Don't usare angoli più grandi di 8 px, né misure di testo con i mezzi pixel.",
+      "Don't usare il maiuscolo spaziato per etichette e intestazioni.",
+      "Don't scrivere un colore a mano in una pagina: se manca, va aggiunto alle variabili con un nome.",
+      "Don't usare `faint` o il verde chiaro `verde` per un testo da leggere: il contrasto non basta.",
+      "Don't cambiare colori, caratteri o marchio: sono quelli concordati con il cliente.",
+      "Don't aggiungere animazioni: restano solo i passaggi brevi (0,15 s) che dicono che qualcosa è cambiato."
+    ]
+  }
+}
