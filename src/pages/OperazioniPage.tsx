@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
-import { AlertTriangle, Ban, BookOpenCheck, CalendarClock, CalendarDays, CheckCircle2, ExternalLink, FileText, FolderOpen, Plus, Printer, Search, X } from 'lucide-react';
+import { AlertTriangle, Ban, BookOpenCheck, CalendarClock, CheckCircle2, ExternalLink, FileText, FolderOpen, Plus, Printer, Search, X } from 'lucide-react';
 import { AvvisiDi, BadgeAvviso } from '../components/Avvisi';
 import { BarraPagine, paginaDi } from '../components/Esporta';
 import { EditorDefunti } from '../components/scheda/SchedaForm';
@@ -9,7 +9,7 @@ import {
   COLORI_OPERAZIONE, NOMI_DESTINAZIONE, NOMI_OGGETTO, NOMI_OPERAZIONE, STATI_PRATICA, TIPI_OPERAZIONE, annullaPratica, apriPratica, avvisoStagione, eseguiPratica,
   nomeOperazione, programmaPratica, rifiutaRichiesta, sepoltura, sovrapposizioni,
 } from '../data/pratiche';
-import { indiceSchede, seleziona, toast, useStore } from '../data/store';
+import { indiceSchede, seleziona, setUi, toast, useStore } from '../data/store';
 import { descrizioneScheda, useCimitero } from '../data/selectors';
 import type { Defunto, DestinazioneResti, Pratica, Richiedente, RichiestaAgenzia, Scheda, TipoOperazione } from '../data/types';
 import { utenzeDi } from '../data/utenze';
@@ -18,9 +18,8 @@ import { pdfPratica, pdfRegistro } from '../lib/pdf';
 import { setQuery, useNuovo, useRotta } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
 import { tinta } from '../lib/tinta';
-import { Calendario } from '../components/Calendario';
 
-type Tab = 'pratiche' | 'calendario' | 'registro';
+type Tab = 'pratiche' | 'registro';
 
 const statoP = (id: string) => STATI_PRATICA.find((s) => s.id === id) ?? STATI_PRATICA[0];
 const ora = (p: Pratica) => p.dataOra?.slice(11, 16) ?? '';
@@ -38,7 +37,14 @@ function BadgeTipo({ p }: { p: Pratica }) {
 export function OperazioniPage() {
   const rotta = useRotta();
   const t = rotta.query.get('tab');
-  const tab: Tab = t === 'calendario' || t === 'agenda' ? 'calendario' : t === 'registro' ? 'registro' : 'pratiche';
+  const tab: Tab = t === 'registro' ? 'registro' : 'pratiche';
+  // il calendario non è più una linguetta: i vecchi collegamenti aprono la finestra del calendario
+  const vecchio = t === 'calendario' || t === 'agenda';
+  useEffect(() => {
+    if (!vecchio) return;
+    setQuery('tab', null);
+    window.setTimeout(() => setUi({ calendario: true }), 0);
+  }, [vecchio]);
   const selId = rotta.query.get('id');
   const pratiche = useStore((s) => s.db.pratiche);
   // false = chiusa, true = vuota, oppure la richiesta dell'agenzia da cui parte
@@ -57,12 +63,10 @@ export function OperazioniPage() {
       </div>
       <Tabs value={tab} onChange={(v) => setQuery('tab', v === 'pratiche' ? null : v)} tabs={[
         { id: 'pratiche', label: 'Pratiche', icon: <FolderOpen size={16} />, count: pratiche.filter((p) => p.stato === 'aperta' || p.stato === 'programmata').length },
-        { id: 'calendario', label: 'Calendario', icon: <CalendarDays size={16} /> },
         { id: 'registro', label: 'Registro', icon: <BookOpenCheck size={16} /> },
       ]} />
       {tab === 'pratiche' && <RichiesteAgenzie onApri={setNuova} />}
       {tab === 'pratiche' && <Pratiche selId={selId} />}
-      {tab === 'calendario' && <Calendario solo={TIPI_OPERAZIONE} settimana cimiteri onEvento={(e) => (e.praticaId ? setQuery('id', e.praticaId) : setQuery('tab', null))} />}
       {tab === 'registro' && <Registro />}
       {sel && <Dettaglio p={sel} onChiudi={() => setQuery('id', null)} />}
       {nuova && <ModaleNuova richiesta={nuova === true ? undefined : nuova} onChiudi={() => setNuova(false)} onCreata={(id) => { setNuova(false); setQuery('id', id); }} />}

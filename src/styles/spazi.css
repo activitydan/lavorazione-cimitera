@@ -231,11 +231,6 @@
   .calg__punti { display: flex; }
 }
 
-/* Dashboard: mappa e agenda in alto, il calendario grande sotto, poi i tre riquadri */
-.page--home { height: auto; }
-.page--home .bento { flex: none; grid-template-rows: clamp(400px, calc(100dvh - 400px), 620px) auto 196px; }
-.bento__cal { grid-column: 1 / -1; min-width: 0; }
-@media (max-width: 1100px) { .page--home .bento { grid-template-rows: none; } }
 
 /* campanella: filtri per categoria */
 .alert-filtri { display: flex; flex-wrap: wrap; gap: 4px; padding: 10px 14px; border-bottom: 1px solid var(--border); }
@@ -365,3 +360,23 @@
 .calg__doppia { display: flex; align-items: center; gap: 4px; color: var(--danger-700); }
 .calg__sotto { border-top: 1px solid var(--border); max-height: 340px; overflow: auto; }
 .calg__sotto-testa { display: flex; align-items: center; gap: 8px; padding: 12px 16px 4px; position: sticky; top: 0; background: var(--surface); }
+
+
+/* ---------- Un'agenda sola: la Dashboard sta in una schermata, il calendario si apre dal pulsante in alto ---------- */
+.topbar__cal { height: 40px; }
+@media (max-width: 1080px) { .topbar__cal { width: 40px; padding: 0; } .topbar__cal span { display: none; } }
+button.widget__link { border: none; background: none; padding: 0; color: var(--blu); cursor: pointer; }
+button.widget__link:hover { text-decoration: underline; text-underline-offset: 2px; }
+.agenda-giorno { padding: 8px 6px 2px; font-size: 12px; font-weight: 700; color: var(--muted); }
+.agenda-giorno:first-child { padding-top: 0; }
+/* la finestra del calendario: il calendario la riempie tutta */
+.calfin { overflow: hidden; }
+.calfin .calg { flex: 1; min-height: 0; display: flex; flex-direction: column; border: none; border-radius: 0; }
+.calfin .calg__corpo { flex: 1; min-height: 0; overflow: auto; }
+.calfin .calg__giorno { max-height: none; }
+@media (max-width: 760px) {
+  .calfin .calg__testa, .calfin .calg__giorno, .calfin .calg__calendari { padding: 12px; }
+  /* sul telefono la crocetta sta sempre in alto a destra */
+  .calfin .calg__testa { position: relative; padding-right: 52px; }
+  .calfin__chiudi { position: absolute; top: 10px; right: 10px; }
+}

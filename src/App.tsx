@@ -14,6 +14,7 @@ import { useTelefono } from './lib/schermo';
 import { useRotta, vai } from './router';
 import { Dashboard } from './pages/Dashboard';
 import { MappaPage } from './pages/MappaPage';
+import { FinestraCalendario } from './components/Calendario';
 
 const RicercaPage = lazy(() => import('./pages/RicercaPage').then((m) => ({ default: m.RicercaPage })));
 const SchedaPage = lazy(() => import('./pages/SchedaPage').then((m) => ({ default: m.SchedaPage })));
@@ -105,7 +106,7 @@ export function App() {
   const r = useRotta();
 
   useEffect(() => {
-    setUi({ menuMobile: false, parete: null, modale: null });
+    setUi({ menuMobile: false, parete: null, modale: null, calendario: false });
     if (r.parti[0] !== 'mappa' && r.parti[0] !== undefined) setUi({ pannello: false });
     // una pagina nuova si legge dall'inizio, non da dove era arrivata quella di prima
     document.querySelector('.content')?.scrollTo(0, 0);
@@ -159,6 +160,7 @@ export function App() {
         </div>
       </div>
       <Modali />
+      <FinestraCalendario />
       <GrigliaParete />
       <Toasts />
     </div>

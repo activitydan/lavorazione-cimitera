@@ -1,25 +1,26 @@
-import { useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import { ArrowRight, CalendarClock, CalendarDays, ClipboardCheck, ClipboardList, MapPinPlus, Maximize2, Search, Wrench } from 'lucide-react';
-import { Calendario } from '../components/Calendario';
+import { CALENDARI } from '../components/Calendario';
 import { CemeteryMap } from '../components/map/CemeteryMap';
 import { SceltaStileMappa } from '../components/Topbar';
 import { Ciambella, Dot } from '../components/ui';
-import { apriModale, resetFiltri, seleziona, setFiltri, useStore } from '../data/store';
-import { conta, useCimitero, useDatiCimitero, useSchedeCimitero } from '../data/selectors';
+import { apriModale, resetFiltri, seleziona, setFiltri, setUi, useStore } from '../data/store';
+import { conta, labelLista, useCimitero, useDatiCimitero, useSchedeCimitero } from '../data/selectors';
 import { COLORI_OPERAZIONE, NOMI_OPERAZIONE } from '../data/pratiche';
 import { righeScadenzario, statoAvviso } from '../data/scadenze';
 import { aggiungiGiorni, nomeCompleto, numero, oggiISO, percentuale } from '../lib/format';
 import { useTelefono } from '../lib/schermo';
 import { href, vai } from '../router';
 
-function Widget({ titolo, icona, link, linkLabel = 'Apri', children, className }: {
-  titolo: string; icona: React.ReactNode; link?: string; linkLabel?: string; children: React.ReactNode; className?: string;
+function Widget({ titolo, icona, link, linkLabel = 'Apri', azione, children, className }: {
+  titolo: string; icona: React.ReactNode; link?: string; linkLabel?: string; azione?: React.ReactNode; children: React.ReactNode; className?: string;
 }) {
   return (
     <section className={`card widget ${className ?? ''}`}>
       <div className="widget__head">
         <h3><span className="widget__ico">{icona}</span>{titolo}</h3>
         {link && <a className="widget__link" href={href(link)}>{linkLabel}<ArrowRight size={14} /></a>}
+        {azione}
       </div>
       <div className="widget__body">{children}</div>
     </section>
@@ -36,7 +37,22 @@ export function Dashboard() {
   const telefono = useTelefono();
   const { quadranti, strutture, viali, aree, manutenzioni } = useDatiCimitero();
   const domani = aggiungiGiorni(oggiISO(), 1);
-  const agenda = useMemo(() => db.pratiche.filter((p) => p.stato === 'programmata' && p.dataOra && p.cimiteroId === cimitero?.id && (p.dataOra.startsWith(oggiISO()) || p.dataOra.startsWith(domani))).sort((a, b) => a.dataOra!.localeCompare(b.dataOra!)), [db.pratiche, cimitero?.id, domani]);
+  // il lavoro in programma oggi e domani: operazioni cimiteriali e manutenzioni, nell'ordine in cui si fanno
+  const agenda = useMemo(() => {
+    const giorni = [oggiISO(), domani];
+    const nomi = (ids?: string[]) => (ids ?? []).map((id) => db.operatori.find((o) => o.id === id)?.nome).filter(Boolean).join(', ');
+    const rossa = CALENDARI.find((c) => c.id === 'manutenzione')!.colore;
+    return [
+      ...db.pratiche.filter((p) => p.stato === 'programmata' && p.dataOra && p.cimiteroId === cimitero?.id && giorni.includes(p.dataOra.slice(0, 10))).map((p) => ({
+        id: p.id, giorno: p.dataOra!.slice(0, 10), ora: p.dataOra!.slice(11, 16), colore: COLORI_OPERAZIONE[p.tipo], titolo: `${NOMI_OPERAZIONE[p.tipo]} · ${nomeCompleto(p.defunto)}`,
+        sotto: [p.schedaId, nomi(p.operatoriIds)].filter(Boolean).join(' · '), link: telefono ? `/scheda/${p.schedaId}` : `/operazioni?id=${p.id}`,
+      })),
+      ...manutenzioni.filter((m) => m.stato === 'programmata' && m.dataProgrammata && giorni.includes(m.dataProgrammata)).map((m) => ({
+        id: m.id, giorno: m.dataProgrammata!, ora: '', colore: rossa, titolo: `Manutenzione · ${labelLista(config.categorieManutenzione, m.categoria)}`,
+        sotto: [m.schedaId || m.luogo, nomi(m.operatoriIds)].filter(Boolean).join(' · '), link: `/manutenzioni?id=${m.id}`,
+      })),
+    ].sort((a, b) => a.giorno.localeCompare(b.giorno) || (a.ora || '99').localeCompare(b.ora || '99') || a.titolo.localeCompare(b.titolo));
+  }, [db.pratiche, db.operatori, manutenzioni, config.categorieManutenzione, cimitero?.id, domani, telefono]);
   const oggi = oggiISO();
 
   const stimate = quadranti.reduce((t, x) => t + x.stimaManufatti, 0);
@@ -102,26 +118,27 @@ export function Dashboard() {
           </div>
         )}
 
-        <Widget titolo="Agenda di oggi" icona={<CalendarDays size={16} />} link={telefono ? undefined : '/operazioni?tab=calendario'} linkLabel="Apri il calendario" className="bento__alert">
+        <Widget titolo="Agenda di oggi" icona={<CalendarDays size={16} />} className="bento__alert"
+          azione={telefono ? <button className="widget__link" onClick={() => setUi({ calendario: true })}>Calendario<ArrowRight size={14} /></button> : undefined}>
           <div className="alert-list">
-            {agenda.length === 0 && <p className="small muted">Nessuna operazione oggi e domani.</p>}
-            {(telefono ? agenda.slice(0, 5) : agenda).map((p) => (
-              <a key={p.id} className="alert-item" href={href(telefono ? `/scheda/${p.schedaId}` : `/operazioni?id=${p.id}`)}>
-                <span className="alert-dot" style={{ background: COLORI_OPERAZIONE[p.tipo] }} />
-                <span className="grow">
-                  <b>{p.dataOra!.slice(11, 16)} · {NOMI_OPERAZIONE[p.tipo]} · {nomeCompleto(p.defunto)}</b>
-                  <span className="small muted">{p.schedaId} · {(p.operatoriIds ?? []).map((id) => db.operatori.find((o) => o.id === id)?.nome).filter(Boolean).join(', ')}</span>
-                </span>
-                <span className="tiny muted nowrap">{p.dataOra!.startsWith(oggi) ? 'oggi' : 'domani'}</span>
-              </a>
+            {agenda.length === 0 && <p className="small muted">Niente in programma oggi e domani.</p>}
+            {(telefono ? agenda.slice(0, 5) : agenda).map((v, i, lista) => (
+              <Fragment key={v.id}>
+                {(i === 0 || lista[i - 1].giorno !== v.giorno) && <div className="agenda-giorno">{v.giorno === oggi ? 'Oggi' : 'Domani'}</div>}
+                <a className="alert-item" href={href(v.link)}>
+                  <span className="alert-dot" style={{ background: v.colore }} />
+                  <span className="grow">
+                    <b>{v.ora ? `${v.ora} · ` : ''}{v.titolo}</b>
+                    <span className="small muted">{v.sotto}</span>
+                  </span>
+                </a>
+              </Fragment>
             ))}
-            {telefono && agenda.length > 5 && <p className="small muted">E altre {agenda.length - 5}: le trovi nel calendario qui sotto.</p>}
+            {telefono && agenda.length > 5 && <p className="small muted">E altre {agenda.length - 5}: le trovi nel calendario.</p>}
           </div>
         </Widget>
 
         {/* il calendario grande, sotto tutta la mappa: tutto ciò che è in programma */}
-        <div className="bento__cal"><Calendario /></div>
-
         <Widget titolo="Censimento" icona={<ClipboardList size={16} />} link={telefono ? '/censimento?tab=verifiche' : '/censimento'} linkLabel={telefono ? 'Verifiche' : 'Apri'} className="bento__censite">
           <div className="row gap-16">
             <Ciambella

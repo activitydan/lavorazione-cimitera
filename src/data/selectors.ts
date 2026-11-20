@@ -340,32 +340,12 @@ function categoriaDaLink(db: Database, link?: string): CategoriaAlert {
  * più quelli calcolati su ciò che è in programma oggi e domani. L'ufficio vede tutte le operazioni in programma,
  * l'operatore quelle assegnate a lui, l'agenzia le sue.
  */
-export function alertPersonali(db: Database, config: ConfigScheda, chi: string, oggi = oggiISO()): AlertItem[] {
+export function alertPersonali(db: Database, _config: ConfigScheda, chi: string, oggi = oggiISO()): AlertItem[] {
   const out: AlertItem[] = db.alert.filter((a) => a.destinatario === chi).map((a) => ({
     id: a.id, livello: a.livello, categoria: a.categoria ?? categoriaDaLink(db, a.link), titolo: a.titolo, messaggio: a.messaggio, data: a.data, link: a.link,
   }));
   const domani = aggiungiGiorni(oggi, 1);
-  const agenzia = chi.startsWith('agenzia:') ? chi.slice(8) : null;
-  for (const m of db.manutenzioni) {
-    if (m.stato !== 'programmata' || !m.dataProgrammata || !m.operatoriIds?.includes(chi)) continue;
-    if (m.dataProgrammata !== oggi && m.dataProgrammata !== domani) continue;
-    const eOggi = m.dataProgrammata === oggi;
-    out.push({
-      id: `man-${m.id}-${m.dataProgrammata}-${chi}`, livello: eOggi ? 'attenzione' : 'info', categoria: 'manutenzione', titolo: `Manutenzione programmata ${eOggi ? 'oggi' : 'domani'}`,
-      messaggio: `${labelLista(config.categorieManutenzione, m.categoria)} · ${m.schedaId || m.luogo || ''}`, data: m.dataProgrammata, link: `/manutenzioni?id=${m.id}`,
-    });
-  }
-  for (const p of db.pratiche) {
-    if (p.stato !== 'programmata' || !p.dataOra) continue;
-    if (!(agenzia ? p.agenziaId === agenzia : chi === 'ufficio' || p.operatoriIds?.includes(chi))) continue;
-    const g = p.dataOra.slice(0, 10);
-    if (g !== oggi && g !== domani) continue;
-    out.push({
-      id: `pr-${p.id}-${p.dataOra}-${chi}`, livello: g === oggi ? 'attenzione' : 'info', categoria: p.tipo,
-      titolo: `${p.tipo.charAt(0).toUpperCase()}${p.tipo.slice(1)} programmata ${g === oggi ? 'oggi' : 'domani'} alle ${p.dataOra.slice(11, 16)}`,
-      messaggio: `${nomeCompleto(p.defunto)} · ${p.schedaId}${p.provvisoria ? ' · sepoltura provvisoria' : ''}`, data: g, link: agenzia ? `/pratiche?id=${p.id}` : `/operazioni?id=${p.id}`,
-    });
-  }
+  // le operazioni e le manutenzioni di oggi e domani non stanno qui: sono nell'Agenda di oggi e nel calendario
   if (chi === 'ufficio') {
     // sepolture provvisorie: chi va spostato nei prossimi giorni e non ha ancora una traslazione in corso
     const limite = aggiungiGiorni(oggi, 7);

@@ -23,6 +23,8 @@ interface UiState {
   volaA: { lat: number; lng: number; zoom: number; n: number } | null;
   menuMobile: boolean;
   modale: Modale | null;
+  /** la finestra del calendario: si apre dal pulsante "Calendario" in alto */
+  calendario: boolean;
   /** false quando il telefono non ha rete */
   rete: boolean;
   /** interruttore della demo, nel riquadro dell'utente: mostra il lavoro senza rete anche dal computer */
@@ -85,6 +87,7 @@ export const useStore = create<Stato>(() => ({
     volaA: null,
     menuMobile: false,
     modale: null,
+    calendario: false,
     rete: typeof navigator === 'undefined' ? true : navigator.onLine,
     simulaSenzaRete: false,
   },

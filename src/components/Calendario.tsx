@@ -1,14 +1,14 @@
-import { useMemo, useState, type ReactNode } from 'react';
-import { AlertTriangle, CalendarDays, Check, CheckCircle2, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCallback, useMemo, useRef, useState, type ReactNode } from 'react';
+import { AlertTriangle, CalendarDays, Check, CheckCircle2, ChevronLeft, ChevronRight, X } from 'lucide-react';
 import { nomiConcessionari } from '../data/concessioni';
 import { COLORI_OPERAZIONE, NOMI_OPERAZIONE, TIPI_OPERAZIONE, fineTurno, sovrapposizioni } from '../data/pratiche';
 import { labelLista, NOMI_CATEGORIA_ALERT, useCimitero, useUtente } from '../data/selectors';
-import { useStore } from '../data/store';
+import { setUi, useStore } from '../data/store';
 import type { ConfigScheda, Database, TipoOperazione } from '../data/types';
 import { GIORNI_BREVI, aggiungiGiorni, dataBreve, meseAnno, nomeCompleto, oggiISO } from '../lib/format';
 import { useTelefono } from '../lib/schermo';
 import { vai } from '../router';
-import { attivabile } from '../lib/tastiera';
+import { attivabile, useEsc } from '../lib/tastiera';
 import { tintaTesto } from '../lib/tinta';
 import { Avatar, Seg } from './ui';
 
@@ -120,10 +120,13 @@ export interface OpzioniCalendario {
   azione?: ReactNode;
   /** solo questi calendari: nelle pagine di Operazioni cimiteriali e di Manutenzioni */
   solo?: IdCalendario[];
-  /** aggiunge la vista a settimana, e parte da quella */
+  /** aggiunge la vista a settimana, e parte da quella se non si dice altro */
   settimana?: boolean;
-  /** aggiunge la scelta del cimitero, e parte da tutti */
-  cimiteri?: boolean;
+  vistaIniziale?: 'mese' | 'settimana';
+  /** aggiunge la scelta del cimitero: si parte da quello scelto in alto, oppure da tutti */
+  cimiteri?: boolean | 'tutti';
+  /** chiamata dopo aver aperto una voce: la finestra del calendario si chiude */
+  dopoApertura?: () => void;
   /** quando c'è, un clic su un giorno lo sceglie: serve per decidere quando fare una manutenzione */
   scegliGiorno?: { testo: ReactNode; onScegli: (giorno: string) => void };
   /** contenuto in più nella colonna di destra, sotto l'elenco del giorno */
@@ -131,7 +134,7 @@ export interface OpzioniCalendario {
 }
 
 /** Il calendario unico dell'app: lo stesso sulla Dashboard, in Operazioni cimiteriali, in Manutenzioni e per le agenzie funebri. */
-export function Calendario({ agenziaId, onEvento, azione, solo, settimana, cimiteri, scegliGiorno, sotto }: OpzioniCalendario) {
+export function Calendario({ agenziaId, onEvento, azione, solo, settimana, vistaIniziale, cimiteri, dopoApertura, scegliGiorno, sotto }: OpzioniCalendario) {
   const db = useStore((s) => s.db);
   const config = useStore((s) => s.config);
   const cim = useCimitero();
@@ -139,8 +142,8 @@ export function Calendario({ agenziaId, onEvento, azione, solo, settimana, cimit
   const oggi = oggiISO();
   const [mese, setMese] = useState(() => ({ y: Number(oggi.slice(0, 4)), m: Number(oggi.slice(5, 7)) - 1 }));
   const [giorno, setGiorno] = useState(oggi);
-  const [vista, setVista] = useState<'mese' | 'settimana'>(settimana ? 'settimana' : 'mese');
-  const [quale, setQuale] = useState(''); // '' = tutti i cimiteri
+  const [vista, setVista] = useState<'mese' | 'settimana'>(vistaIniziale ?? (settimana ? 'settimana' : 'mese'));
+  const [quale, setQuale] = useState(() => (cimiteri === 'tutti' ? '' : cim?.id ?? '')); // '' = tutti i cimiteri
   // dentro una pagina i calendari accesi valgono solo lì; sulla Dashboard la scelta resta per la volta dopo
   const [spenti, setSpenti] = useState<IdCalendario[]>(() => (solo ? [] : leggiSpenti()));
   // sulla Dashboard l'Operatore parte dalle sue cose; dentro una pagina si parte sempre da tutto
@@ -199,7 +202,9 @@ export function Calendario({ agenziaId, onEvento, azione, solo, settimana, cimit
   const apri = (e: EventoCalendario) => {
     if (onEvento) return onEvento(e);
     const dove = telefono && e.linkTelefono !== undefined ? e.linkTelefono : e.link;
-    if (dove) vai(dove);
+    if (!dove) return;
+    vai(dove);
+    dopoApertura?.();
   };
   const scegli = (d: string) => {
     setGiorno(d);
@@ -353,5 +358,30 @@ export function Calendario({ agenziaId, onEvento, azione, solo, settimana, cimit
         </aside>
       </div>
     </section>
+  );
+}
+
+/**
+ * Il calendario si apre con un comando solo, il pulsante "Calendario" in alto, e sta in una finestra sopra la pagina dove sei.
+ * Dentro c'è tutto quello che ha una data: operazioni, manutenzioni, verifiche e scadenze.
+ */
+export function FinestraCalendario() {
+  const aperto = useStore((s) => s.ui.calendario);
+  const finestra = useRef<HTMLDivElement>(null);
+  const chiudi = useCallback(() => setUi({ calendario: false }), []);
+  useEsc(chiudi, finestra);
+  if (!aperto) return null;
+  return (
+    <div className="overlay" ref={finestra} onMouseDown={(e) => e.target === e.currentTarget && chiudi()}>
+      <div className="modal modal--xl calfin" role="dialog" aria-modal="true" aria-label="Calendario">
+        <Calendario
+          settimana
+          vistaIniziale="mese"
+          cimiteri
+          dopoApertura={chiudi}
+          azione={<button className="btn btn--ghost btn--icon btn--sm calfin__chiudi" onClick={chiudi} aria-label="Chiudi il calendario" autoFocus><X size={18} /></button>}
+        />
+      </div>
+    </div>
   );
 }

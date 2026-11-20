@@ -39,7 +39,8 @@ export function ManutenzioniPage() {
   const rotta = useRotta();
   const telefono = useTelefono();
   const utente = useUtente();
-  const vista: Vista = !telefono && (rotta.query.get('tab') ?? rotta.query.get('vista')) === 'calendario' ? 'calendario' : 'elenco';
+  const v = rotta.query.get('tab') ?? rotta.query.get('vista');
+  const vista: Vista = !telefono && (v === 'programmazione' || v === 'calendario') ? 'calendario' : 'elenco';
   const selId = rotta.query.get('id');
   const config = useStore((s) => s.config);
   const db = useStore((s) => s.db);
@@ -85,9 +86,9 @@ export function ManutenzioniPage() {
       </div>
 
       {!telefono && (
-        <Tabs value={vista} onChange={(v) => { setQuery('vista', null); setQuery('tab', v === 'calendario' ? 'calendario' : null); }} tabs={[
+        <Tabs value={vista} onChange={(x) => { setQuery('vista', null); setQuery('tab', x === 'calendario' ? 'programmazione' : null); }} tabs={[
           { id: 'elenco', label: 'Elenco', icon: <List size={16} />, count: lista.length },
-          { id: 'calendario', label: 'Calendario', icon: <CalendarDays size={16} /> },
+          { id: 'calendario', label: 'Programmazione', icon: <CalendarDays size={16} />, count: manutenzioni.filter((m) => m.stato === 'aperta').length },
         ]} />
       )}
 

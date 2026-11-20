@@ -1,5 +1,5 @@
 import { Fragment, useEffect, useMemo, useRef, useState } from 'react';
-import { Bell, Check, ChevronDown, FileText, Layers, Lightbulb, Menu, MapPin, MapPinPlus, Plus, Satellite, ScrollText, Search, Wrench } from 'lucide-react';
+import { Bell, CalendarDays, Check, ChevronDown, FileText, Layers, Lightbulb, Menu, MapPin, MapPinPlus, Plus, Satellite, ScrollText, Search, Wrench } from 'lucide-react';
 import { apriModale, segnaLetti, seleziona, setCimitero, setFiltri, setUi, resetFiltri, useStore, volaA } from '../data/store';
 import { descrizioneScheda, NOMI_CATEGORIA_ALERT, testoRicerca, useAlert, useCimitero, useDatiCimitero, useSchedeCimitero, type AlertItem } from '../data/selectors';
 import type { CategoriaAlert, Concessione, Pratica, Scheda, StileMappa, UtenzaVotiva } from '../data/types';
@@ -379,6 +379,13 @@ export function Topbar() {
       )}
       <div className="grow" />
       {telefono && <CampanellaAlert />}
+      {/* il calendario si apre da qui, da ogni pagina: un comando solo */}
+      {!telefono && (
+        <button className="btn topbar__cal" onClick={() => setUi({ calendario: true })} aria-haspopup="dialog">
+          <CalendarDays size={16} />
+          <span>Calendario</span>
+        </button>
+      )}
       {home && !telefono && (
         <MenuNuovo />
       )}
