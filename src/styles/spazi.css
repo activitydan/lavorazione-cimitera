@@ -305,3 +305,9 @@
 @media (max-width: 760px) { .topbar .gsearch ~ .grow { display: none; } }
 /* calendario sul telefono: l'elenco del giorno non allunga troppo la pagina */
 @media (max-width: 760px) { .calg__giorno { max-height: 380px; overflow: auto; } }
+
+
+/* ---------- Tastiera: righe, celle e riquadri che si aprono mostrano dove sei ---------- */
+.table tbody tr.clickable:focus-visible, .table td.clickable:focus-visible { outline: 2px solid var(--blu); outline-offset: -2px; box-shadow: none; }
+.table td.clickable { cursor: pointer; }
+.cal__day[role='button']:focus-visible, .quad__item:focus-visible, .pro__campo:focus-visible { outline: 2px solid var(--blu); outline-offset: -2px; box-shadow: none; }

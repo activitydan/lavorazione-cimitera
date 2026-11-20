@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import {
   AlertTriangle, Ban, BookOpenCheck, CalendarClock, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, ExternalLink, FileText, FolderOpen, Plus, Printer, Search, X,
 } from 'lucide-react';
@@ -18,6 +18,7 @@ import { utenzeDi } from '../data/utenze';
 import { aggiungiGiorni, data, dataBreve, euro, GIORNI_BREVI, nomeCompleto, normalizza, numero, oggiISO } from '../lib/format';
 import { pdfPratica, pdfRegistro } from '../lib/pdf';
 import { setQuery, useRotta } from '../router';
+import { attivabile, useEsc } from '../lib/tastiera';
 
 type Tab = 'pratiche' | 'agenda' | 'registro';
 
@@ -159,7 +160,7 @@ function Pratiche({ selId }: { selId: string | null }) {
             {paginaDi(lista, pagina).map((p) => {
               const s = schede.get(p.schedaId);
               return (
-                <tr key={p.id} className={`clickable ${selId === p.id ? 'is-sel' : ''}`} onClick={() => setQuery('id', p.id)}>
+                <tr key={p.id} className={`clickable ${selId === p.id ? 'is-sel' : ''}`} {...attivabile(() => setQuery('id', p.id))}>
                   <td className="id">{p.numero}</td>
                   <td><BadgeTipo p={p} /></td>
                   <td><b>{nomeCompleto(p.defunto)}</b></td>
@@ -185,6 +186,8 @@ function Pratiche({ selId }: { selId: string | null }) {
 // ---------------------------------------------------------------------------
 
 function Dettaglio({ p, onChiudi }: { p: Pratica; onChiudi: () => void }) {
+  const finestra = useRef<HTMLDivElement>(null);
+  useEsc(onChiudi, finestra);
   const db = useStore((s) => s.db);
   const schede = indiceSchede(db.schede);
   const s = schede.get(p.schedaId);
@@ -197,7 +200,7 @@ function Dettaglio({ p, onChiudi }: { p: Pratica; onChiudi: () => void }) {
   const inCorso = p.stato === 'aperta' || p.stato === 'programmata';
   const descr = (x?: Scheda) => (x ? `${x.id} · ${descrizioneScheda(x)} · ${x.viale}` : '—');
   return (
-    <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
+    <div className="overlay" ref={finestra} onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
       <div className="modal modal--lg" role="dialog" aria-modal="true">
         <div className="modal__head">
           <div>
@@ -630,7 +633,7 @@ function Registro() {
           <thead><tr><th className="num">N.</th><th>Data</th><th>Pratica</th><th>Operazione</th><th>Defunto</th><th>Postazione</th><th>Esito</th><th>Operatori</th></tr></thead>
           <tbody>
             {paginaDi(lista, pagina).map((p, i) => (
-              <tr key={p.id} className="clickable" onClick={() => setQuery('id', p.id)}>
+              <tr key={p.id} className="clickable" {...attivabile(() => setQuery('id', p.id))}>
                 <td className="num">{pagina * 50 + i + 1}</td>
                 <td className="nowrap">{data(p.eseguitaIl)}</td>
                 <td className="id">{p.numero}</td>

@@ -12,6 +12,7 @@ import { fotoUrl } from '../lib/photo';
 import { useTelefono } from '../lib/schermo';
 import { NOMI_DESTINAZIONE } from '../data/pratiche';
 import { href, setQuery, useRotta, vai } from '../router';
+import { attivabile } from '../lib/tastiera';
 
 type Vista = 'schede' | 'defunti';
 type Ordine = 'id' | 'nome' | 'morte' | 'stato' | 'viale' | 'tipologia';
@@ -198,7 +199,7 @@ export function RicercaPage() {
                 </thead>
                 <tbody>
                   {righe.map((s) => (
-                    <tr key={s.id} className={`clickable ${selezionata === s.id ? 'is-sel' : ''}`} onClick={() => seleziona(s.id)}>
+                    <tr key={s.id} className={`clickable ${selezionata === s.id ? 'is-sel' : ''}`} {...attivabile(() => seleziona(s.id))}>
                       <td onClick={(e) => e.stopPropagation()}>
                         <input
                           type="checkbox"
@@ -238,7 +239,7 @@ export function RicercaPage() {
                 </thead>
                 <tbody>
                   {righeDefunti.map(({ d, s }, i) => (
-                    <tr key={`${s.id}-${i}`} className={`clickable ${selezionata === s.id ? 'is-sel' : ''}`} onClick={() => seleziona(s.id)}>
+                    <tr key={`${s.id}-${i}`} className={`clickable ${selezionata === s.id ? 'is-sel' : ''}`} {...attivabile(() => seleziona(s.id))}>
                       <td><b>{d.cognome || '—'}</b></td>
                       <td>{d.nome || <span className="badge badge--giallo badge--sm">Da completare</span>}</td>
                       <td className="nowrap">{data(d.dataNascita)}</td>

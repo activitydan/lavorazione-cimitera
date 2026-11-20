@@ -17,6 +17,7 @@ import { aggiungiGiorni, data, dataBreve, dataOra, numero, oggiISO, percentuale 
 import { quadranteDi, vialePiuVicino } from '../lib/geo';
 import { useTelefono } from '../lib/schermo';
 import { setQuery, useRotta, vai } from '../router';
+import { attivabile } from '../lib/tastiera';
 
 type Tab = 'avanzamento' | 'quadranti' | 'operatori' | 'verifiche' | 'strutture';
 const ORDINE_STRUTTURE: Struttura['tipo'][] = ['colombaio', 'cappella', 'ossario', 'cinerario'];
@@ -160,7 +161,7 @@ function Avanzamento() {
                 const ultimo = qs.reduce((m, s) => (s.rilevatoIl > m ? s.rilevatoIl : m), '');
                 const p = percentuale(qs.length, q.stimaManufatti);
                 return (
-                  <tr key={q.id} className="clickable" onClick={() => vai(`/censimento?tab=quadranti&q=${q.id}`)}>
+                  <tr key={q.id} className="clickable" {...attivabile(() => vai(`/censimento?tab=quadranti&q=${q.id}`))}>
                     <td><span className="row gap-8"><span className="q-row__code" style={{ background: q.colore }}>{q.codice}</span><b>{q.nome.split('·')[1]?.trim() ?? q.nome}</b></span></td>
                     <td>{op ? <span className="row gap-8"><Avatar nome={op.nome} colore={op.colore} size="sm" />{op.nome}</span> : <span className="muted">Non assegnato</span>}</td>
                     <td><div className="row gap-8"><div className="grow"><Progress value={qs.length} max={q.stimaManufatti} colore={q.colore} /></div><b className="mono small">{p}%</b></div></td>
@@ -287,7 +288,7 @@ function Quadranti() {
             const n = schede.filter((s) => s.quadranteId === q.id).length;
             const op = db.operatori.find((o) => o.id === q.operatoreId);
             return (
-              <div key={q.id} className={`quad__item ${evid === q.id ? 'is-sel' : ''}`} onClick={() => setQuery('q', evid === q.id ? null : q.id)}>
+              <div key={q.id} className={`quad__item ${evid === q.id ? 'is-sel' : ''}`} role="button" aria-pressed={evid === q.id} {...attivabile(() => setQuery('q', evid === q.id ? null : q.id))}>
                 <span className="q-row__code" style={{ background: q.colore }}>{q.codice}</span>
                 <div className="grow" style={{ minWidth: 0 }}>
                   <div className="row row--between"><b className="ellipsis">{q.nome}</b><span className="small mono">{percentuale(n, q.stimaManufatti)}%</span></div>
@@ -412,7 +413,7 @@ function Verifiche() {
               return (
                 <tr key={v.id}>
                   <td className="id">{v.id}</td>
-                  <td className="clickable" onClick={() => seleziona(v.schedaId)}><b>{v.schedaId}</b><div className="tiny muted">{s ? descrizioneScheda(s) : ''}</div></td>
+                  <td className="clickable" {...attivabile(() => seleziona(v.schedaId))}><b>{v.schedaId}</b><div className="tiny muted">{s ? descrizioneScheda(s) : ''}</div></td>
                   <td>{labelLista(config.motiviVerifica, v.motivo)}</td>
                   <td>{op ? <span className="row gap-8"><Avatar nome={op.nome} colore={op.colore} size="sm" />{op.nome}</span> : '—'}</td>
                   <td className="nowrap">{data(v.assegnataIl)}</td>

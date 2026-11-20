@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { Ban, Download, FileSignature, History, Plus, Printer, RefreshCw, ScrollText, Search, ShieldAlert, Trash2, UserRoundPlus, Users, X } from 'lucide-react';
 import { AvvisiDi, Moroso } from '../components/Avvisi';
 import { BarraPagine, paginaDi } from '../components/Esporta';
@@ -17,6 +17,7 @@ import { scaricaExcel } from '../lib/excel';
 import { pdfContrattoConcessione } from '../lib/pdf';
 import { data, normalizza, numero, oggiISO } from '../lib/format';
 import { setQuery, useRotta } from '../router';
+import { attivabile, useEsc } from '../lib/tastiera';
 
 type Tab = 'concessioni' | 'concessionari';
 type Filtro = 'attiva' | 'in_scadenza' | 'in_decadenza' | 'scaduta' | 'chiusa';
@@ -116,7 +117,7 @@ export function ConcessioniPage() {
                 {paginaDi(lista, pagina).map((c) => {
                   const s = schede.get(c.schedeIds[0]);
                   return (
-                    <tr key={c.id} className={`clickable ${selId === c.id ? 'is-sel' : ''}`} onClick={() => setQuery('id', c.id)}>
+                    <tr key={c.id} className={`clickable ${selId === c.id ? 'is-sel' : ''}`} {...attivabile(() => setQuery('id', c.id))}>
                       <td className="id">{c.numero}</td>
                       <td><b>{nomiConcessionari(c)}</b> <Moroso codiceFiscale={rappresentanteDi(c)?.codiceFiscale} /></td>
                       <td>{NOMI_TIPO_CONCESSIONE[c.tipo]}</td>
@@ -185,7 +186,7 @@ function Concessionari({ concessioni, onCerca }: { concessioni: Concessione[]; o
           <thead><tr><th>Concessionario</th><th>Codice fiscale</th><th className="num">Concessioni</th><th>Prossima scadenza</th></tr></thead>
           <tbody>
             {paginaDi(lista, pagina).map((g) => (
-              <tr key={g.cf || g.nome} className="clickable" onClick={() => onCerca(g.cf || g.nome)}>
+              <tr key={g.cf || g.nome} className="clickable" {...attivabile(() => onCerca(g.cf || g.nome))}>
                 <td><b>{g.nome}</b>{g.ente && <span className="badge badge--sm" style={{ marginLeft: 8 }}>Ente</span>}</td>
                 <td className="mono small">{g.cf}</td>
                 <td className="num">{g.lista.length}</td>
@@ -208,6 +209,8 @@ function Concessionari({ concessioni, onCerca }: { concessioni: Concessione[]; o
 type Azione = 'rinnovo' | 'subentro' | 'rinuncia' | 'avvia_decadenza' | 'decadenza';
 
 function Dettaglio({ c, onChiudi }: { c: Concessione; onChiudi: () => void }) {
+  const finestra = useRef<HTMLDivElement>(null);
+  useEsc(onChiudi, finestra);
   const db = useStore((s) => s.db);
   const schede = indiceSchede(db.schede);
   const e = statoEffettivo(c, db.regole);
@@ -216,7 +219,7 @@ function Dettaglio({ c, onChiudi }: { c: Concessione; onChiudi: () => void }) {
   const chiusa = c.stato === 'chiusa';
   const occupati = postiOccupati(c, schede);
   return (
-    <div className="overlay" onMouseDown={(ev) => ev.target === ev.currentTarget && onChiudi()}>
+    <div className="overlay" ref={finestra} onMouseDown={(ev) => ev.target === ev.currentTarget && onChiudi()}>
       <div className="modal modal--xl" role="dialog" aria-modal="true">
         <div className="modal__head">
           <div>

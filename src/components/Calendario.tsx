@@ -8,6 +8,7 @@ import type { ConfigScheda, Database, TipoOperazione } from '../data/types';
 import { GIORNI_BREVI, meseAnno, nomeCompleto, oggiISO } from '../lib/format';
 import { useTelefono } from '../lib/schermo';
 import { vai } from '../router';
+import { attivabile } from '../lib/tastiera';
 
 // Calendario unico: tutto ciò che è in programma, diviso in "calendari" che si accendono e si spengono
 // (come in un calendario condiviso). Ognuno può vedere solo le sue cose.
@@ -195,7 +196,8 @@ export function Calendario({ agenziaId, onEvento, azione }: { agenziaId?: string
           {celle.map((d, i) => {
             const voci = d ? perGiorno.get(d) ?? [] : [];
             return (
-              <div key={i} className={`cal__day ${!d ? 'is-out' : ''} ${d === oggi ? 'is-today' : ''} ${d && d === giorno ? 'is-sel' : ''}`} onClick={() => d && setGiorno(d)}>
+              <div key={i} className={`cal__day ${!d ? 'is-out' : ''} ${d === oggi ? 'is-today' : ''} ${d && d === giorno ? 'is-sel' : ''}`}
+                {...(d ? { ...attivabile(() => setGiorno(d)), role: 'button', 'aria-pressed': d === giorno, 'aria-current': d === oggi ? ('date' as const) : undefined, 'aria-label': `${giornoLungo(d)}: ${voci.length === 0 ? 'niente in programma' : voci.length === 1 ? 'una voce' : `${voci.length} voci`}` } : {})}>
                 {d && <span className="cal__n">{Number(d.slice(8))}</span>}
                 {voci.slice(0, 3).map((e) => (
                   <button key={e.id} className={`cal__item ${e.attesa ? 'is-attesa' : ''}`} style={{ borderLeftColor: COLORE[e.calendario], opacity: e.fatto ? 0.55 : 1 }}

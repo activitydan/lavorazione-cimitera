@@ -8,6 +8,7 @@ import { data, decedutoDa, nomeCompleto, normalizza } from '../../lib/format';
 import { href } from '../../router';
 import { FotoScheda } from '../scheda/Media';
 import { Dot, Progress, StatoBadge } from '../ui';
+import { useEsc } from '../../lib/tastiera';
 
 // Griglia a parete delle strutture (colombari, cappelle, ossari, cinerari): una griglia per ogni parete, file dal basso.
 
@@ -86,6 +87,9 @@ function Contenuto({ v }: { v: { strutturaId: string; schedaId?: string } }) {
   const [cerca, setCerca] = useState('');
   const [usaFiltri, setUsaFiltri] = useState(true);
   const stage = useRef<HTMLDivElement>(null);
+  const finestra = useRef<HTMLDivElement>(null);
+  const chiudi = useCallback(() => apriParete(null), []);
+  useEsc(chiudi, finestra);
 
   const struttura = db.strutture.find((s) => s.id === v.strutturaId);
   const loculi = useMemo(() => (struttura ? loculiPerStruttura(db.schede).get(struttura.id) ?? [] : []), [db.schede, struttura]);
@@ -109,14 +113,13 @@ function Contenuto({ v }: { v: { strutturaId: string; schedaId?: string } }) {
   }, [v.schedaId]);
 
   if (!struttura) return null;
-  const chiudi = () => apriParete(null);
   const contenitore = indiceSchede(db.schede).get(struttura.schedaId);
   const occ = occupazioneStruttura(db.schede, struttura.id);
   const scelto = sel ? indiceSchede(db.schede).get(sel) : undefined;
   const conteggio = Object.fromEntries(config.stati.map((st) => [st.id, loculi.filter((l) => l.stato === st.id).length]));
 
   return (
-    <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && chiudi()}>
+    <div className="overlay" ref={finestra} onMouseDown={(e) => e.target === e.currentTarget && chiudi()}>
       <div className="modal modal--xl parete">
         <div className="modal__head">
           <div className="row gap-12">

@@ -15,6 +15,7 @@ import { useCimitero } from '../data/selectors';
 import type { CampoDef, ConfigScheda, TipoCampo, ValoreCampo } from '../data/types';
 import { numero, oggiISO, slug } from '../lib/format';
 import { setQuery, useRotta } from '../router';
+import { attivabile } from '../lib/tastiera';
 
 type Tab = 'campi' | 'elenchi';
 
@@ -363,7 +364,7 @@ function SchedaPro() {
                     )}
                   </div>
                   {campi.map((c, i) => (
-                    <div key={c.id} className={`pro__campo ${sel === c.id ? 'is-sel' : ''}`} onClick={() => setSel(c.id)}>
+                    <div key={c.id} className={`pro__campo ${sel === c.id ? 'is-sel' : ''}`} role="button" aria-pressed={sel === c.id} {...attivabile(() => setSel(c.id))}>
                       <span className="pro__ord" onClick={(e) => e.stopPropagation()}>
                         <button className="btn btn--xs btn--icon btn--ghost" disabled={i === 0} onClick={() => spostaCampo(c.id, -1)} aria-label="Sposta su"><ArrowUp size={12} /></button>
                         <button className="btn btn--xs btn--icon btn--ghost" disabled={i === campi.length - 1} onClick={() => spostaCampo(c.id, 1)} aria-label="Sposta giù"><ArrowDown size={12} /></button>
@@ -393,7 +394,7 @@ function SchedaPro() {
                   <Archive size={14} /> <b className="small">Archiviati ({config.campi.filter((c) => c.archiviato).length})</b>
                 </button>
                 {vediArchiviati && config.campi.filter((c) => c.archiviato).map((c) => (
-                  <div key={c.id} className={`pro__campo is-arch ${sel === c.id ? 'is-sel' : ''}`} onClick={() => setSel(c.id)}>
+                  <div key={c.id} className={`pro__campo is-arch ${sel === c.id ? 'is-sel' : ''}`} role="button" aria-pressed={sel === c.id} {...attivabile(() => setSel(c.id))}>
                     <span className="tipo-campo__ico tipo-campo__ico--sm">{ICONE_TIPO[c.tipo]}</span>
                     <b className="grow">{c.label}</b>
                   </div>

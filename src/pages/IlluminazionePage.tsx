@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { Ban, CheckCircle2, Download, Euro, ExternalLink, History, Lightbulb, LightbulbOff, Plus, Search, UserRoundPen, Wrench, X } from 'lucide-react';
 import { AvvisiDi, Moroso } from '../components/Avvisi';
 import { BarraPagine, paginaDi } from '../components/Esporta';
@@ -16,6 +16,7 @@ import {
 import { scaricaExcel } from '../lib/excel';
 import { data, euro, nomeCompleto, normalizza, numero, oggiISO } from '../lib/format';
 import { setQuery, useRotta } from '../router';
+import { attivabile, useEsc } from '../lib/tastiera';
 
 type Tab = 'utenze' | 'lampade';
 const STATI: StatoUtenza[] = ['da_allacciare', 'attiva', 'sospesa', 'cessata'];
@@ -132,7 +133,7 @@ export function IlluminazionePage() {
                   {paginaDi(lista, pagina).map((u) => {
                     const s = schede.get(u.schedaId);
                     return (
-                      <tr key={u.id} className={`clickable ${selId === u.id ? 'is-sel' : ''}`} onClick={() => setQuery('id', u.id)}>
+                      <tr key={u.id} className={`clickable ${selId === u.id ? 'is-sel' : ''}`} {...attivabile(() => setQuery('id', u.id))}>
                         <td className="id">{u.numero}</td>
                         <td><b>{nomeSoggetto(u.abbonato)}</b> <Moroso codiceFiscale={u.abbonato.codiceFiscale} /></td>
                         <td>
@@ -164,7 +165,7 @@ export function IlluminazionePage() {
               <tbody>
                 {daControllare.map((s) => (
                   <tr key={s.id}>
-                    <td className="id clickable" onClick={() => seleziona(s.id)}>{s.id}</td>
+                    <td className="id clickable" {...attivabile(() => seleziona(s.id))}>{s.id}</td>
                     <td><b>{descrizioneScheda(s)}</b></td>
                     <td className="nowrap">{s.viale}</td>
                     <td className="nowrap">{data(s.lampadaVistaIl)}</td>
@@ -194,12 +195,14 @@ export function IlluminazionePage() {
 // ---------------------------------------------------------------------------
 
 function Dettaglio({ u, onChiudi }: { u: UtenzaVotiva; onChiudi: () => void }) {
+  const finestra = useRef<HTMLDivElement>(null);
+  useEsc(onChiudi, finestra);
   const db = useStore((s) => s.db);
   const s = indiceSchede(db.schede).get(u.schedaId);
   const st = statoUtenza(u);
   const [voltura, setVoltura] = useState(false);
   return (
-    <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
+    <div className="overlay" ref={finestra} onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
       <div className="modal modal--lg" role="dialog" aria-modal="true">
         <div className="modal__head">
           <div>

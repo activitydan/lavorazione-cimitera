@@ -15,6 +15,7 @@ import { scaricaExcel } from '../lib/excel';
 import { data, euro, giorniTra, normalizza, numero, oggiISO } from '../lib/format';
 import { pdfLetteraDat } from '../lib/pdf';
 import { setQuery, useRotta } from '../router';
+import { attivabile } from '../lib/tastiera';
 
 type Tab = 'scadenzario' | 'invii' | 'avvisi' | 'morosi';
 const CANALI: CanaleDat[] = ['posta_certa', 'raccomandata_certa', 'notifica_certa'];
@@ -134,7 +135,7 @@ function Scadenzario({ righe }: { righe: RigaScadenza[] }) {
                 </td>
                 <td className="nowrap"><b>{data(r.data)}</b><div className="tiny" style={{ color: r.giorni < 0 ? '#D9473F' : undefined }}>{r.giorni < 0 ? `da ${numero(-r.giorni)} giorni` : `tra ${numero(r.giorni)} giorni`}</div></td>
                 <td><span className="badge badge--sm">{NOMI_SCADENZA[r.tipo]}</span><div className="tiny muted">{r.titolo}</div></td>
-                <td className="clickable" onClick={() => seleziona(r.schedaId)}><span className="id">{r.schedaId}</span> · {r.viale}<div className="tiny muted">{r.defunti}</div></td>
+                <td className="clickable" {...attivabile(() => seleziona(r.schedaId))}><span className="id">{r.schedaId}</span> · {r.viale}<div className="tiny muted">{r.defunti}</div></td>
                 <td>{r.destinatari.length ? <>{r.destinatari[0].nome}{r.destinatari.length > 1 && <span className="muted"> e {r.destinatari.length - 1} altro</span>}<div className="tiny muted">{r.destinatari[0].indirizzo}</div></> : <span className="badge badge--sm badge--arancio">Nessun destinatario</span>}</td>
                 <td><EsitoBadge i={ultimaLettera(db.invii, r.chiave)} /></td>
               </tr>
@@ -258,7 +259,7 @@ function InviiDat() {
             {lotti.map((l) => {
               const c = conteggi.get(l.id) ?? {};
               return (
-                <tr key={l.id} className="clickable" onClick={() => setQuery('lotto', l.id)}>
+                <tr key={l.id} className="clickable" {...attivabile(() => setQuery('lotto', l.id))}>
                   <td><b>Lotto {l.numero}</b></td>
                   <td className="nowrap">{data(l.data)}</td>
                   <td>{NOMI_CANALE[l.canale]}</td>
@@ -379,7 +380,7 @@ function Avvisi() {
             <thead><tr><th>Intestatario</th><th>Causale</th><th className="num">Importo</th><th>Emesso</th><th>Scadenza</th><th>Stato</th></tr></thead>
             <tbody>
               {paginaDi(lista, pagina).map((a) => (
-                <tr key={a.id} className="clickable" onClick={() => setAperto(a.id)}>
+                <tr key={a.id} className="clickable" {...attivabile(() => setAperto(a.id))}>
                   <td><b>{a.intestatario.nome}</b><div className="tiny muted mono">{a.intestatario.codiceFiscale}</div></td>
                   <td>{a.causale}</td>
                   <td className="num">{euro(a.importo)}</td>
@@ -436,7 +437,7 @@ function Morosi() {
               const p = prossimoPasso(a, db.regole, oggi);
               return (
                 <tr key={a.id}>
-                  <td className="clickable" onClick={() => setAperto(a.id)}><b>{a.intestatario.nome}</b><div className="tiny muted">{a.intestatario.indirizzo}</div></td>
+                  <td className="clickable" {...attivabile(() => setAperto(a.id))}><b>{a.intestatario.nome}</b><div className="tiny muted">{a.intestatario.indirizzo}</div></td>
                   <td>{NOMI_MOTIVO_AVVISO[a.motivo]}<div className="tiny muted">{a.causale}</div></td>
                   <td className="num">{euro(a.importo)}</td>
                   <td className="num">{numero(giorniTra(a.scadenza, oggi))}</td>

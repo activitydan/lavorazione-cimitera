@@ -10,6 +10,7 @@ import type { AgenziaFunebre, Operatore } from '../data/types';
 import { data, dataOra, nomeCompleto } from '../lib/format';
 import { pdfCartelloQr } from '../lib/pdf';
 import { href, setQuery, useRotta } from '../router';
+import { attivabile } from '../lib/tastiera';
 
 type Tab = 'operatori' | 'agenzie' | 'cittadini' | 'regole' | 'registro';
 const COLORI = ['#2F6FB3', '#8E5BB5', '#1E8C8C', '#C0487A', '#5E9A3A', '#E07B22', '#4F5FB8', '#B8860B', '#D9473F', '#0A2F55'];
@@ -158,7 +159,7 @@ function RigaOperatore({ o, onApri, onModifica, scelto }: { o: Operatore; onApri
   const quadranti = db.quadranti.filter((q) => q.operatoreId === o.id);
   const alertAperti = alertPersonali(db, config, o.id).filter((a) => !db.alertLetti.includes(a.id)).length;
   return (
-    <tr className={`clickable ${scelto ? 'is-sel' : ''}`} onClick={onApri}>
+    <tr className={`clickable ${scelto ? 'is-sel' : ''}`} {...attivabile(onApri)}>
       <td><span className="row gap-8"><Avatar nome={o.nome} colore={o.colore} /><b>{o.nome}</b></span></td>
       <td>{o.ruolo}</td>
       <td className="small">{o.telefono}<br /><span className="muted">{o.email}</span></td>

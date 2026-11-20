@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import {
   Ban, CalendarDays, Camera, CheckCircle2, ChevronLeft, ChevronRight, Download, ExternalLink, List, Map as MapIcon, Plus, Search, X,
 } from 'lucide-react';
@@ -17,6 +17,7 @@ import { aggiungiGiorni, dataBreve, data, GIORNI_BREVI, meseAnno, normalizza, nu
 import { segnapostoImmagine } from '../lib/photo';
 import { useTelefono } from '../lib/schermo';
 import { setQuery, useRotta, vai } from '../router';
+import { attivabile, useEsc } from '../lib/tastiera';
 
 type Vista = 'elenco' | 'calendario';
 const PER_PAGINA = 25;
@@ -212,7 +213,7 @@ function Calendario({ manutenzioni }: { manutenzioni: Manutenzione[] }) {
               <div
                 key={i}
                 className={`cal__day ${!d ? 'is-out' : ''} ${d === oggi ? 'is-today' : ''} ${daProgrammare && d ? 'is-target' : ''}`}
-                onClick={() => d && daProgrammare && setProgramma({ id: daProgrammare, data: d })}
+                {...(d && daProgrammare ? { ...attivabile(() => setProgramma({ id: daProgrammare, data: d })), role: 'button', 'aria-label': `Programma il ${data(d)}` } : {})}
               >
                 {d && <span className="cal__n">{Number(d.slice(8))}</span>}
                 {items.slice(0, 4).map((m) => (
@@ -324,6 +325,8 @@ function ModaleRisolvi({ m, onChiudi }: { m: Manutenzione; onChiudi: () => void 
 }
 
 function DettaglioManutenzione({ m, onChiudi }: { m: Manutenzione; onChiudi: () => void }) {
+  const finestra = useRef<HTMLDivElement>(null);
+  useEsc(onChiudi, finestra);
   const config = useStore((s) => s.config);
   const db = useStore((s) => s.db);
   const telefono = useTelefono();
@@ -333,7 +336,7 @@ function DettaglioManutenzione({ m, onChiudi }: { m: Manutenzione; onChiudi: () 
   const pr = prioritaDef(m.priorita);
   const nome = (id?: string) => (id === 'ufficio' ? UFFICIO : db.operatori.find((o) => o.id === id)?.nome ?? '—');
   return (
-    <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
+    <div className="overlay" ref={finestra} onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
       <div className="modal modal--lg">
         <div className="modal__head">
           <div>

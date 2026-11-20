@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Navigation, Plus, X } from 'lucide-react';
 import { BadgeAvviso } from '../components/Avvisi';
 import { Calendario } from '../components/Calendario';
@@ -11,6 +11,7 @@ import type { Defunto, Pratica, Richiedente, RichiestaAgenzia, Scheda, TipoOpera
 import { aggiungiGiorni, data, dataBreve, nomeCompleto, oggiISO } from '../lib/format';
 import { googleMapsIndicazioni } from '../lib/geo';
 import { setQuery, useRotta, vai } from '../router';
+import { attivabile, useEsc } from '../lib/tastiera';
 
 // L'area dell'agenzia funebre: vede solo le sue operazioni e le sue richieste.
 // Propone giorno e ora; la postazione la assegna l'ufficio quando apre la pratica.
@@ -81,6 +82,8 @@ function ModaleRichiesta({ agenziaId, onChiudi }: { agenziaId: string; onChiudi:
 
 /** La pratica vista dall'agenzia: sola lettura. */
 function Dettaglio({ p, onChiudi }: { p: Pratica; onChiudi: () => void }) {
+  const finestra = useRef<HTMLDivElement>(null);
+  useEsc(onChiudi, finestra);
   const db = useStore((s) => s.db);
   const schede = indiceSchede(db.schede);
   const s = schede.get(p.schedaId);
@@ -88,7 +91,7 @@ function Dettaglio({ p, onChiudi }: { p: Pratica; onChiudi: () => void }) {
   const avviso = db.avvisi.find((a) => a.motivo === 'pratica' && a.riferimentoId === p.id && a.stato !== 'annullato');
   const meta = arrivo ?? s;
   return (
-    <div className="overlay" onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
+    <div className="overlay" ref={finestra} onMouseDown={(e) => e.target === e.currentTarget && onChiudi()}>
       <div className="modal" role="dialog" aria-modal="true">
         <div className="modal__head">
           <div>
@@ -159,7 +162,7 @@ export function AgenziaPage() {
                 {pratiche.map((p) => {
                   const s = schede.get(p.schedaId);
                   return (
-                    <tr key={p.id} className="clickable" onClick={() => setQuery('id', p.id)}>
+                    <tr key={p.id} className="clickable" {...attivabile(() => setQuery('id', p.id))}>
                       <td className="id">{p.numero}</td>
                       <td><BadgeTipo tipo={p.tipo} testo={nomeOperazione(p)} /></td>
                       <td><b>{nomeCompleto(p.defunto)}</b></td>
@@ -186,7 +189,7 @@ export function AgenziaPage() {
                 {richieste.map((r) => {
                   const p = r.praticaId ? db.pratiche.find((x) => x.id === r.praticaId) : undefined;
                   return (
-                    <tr key={r.id} className={p ? 'clickable' : undefined} onClick={() => p && setQuery('id', p.id)}>
+                    <tr key={r.id} className={p ? 'clickable' : undefined} {...(p ? attivabile(() => setQuery('id', p.id)) : {})}>
                       <td className="id">{r.numero}</td>
                       <td><BadgeTipo tipo={r.tipo} /></td>
                       <td><b>{nomeCompleto(r.defunto)}</b></td>
