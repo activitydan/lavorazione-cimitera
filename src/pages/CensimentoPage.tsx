@@ -51,7 +51,7 @@ export function CensimentoPage() {
       <Tabs value={tab} onChange={(t) => setQuery('tab', t)} tabs={[
         { id: 'avanzamento', label: 'Avanzamento', icon: <TrendingUp size={16} /> },
         { id: 'quadranti', label: 'Quadranti', icon: <Layers size={16} />, count: quadranti.length },
-        { id: 'operatori', label: 'Operatori', icon: <Users size={16} />, count: operatori.length },
+        { id: 'operatori', label: 'Rilievi per operatore', icon: <Users size={16} />, count: operatori.length },
         { id: 'verifiche', label: 'Verifiche', icon: <ClipboardCheck size={16} />, count: verifiche.filter((v) => v.stato === 'aperta').length },
         { id: 'strutture', label: 'Colombari e cappelle', icon: <Building2 size={16} />, count: strutture.length },
       ]} />

@@ -1,4 +1,4 @@
-import { useSyncExternalStore } from 'react';
+import { useEffect, useSyncExternalStore } from 'react';
 
 // Router minimo basato sull'hash: funziona su qualsiasi hosting statico
 // e dà un indirizzo a ogni pagina, compresa quella pubblica del Cittadino (#/cittadino).
@@ -51,4 +51,15 @@ export function setQuery(chiave: string, valore: string | null) {
   window.history.replaceState(null, '', `#${r.path}${q ? `?${q}` : ''}`);
   corrente = leggi();
   ascoltatori.forEach((f) => f());
+}
+
+/** Apre la finestra "nuovo" di una sezione quando ci si arriva con ?nuovo=1 (dal pulsante Nuovo in alto), poi toglie il parametro. */
+export function useNuovo(apri: () => void) {
+  const chiesto = useRotta().query.get('nuovo') === '1';
+  useEffect(() => {
+    if (!chiesto) return;
+    apri();
+    setQuery('nuovo', null);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chiesto]);
 }

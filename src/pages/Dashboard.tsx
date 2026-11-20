@@ -99,7 +99,7 @@ export function Dashboard() {
           </div>
         )}
 
-        <Widget titolo="Agenda di oggi" icona={<CalendarDays size={16} />} link={telefono ? undefined : '/operazioni?tab=agenda'} linkLabel="Apri l'agenda" className="bento__alert">
+        <Widget titolo="Agenda di oggi" icona={<CalendarDays size={16} />} link={telefono ? undefined : '/operazioni?tab=calendario'} linkLabel="Apri il calendario" className="bento__alert">
           <div className="alert-list">
             {agenda.length === 0 && <p className="small muted">Nessuna operazione oggi e domani.</p>}
             {(telefono ? agenda.slice(0, 5) : agenda).map((p) => (

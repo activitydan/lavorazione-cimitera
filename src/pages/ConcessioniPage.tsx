@@ -16,7 +16,7 @@ import type { AventeDiritto, Concessionario, Concessione, Scheda } from '../data
 import { scaricaExcel } from '../lib/excel';
 import { pdfContrattoConcessione } from '../lib/pdf';
 import { data, normalizza, numero, oggiISO } from '../lib/format';
-import { setQuery, useRotta } from '../router';
+import { setQuery, useNuovo, useRotta } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
 
 type Tab = 'concessioni' | 'concessionari';
@@ -45,6 +45,7 @@ export function ConcessioniPage() {
   const [tipo, setTipo] = useState('');
   const [pagina, setPagina] = useState(0);
   const [nuova, setNuova] = useState(false);
+  useNuovo(() => setNuova(true));
 
   const conStato = useMemo(() => concessioni.map((c) => {
     const e = statoEffettivo(c, db.regole);

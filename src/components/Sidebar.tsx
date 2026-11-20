@@ -28,12 +28,12 @@ export interface VoceMenu {
 export const VOCI_COMPUTER: VoceMenu[] = [
   { path: '/', label: 'Dashboard', icon: LayoutDashboard },
   { path: '/ricerca', label: 'Ricerca', icon: Search },
-  { path: '/censimento', label: 'Censimento', icon: ClipboardList },
-  { path: '/manutenzioni', label: 'Manutenzioni', icon: Wrench, conteggio: 'manutenzioni' },
+  { path: '/operazioni', label: 'Operazioni cimiteriali', icon: FileText, soloComputer: true },
   { path: '/concessioni', label: 'Concessioni', icon: ScrollText, soloComputer: true },
   { path: '/illuminazione-votiva', label: 'Illuminazione votiva', icon: Lightbulb, soloComputer: true },
-  { path: '/operazioni', label: 'Operazioni cimiteriali', icon: FileText, soloComputer: true },
   { path: '/scadenze', label: 'Scadenze e pagamenti', icon: CalendarClock, soloComputer: true },
+  { path: '/manutenzioni', label: 'Manutenzioni', icon: Wrench, conteggio: 'manutenzioni' },
+  { path: '/censimento', label: 'Censimento', icon: ClipboardList },
   { path: '/amministrazione', label: 'Amministrazione', icon: ShieldCheck, ruoli: ['amministratore'], gruppo: 'Configurazione', soloComputer: true },
   { path: '/impostazioni', label: 'Impostazioni', icon: Settings, ruoli: ['amministratore'], gruppo: 'Configurazione', soloComputer: true },
 ];
@@ -127,7 +127,11 @@ export function Sidebar() {
   const attivo = (v: VoceMenu) => {
     const p = v.path.split('?')[0];
     // la Mappa si apre dalla Dashboard: mentre si è lì resta accesa la voce Dashboard
-    return p === '/' ? rotta.path === '/' || (!telefono && !agenzia && rotta.path === '/mappa') : rotta.path.startsWith(p);
+    if (p === '/') return rotta.path === '/' || (!telefono && !agenzia && rotta.path === '/mappa');
+    // la scheda in vista estesa si apre da Ricerca; sul computer il Nuovo rilievo è lavoro di Censimento
+    if (p === '/ricerca' && rotta.path.startsWith('/scheda')) return true;
+    if (p === '/censimento' && !telefono && rotta.path === '/rilievo') return true;
+    return rotta.path.startsWith(p);
   };
   let gruppo: string | undefined;
 

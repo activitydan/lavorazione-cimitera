@@ -40,7 +40,7 @@ export function ManutenzioniPage() {
   const rotta = useRotta();
   const telefono = useTelefono();
   const utente = useUtente();
-  const vista: Vista = !telefono && rotta.query.get('vista') === 'calendario' ? 'calendario' : 'elenco';
+  const vista: Vista = !telefono && (rotta.query.get('tab') ?? rotta.query.get('vista')) === 'calendario' ? 'calendario' : 'elenco';
   const selId = rotta.query.get('id');
   const config = useStore((s) => s.config);
   const db = useStore((s) => s.db);
@@ -86,7 +86,7 @@ export function ManutenzioniPage() {
       </div>
 
       {!telefono && (
-        <Tabs value={vista} onChange={(v) => setQuery('vista', v === 'calendario' ? 'calendario' : null)} tabs={[
+        <Tabs value={vista} onChange={(v) => { setQuery('vista', null); setQuery('tab', v === 'calendario' ? 'calendario' : null); }} tabs={[
           { id: 'elenco', label: 'Elenco', icon: <List size={16} />, count: lista.length },
           { id: 'calendario', label: 'Calendario', icon: <CalendarDays size={16} /> },
         ]} />

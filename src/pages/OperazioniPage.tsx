@@ -17,11 +17,11 @@ import type { Defunto, DestinazioneResti, Pratica, Richiedente, RichiestaAgenzia
 import { utenzeDi } from '../data/utenze';
 import { aggiungiGiorni, data, dataBreve, euro, GIORNI_BREVI, nomeCompleto, normalizza, numero, oggiISO } from '../lib/format';
 import { pdfPratica, pdfRegistro } from '../lib/pdf';
-import { setQuery, useRotta } from '../router';
+import { setQuery, useNuovo, useRotta } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
 import { tinta, tintaTesto } from '../lib/tinta';
 
-type Tab = 'pratiche' | 'agenda' | 'registro';
+type Tab = 'pratiche' | 'calendario' | 'registro';
 
 const statoP = (id: string) => STATI_PRATICA.find((s) => s.id === id) ?? STATI_PRATICA[0];
 const ora = (p: Pratica) => p.dataOra?.slice(11, 16) ?? '';
@@ -39,11 +39,12 @@ function BadgeTipo({ p }: { p: Pratica }) {
 export function OperazioniPage() {
   const rotta = useRotta();
   const t = rotta.query.get('tab');
-  const tab: Tab = t === 'agenda' || t === 'registro' ? t : 'pratiche';
+  const tab: Tab = t === 'calendario' || t === 'agenda' ? 'calendario' : t === 'registro' ? 'registro' : 'pratiche';
   const selId = rotta.query.get('id');
   const pratiche = useStore((s) => s.db.pratiche);
   // false = chiusa, true = vuota, oppure la richiesta dell'agenzia da cui parte
   const [nuova, setNuova] = useState<boolean | RichiestaAgenzia>(false);
+  useNuovo(() => setNuova(true));
   const sel = selId ? pratiche.find((p) => p.id === selId) : undefined;
   return (
     <div className="page">
@@ -57,12 +58,12 @@ export function OperazioniPage() {
       </div>
       <Tabs value={tab} onChange={(v) => setQuery('tab', v === 'pratiche' ? null : v)} tabs={[
         { id: 'pratiche', label: 'Pratiche', icon: <FolderOpen size={16} />, count: pratiche.filter((p) => p.stato === 'aperta' || p.stato === 'programmata').length },
-        { id: 'agenda', label: 'Agenda', icon: <CalendarDays size={16} /> },
+        { id: 'calendario', label: 'Calendario', icon: <CalendarDays size={16} /> },
         { id: 'registro', label: 'Registro', icon: <BookOpenCheck size={16} /> },
       ]} />
       {tab === 'pratiche' && <RichiesteAgenzie onApri={setNuova} />}
       {tab === 'pratiche' && <Pratiche selId={selId} />}
-      {tab === 'agenda' && <Agenda />}
+      {tab === 'calendario' && <Agenda />}
       {tab === 'registro' && <Registro />}
       {sel && <Dettaglio p={sel} onChiudi={() => setQuery('id', null)} />}
       {nuova && <ModaleNuova richiesta={nuova === true ? undefined : nuova} onChiudi={() => setNuova(false)} onCreata={(id) => { setNuova(false); setQuery('id', id); }} />}

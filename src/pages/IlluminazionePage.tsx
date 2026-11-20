@@ -15,7 +15,7 @@ import {
 } from '../data/utenze';
 import { scaricaExcel } from '../lib/excel';
 import { data, euro, nomeCompleto, normalizza, numero, oggiISO } from '../lib/format';
-import { setQuery, useRotta } from '../router';
+import { setQuery, useNuovo, useRotta } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
 
 type Tab = 'utenze' | 'lampade';
@@ -43,6 +43,7 @@ export function IlluminazionePage() {
   const [stati, setStati] = useState<StatoUtenza[]>(['da_allacciare', 'attiva', 'sospesa']);
   const [pagina, setPagina] = useState(0);
   const [nuova, setNuova] = useState<{ scheda?: Scheda } | null>(null);
+  useNuovo(() => setNuova({}));
 
   const lista = useMemo(() => {
     const t = normalizza(q);

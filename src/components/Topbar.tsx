@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { Bell, Check, ChevronDown, Layers, Menu, MapPin, Plus, Satellite, Search, Route as RouteIcon } from 'lucide-react';
-import { segnaLetti, seleziona, setCimitero, setFiltri, setUi, resetFiltri, useStore, volaA } from '../data/store';
+import { Bell, Check, ChevronDown, FileText, Layers, Lightbulb, Menu, MapPin, MapPinPlus, Plus, Satellite, ScrollText, Search, Route as RouteIcon, Wrench } from 'lucide-react';
+import { apriModale, segnaLetti, seleziona, setCimitero, setFiltri, setUi, resetFiltri, useStore, volaA } from '../data/store';
 import { descrizioneScheda, NOMI_CATEGORIA_ALERT, testoRicerca, useAlert, useCimitero, useDatiCimitero, useSchedeCimitero, type AlertItem } from '../data/selectors';
 import type { CategoriaAlert, StileMappa } from '../data/types';
 import { dataBreve, normalizza, numero } from '../lib/format';
@@ -273,6 +273,42 @@ export function TopbarAgenzia() {
   );
 }
 
+/** Sul computer: da qui partono le cose che si creano più spesso alla scrivania. Il rilievo, lavoro da campo, resta in fondo. */
+const VOCI_NUOVO = [
+  { label: 'Pratica', nota: 'Operazione cimiteriale', icon: FileText, fai: () => vai('/operazioni?nuovo=1') },
+  { label: 'Concessione', nota: 'Contratto su una postazione', icon: ScrollText, fai: () => vai('/concessioni?nuovo=1') },
+  { label: 'Allaccio votivo', nota: 'Nuova utenza votiva', icon: Lightbulb, fai: () => vai('/illuminazione-votiva?nuovo=1') },
+  { label: 'Segnalazione di manutenzione', nota: 'Guasto o lavoro da fare', icon: Wrench, fai: () => apriModale({ tipo: 'manutenzione' }) },
+  { label: 'Rilievo', nota: 'Censire una postazione', icon: MapPinPlus, fai: () => vai('/rilievo') },
+];
+
+function MenuNuovo() {
+  const [aperto, setAperto] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
+  const pulsante = useRef<HTMLButtonElement>(null);
+  useFuori(ref, () => setAperto(false));
+  const chiudi = () => { setAperto(false); pulsante.current?.focus(); };
+  return (
+    <div ref={ref} style={{ position: 'relative' }} onKeyDown={(e) => { if (e.key === 'Escape' && aperto) { e.stopPropagation(); chiudi(); } }}>
+      <button ref={pulsante} className="btn btn--success topbar__new" onClick={() => setAperto(!aperto)} aria-haspopup="menu" aria-expanded={aperto}>
+        <Plus size={16} />
+        <span>Nuovo</span>
+        <ChevronDown size={14} />
+      </button>
+      {aperto && (
+        <div className="popover menu-nuovo" role="menu" aria-label="Cosa vuoi creare">
+          {VOCI_NUOVO.map((v) => (
+            <button key={v.label} className="popover__item" role="menuitem" onClick={() => { setAperto(false); v.fai(); }}>
+              <v.icon size={16} />
+              <span className="grow"><b>{v.label}</b><span className="tiny muted">{v.nota}</span></span>
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function Topbar() {
   const rotta = useRotta();
   const home = rotta.path === '/';
@@ -292,10 +328,7 @@ export function Topbar() {
       <div className="grow" />
       {telefono && <CampanellaAlert />}
       {home && !telefono && (
-        <button className="btn btn--success topbar__new" onClick={() => vai('/rilievo')}>
-          <Plus size={16} />
-          <span>Nuovo rilievo</span>
-        </button>
+        <MenuNuovo />
       )}
     </header>
   );
