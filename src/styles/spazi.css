@@ -340,7 +340,7 @@
 
 
 /* riquadro dell'utente in fondo al menu: un nome lungo resta su una riga e si tronca */
-.sidebar__foot .utente, .sidebar__foot .user-chip { min-width: 0; max-width: 100%; }
+.sidebar__foot .user-chip { min-width: 0; }
 .sidebar__foot .user-chip__txt { min-width: 0; }
 .sidebar__foot .user-chip__txt b, .sidebar__foot .user-chip__txt span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
