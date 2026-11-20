@@ -46,7 +46,7 @@
   border-radius: var(--radius-sm);
   color: #c9d5e3;
   font-weight: 600;
-  font-size: 14.5px;
+  font-size: 14px;
   text-decoration: none !important;
   transition: background 0.15s, color 0.15s;
   position: relative;
@@ -65,8 +65,8 @@
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
   color: #fff;
-  font-size: 11.5px;
-  font-weight: 800;
+  font-size: 12px;
+  font-weight: 700;
   display: grid;
   place-items: center;
 }
@@ -76,11 +76,9 @@
 .nav-item__ico .icon-btn__dot { top: -4px; right: -5px; letter-spacing: 0; }
 .nav-sep {
   margin: 14px 14px 6px;
-  font-size: 10.5px;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
+  font-size: 11px;
   color: #6f8299;
-  font-weight: 800;
+  font-weight: 700;
 }
 
 .sidebar__foot {
@@ -92,7 +90,7 @@
   align-items: center;
   gap: 8px;
   margin-top: 12px;
-  font-size: 10.5px;
+  font-size: 11px;
   letter-spacing: 0.08em;
   color: #7f92a8;
 }
@@ -182,7 +180,6 @@
   .hamburger { display: inline-flex; }
   .topbar { padding: 0 12px; gap: 8px; }
   .page { padding: 16px 14px 40px; }
-  h1 { font-size: 20px; }
 }
 
 /* piede del menu: utente e campanella degli alert, come nel frame Figma */

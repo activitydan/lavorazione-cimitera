@@ -302,7 +302,7 @@ function AnteprimaScheda({ evidenzia }: { evidenzia?: string }) {
             if (!cs.length) return null;
             return (
               <div key={s.id} className="col gap-8">
-                <div className="upper muted" style={{ fontSize: 10 }}>{s.label}</div>
+                <div className="upper muted" style={{ fontSize: 11 }}>{s.label}</div>
                 <div className="row row--wrap gap-4">
                   {cs.filter((c) => c.tipo === 'flag').map((c) => (
                     <span key={c.id} className={c.id === evidenzia ? 'anteprima__hl' : ''}>

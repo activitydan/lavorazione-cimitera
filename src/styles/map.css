@@ -11,7 +11,7 @@
 }
 .cmap__leaflet.is-drawing { cursor: crosshair; }
 .cmap__leaflet.is-drawing .leaflet-interactive { cursor: crosshair; }
-.leaflet-control-attribution { font-size: 10px; background: rgba(255, 255, 255, 0.75) !important; border-radius: var(--radius-xs) 0 0 0; }
+.leaflet-control-attribution { font-size: 11px; background: rgba(255, 255, 255, 0.75) !important; border-radius: var(--radius-xs) 0 0 0; }
 
 .map-ctrl {
   position: absolute;
@@ -31,7 +31,7 @@
   height: 40px;
   border: none;
   background: #fff;
-  font-size: 22px;
+  font-size: 20px;
   font-weight: 600;
   color: var(--text);
   display: grid;
@@ -46,7 +46,7 @@
 .lbl::before { display: none !important; }
 .lbl-viale {
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   color: #4b5a6b;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -54,7 +54,7 @@
   white-space: nowrap;
 }
 .lbl-viale.lbl--sat { color: #fff; text-shadow: 0 0 3px rgba(0, 0, 0, 0.9), 0 0 8px rgba(0, 0, 0, 0.6); }
-.lbl-area { font-size: 10.5px; font-weight: 800; color: #8f8466; letter-spacing: 0.05em; text-transform: uppercase; }
+.lbl-area { font-size: 11px; font-weight: 700; color: #8f8466; letter-spacing: 0.05em; text-transform: uppercase; }
 .z-lo .lbl-viale, .z-lo .lbl-area, .z-lo .str-lbl { display: none; }
 
 .q-lbl {
@@ -75,8 +75,8 @@
   position: absolute;
   transform: translate(-50%, -50%);
   white-space: nowrap;
-  font-size: 10.5px;
-  font-weight: 800;
+  font-size: 11px;
+  font-weight: 700;
   color: #fff;
   background: rgba(15, 27, 45, 0.78);
   padding: 2px 7px;
@@ -92,8 +92,8 @@
   border-radius: 999px;
   background: var(--blu);
   color: #fff;
-  font-weight: 800;
-  font-size: 11.5px;
+  font-weight: 700;
+  font-size: 12px;
   display: grid;
   place-items: center;
   border: 1px solid #fff;
@@ -105,7 +105,7 @@
   background: var(--verde-600);
   color: #fff;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   padding: 4px 9px;
   border-radius: var(--radius-sm) var(--radius-sm) var(--radius-sm) 0;
   white-space: nowrap;
@@ -133,7 +133,7 @@
   line-height: 1.35;
 }
 .tt b { color: var(--navy); }
-.tt-extra { color: var(--blu); font-weight: 800; }
+.tt-extra { color: var(--blu); font-weight: 700; }
 
 .sel-wrap { position: relative; }
 .sel-ring, .sel-pulse { position: absolute; left: 0; top: 0; border-radius: 50%; transform: translate(-50%, -50%); }
@@ -171,9 +171,9 @@
 .map-anchor--below .map-card::after { bottom: auto; top: -7px; }
 .map-card__top { display: flex; gap: 11px; }
 .map-card__thumb { width: 74px; height: 62px; border-radius: var(--radius-sm); object-fit: cover; flex: none; background: var(--surface-3); }
-.map-card__id { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--navy); }
-.map-card__sub { color: var(--muted); font-size: 12.5px; }
-.map-card__name { font-weight: 800; font-size: 13.5px; margin-top: 2px; }
+.map-card__id { font-family: var(--font-display); font-weight: 800; font-size: 14px; color: var(--navy); }
+.map-card__sub { color: var(--muted); font-size: 12px; }
+.map-card__name { font-weight: 700; font-size: 13px; margin-top: 2px; }
 .map-card__flags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 9px; }
 .map-card__actions { display: flex; gap: 6px; margin-top: 10px; }
 .map-card__close { position: absolute; top: 6px; right: 6px; }
@@ -203,5 +203,5 @@
 .map-legend__item { display: inline-flex; align-items: center; gap: 7px; border: none; background: transparent; padding: 3px 4px; border-radius: var(--radius-xs); font-weight: 700; color: inherit; }
 .map-legend__item:hover { background: var(--surface-2); }
 .map-legend__item.is-off { opacity: 0.38; }
-.map-legend__item .n { color: var(--faint); font-weight: 700; font-size: 11.5px; }
+.map-legend__item .n { color: var(--faint); font-weight: 700; font-size: 12px; }
 .map-legend__sep { width: 1px; height: 20px; background: var(--border); }

@@ -125,7 +125,7 @@ export function Dashboard() {
               size={112}
               spessore={13}
               dati={[{ id: 'c', label: 'Censite', valore: schede.length, colore: '#79AA4F' }, { id: 'r', label: 'Da censire', valore: Math.max(0, stimate - schede.length), colore: '#E2E7EE' }]}
-              centro={<div className="display" style={{ fontSize: 21, fontWeight: 800 }}>{stimate ? percentuale(schede.length, stimate) : 0}%</div>}
+              centro={<div className="display" style={{ fontSize: 20, fontWeight: 800 }}>{stimate ? percentuale(schede.length, stimate) : 0}%</div>}
               sotto={<div className="tiny muted">censito</div>}
             />
             <div className="col gap-4 grow">

@@ -107,8 +107,8 @@
 .entra__voce .grow > span { font-size: 13px; color: var(--muted); }
 .entra__voce > svg { color: var(--muted); flex: none; }
 .entra__ico { display: grid; place-items: center; flex: none; color: var(--navy); }
-.entra__nota { font-size: 12.5px; color: var(--muted); text-align: center; }
-.entra__firma { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
+.entra__nota { font-size: 12px; color: var(--muted); text-align: center; }
+.entra__firma { font-size: 12px; color: var(--muted); }
 
 /* ---------- riquadro dell'utente in fondo al menu ---------- */
 .utente { position: relative; min-width: 0; }
@@ -183,7 +183,7 @@
 @media (max-width: 1100px) { .agenda--settimana { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- Scadenze e pagamenti ---------- */
-.simulato { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--orange-50); color: var(--orange-700); font-size: 12.5px; }
+.simulato { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--orange-50); color: var(--orange-700); font-size: 13px; }
 .canale { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
 .canale.is-on { border-color: var(--blu); background: var(--blu-50); }
 .canale .grow { display: flex; flex-direction: column; gap: 2px; }
@@ -206,7 +206,7 @@
 .calg .cal__day.is-out { cursor: default; }
 .calg .cal__day.is-sel { box-shadow: inset 0 0 0 2px var(--blu); }
 .calg .cal__item { overflow: hidden; text-overflow: ellipsis; cursor: pointer; }
-.calg .cal__item b { font-weight: 800; }
+.calg .cal__item b { font-weight: 700; }
 .calg .cal__item.is-attesa, .calg__voce.is-attesa { border-left-style: dashed; background: repeating-linear-gradient(135deg, var(--surface-2), var(--surface-2) 6px, #fff 6px, #fff 12px); }
 .calg__punti { display: none; gap: 3px; margin-top: auto; }
 .calg__punti i { width: 7px; height: 7px; border-radius: 50%; }
@@ -215,10 +215,10 @@
 .calg__voce { display: flex; align-items: flex-start; gap: 10px; text-align: left; border: 1px solid var(--border); border-left: 4px solid; border-radius: var(--radius-sm); background: #fff; padding: 8px 10px; cursor: pointer; }
 .calg__voce:hover { background: var(--surface-2); }
 .calg__voce .grow { display: flex; flex-direction: column; min-width: 0; font-size: 13px; }
-.calg__voce .mono { font-size: 12.5px; padding-top: 1px; min-width: 38px; }
+.calg__voce .mono { font-size: 12px; padding-top: 1px; min-width: 38px; }
 .calg__calendari { border-top: 1px solid var(--border); padding: 12px 16px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
 .calg__calendari .upper { grid-column: 1 / -1; margin-bottom: 4px; }
-.calg__cal { display: flex; align-items: center; gap: 8px; border: none; background: none; padding: 4px 0; font-size: 12.5px; font-weight: 700; color: var(--text); cursor: pointer; text-align: left; }
+.calg__cal { display: flex; align-items: center; gap: 8px; border: none; background: none; padding: 4px 0; font-size: 12px; font-weight: 700; color: var(--text); cursor: pointer; text-align: left; }
 .calg__spunta { width: 16px; height: 16px; flex: none; border-radius: var(--radius-xs); border: 2px solid var(--border-strong); display: grid; place-items: center; color: #fff; }
 @media (max-width: 1100px) {
   .calg__corpo { grid-template-columns: minmax(0, 1fr); }
@@ -248,7 +248,7 @@
 .doc__apri:hover b { text-decoration: underline; }
 .doc__nuovo { margin-top: 8px; padding: 12px; border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); display: flex; flex-direction: column; gap: 8px; }
 .cella2d { position: relative; }
-.cella2d__spazi { position: absolute; top: 3px; right: 5px; font-style: normal; font-size: 9px; font-weight: 800; opacity: 0.75; }
+.cella2d__spazi { position: absolute; top: 3px; right: 5px; font-style: normal; font-size: 11px; font-weight: 700; opacity: 0.75; }
 
 
 /* ---------- Amministrazione: pagina del cittadino con il QR ---------- */
@@ -290,7 +290,7 @@
   .page--home .bento__map-legend::-webkit-scrollbar { display: none; }
   .page--home .bento__map-legend .legend__item { flex: none; box-shadow: none; border: 1px solid var(--border); white-space: nowrap; }
   .bento__azioni { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
-  .bento__azioni .azione { min-height: 64px; font-size: 11.5px; line-height: 1.2; text-align: center; }
+  .bento__azioni .azione { min-height: 64px; font-size: 12px; line-height: 1.2; text-align: center; }
   /* i riquadri prendono l'altezza del loro contenuto */
   .page--home .bento__alert, .page--home .bento__censite, .page--home .bento__manut, .page--home .bento__attivita { height: auto; max-height: none; }
   .page--home .bento__alert .widget__body, .page--home .bento__attivita .widget__body, .page--home .bento__censite .widget__body, .page--home .bento__manut .widget__body { overflow: visible; margin-bottom: 0; }
@@ -326,3 +326,7 @@
 .table--fitta th:first-child, .table--fitta td:first-child { padding-left: 16px; }
 .table--fitta th:last-child, .table--fitta td:last-child { padding-right: 16px; }
 .table abbr { text-decoration: none; cursor: help; }
+
+
+/* ---------- Testo: i paragrafi dentro riquadri e finestre non superano i 75 caratteri per riga ---------- */
+.card p, .modal__body p, .drawer__body p { max-width: 75ch; }

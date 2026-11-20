@@ -108,7 +108,7 @@ function Avanzamento() {
       <div className="kpi-grid">
         <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Schede censite</span><span className="kpi__value">{numero(schede.length)}<small>/ {numero(stimate)}</small></span><Progress value={schede.length} max={stimate} verde small /></span></div>
         <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Ultimi 30 giorni</span><span className="kpi__value">{numero(ultimi30)}</span><span className="kpi__sub">circa {media} schede per giorno lavorativo</span></span></div>
-        <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Fine stimata</span><span className="kpi__value" style={{ fontSize: 22 }}>{fine ? dataBreve(fine) : '—'}</span><span className="kpi__sub">{numero(restanti)} postazioni da censire</span></span></div>
+        <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Fine stimata</span><span className="kpi__value" style={{ fontSize: 20 }}>{fine ? dataBreve(fine) : '—'}</span><span className="kpi__sub">{numero(restanti)} postazioni da censire</span></span></div>
         <button className="card kpi-card card--link" onClick={() => setQuery('tab', 'verifiche')}><span className="kpi"><span className="kpi__label">Da verificare</span><span className="kpi__value" style={{ color: 'var(--warn-700)' }}>{daVerificare}</span><span className="kpi__sub">{incompleti} con dati anagrafici incompleti</span></span></button>
       </div>
       <div className="griglia griglia--3">
@@ -121,7 +121,7 @@ function Avanzamento() {
           <h3>Stato delle postazioni</h3>
           <div className="stato-post mt-16">
             <Ciambella size={150} spessore={20} dati={stati.map((x) => ({ id: x.id, label: x.label, valore: perStato[x.id] ?? 0, colore: x.colore }))}
-              centro={<div className="display" style={{ fontSize: 22, fontWeight: 800 }}>{numero(schede.length)}</div>} sotto={<div className="tiny muted">schede</div>} />
+              centro={<div className="display" style={{ fontSize: 20, fontWeight: 800 }}>{numero(schede.length)}</div>} sotto={<div className="tiny muted">schede</div>} />
             <dl className="stato-post__legenda">
               {stati.map((x) => (
                 <div key={x.id} className="stato-post__riga">
