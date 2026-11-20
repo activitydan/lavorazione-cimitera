@@ -1,29 +1,33 @@
 # Information Architecture: CimiTera
 
-Prima stesura del 20 novembre 2026. Descrive la struttura di oggi, letta dal codice, e propone alcuni spostamenti. **Le proposte non sono ancora nel codice: si fanno solo quelle che Dan approva.**
+Seconda stesura del 20 novembre 2026. Descrive la struttura com'è adesso nel codice. Le dieci proposte della prima stesura sono state approvate da Dan e fatte lo stesso giorno.
 
-Punti fermi, già decisi: menu a lista unica; sul computer la Mappa si apre dalla Dashboard e non è nel menu; niente restyling, colori e caratteri di oggi ([DESIGN.md](../../DESIGN.md)); telefono fedele al computer; niente 3D. Le parole sono quelle del [glossario](../../GLOSSARY.md).
+**Per tornare a prima delle proposte:** etichetta `backup-prima-della-struttura` e ramo `backup/prima-della-struttura` nel repository di lavorazione (commit `dfd4e0d`).
 
-Dato di partenza per le proposte (risposta di Dan): in ufficio le quattro cose più frequenti pesano uguale. Sono cercare una postazione o un defunto, seguire le operazioni del giorno, seguire scadenze e pagamenti, lavorare sulle concessioni. Nessuna delle quattro deve stare più lontana delle altre.
+Punti fermi: menu a lista unica; sul computer la Mappa si apre dalla Dashboard e non è nel menu; niente restyling, colori e caratteri di oggi ([DESIGN.md](../../DESIGN.md)); telefono fedele al computer; niente 3D. Le parole sono quelle del [glossario](../../GLOSSARY.md).
 
-## Proposte di spostamento
+Dato di partenza (risposta di Dan): in ufficio le quattro cose più frequenti pesano uguale. Sono cercare una postazione o un defunto, seguire le operazioni del giorno, seguire scadenze e pagamenti, lavorare sulle concessioni. Nessuna delle quattro deve stare più lontana delle altre.
 
-Ogni proposta ha un numero: basta dire quali vanno fatte.
+## Cosa è cambiato con le dieci proposte
 
-| N. | Proposta | Oggi | Perché | Peso |
-|---|---|---|---|---|
-| 1 | **La ricerca in alto trova tutto e non ti sposta.** Risultati divisi per gruppo: postazioni e defunti, concessioni, pratiche, utenze votive, aree. Una postazione si apre nel pannello di lato, sulla pagina dove sei; concessione, pratica e utenza aprono la loro finestra; solo le aree portano alla Mappa. | Trova solo postazioni e aree, e porta sempre alla Mappa, anche se stavi lavorando in Concessioni. | Tutti e quattro i lavori d'ufficio partono da un nome o da un numero. | Medio |
-| 2 | **Sul computer il pulsante verde diventa "Nuovo"**, con cinque scelte: Pratica, Concessione, Allaccio votivo, Segnalazione di manutenzione, Rilievo. Sul telefono resta "Nuovo rilievo". | In alto c'è solo "Nuovo rilievo". | Il rilievo si fa sul campo con il telefono; alla scrivania si creano pratiche, concessioni e allacci. | Piccolo |
-| 3 | **Dashboard: riquadro "Scadenze e pagamenti" al posto di "Attività recente".** Quattro numeri che aprono la linguetta giusta: concessioni in scadenza, scadute, avvisi da pagare, morosi. | In basso ci sono Censimento, Manutenzione, Attività recente. Scadenze e concessioni non compaiono. | "Attività recente" ripete il Registro modifiche di Amministrazione. Cambia la decisione del 12 novembre ("Attività recente resta"). | Piccolo |
-| 4 | **Ordine del menu:** Dashboard, Ricerca, Operazioni cimiteriali, Concessioni, Illuminazione votiva, Scadenze e pagamenti, Manutenzioni, Censimento. | Censimento e Manutenzioni vengono prima delle voci d'ufficio. | Le quattro cose frequenti stanno subito sotto Ricerca. Il Censimento va in fondo perché è una campagna che finisce. | Piccolo |
-| 5 | **Una parola sola per la vista a giorni: "Calendario".** La linguetta "Agenda" di Operazioni cimiteriali diventa "Calendario". "Agenda di oggi" resta il nome dell'elenco di oggi e domani sulla Dashboard. | "Agenda" in Operazioni, "Calendario" in Manutenzioni, sulla Dashboard e per le agenzie. | Stessa cosa, stesso nome. | Minimo |
-| 6 | **Un calendario solo.** Operazioni e Manutenzioni usano il calendario grande della Dashboard, già filtrato sul loro argomento, e tengono le loro azioni (vista a settimana, scegliere il giorno di una manutenzione). | Tre calendari diversi per aspetto e per comportamento. | Chi impara a leggerne uno li sa leggere tutti. | Grande |
-| 7 | **Censimento › "Operatori" diventa "Rilievi per operatore".** | Due linguette "Operatori": in Censimento (quanto ha rilevato ognuno) e in Amministrazione (aggiungere e togliere persone). | Stesso nome per due cose diverse. | Minimo |
-| 8 | **Il menu dice sempre dove sei.** Sulla scheda in vista estesa resta accesa "Ricerca"; sul Nuovo rilievo resta accesa "Censimento". | In quelle due pagine nel menu non è accesa nessuna voce. | Come già succede per la Mappa, che tiene accesa "Dashboard". | Minimo |
-| 9 | **Agenzia funebre: "Pratiche" e "Richieste" in un elenco solo, "Operazioni"**, con lo stato: in attesa, confermata, eseguita, rifiutata. Il menu dell'agenzia passa a due voci. Da valutare. | Tre voci: Calendario, Pratiche, Richieste. | Per l'agenzia è la stessa operazione in due momenti. | Medio |
-| 10 | **Stessa regola per gli indirizzi delle linguette.** Manutenzioni passa a `?tab=` come tutte le altre sezioni; i vecchi collegamenti continuano a funzionare. | Manutenzioni usa `?vista=calendario`, le altre sezioni `?tab=`. | Una regola sola: chi apre un collegamento arriva sempre alla linguetta giusta. | Minimo |
+| N. | Cosa | Prima |
+|---|---|---|
+| 1 | La ricerca in alto trova postazioni e defunti, concessioni, pratiche, utenze votive e aree, divise per gruppo. Una postazione si apre nel pannello di lato sulla pagina dove sei; concessione, pratica e utenza aprono la loro finestra; solo le aree portano alla Mappa. | Trovava solo postazioni e aree e portava sempre alla Mappa. |
+| 2 | Sul computer il pulsante verde della Dashboard è "Nuovo", con cinque scelte: Pratica, Concessione, Allaccio votivo, Segnalazione di manutenzione, Rilievo. | C'era solo "Nuovo rilievo". |
+| 3 | Sulla Dashboard il riquadro "Scadenze e pagamenti": in scadenza, scadute, da pagare, morosi. | C'era "Attività recente", che ripeteva il Registro modifiche. |
+| 4 | Ordine del menu: Dashboard, Ricerca, Operazioni cimiteriali, Concessioni, Illuminazione votiva, Scadenze e pagamenti, Manutenzioni, Censimento. | Censimento e Manutenzioni venivano prima delle voci d'ufficio. |
+| 5 | La vista a giorni si chiama "Calendario" ovunque. | In Operazioni cimiteriali si chiamava "Agenda". |
+| 6 | Un calendario solo: Dashboard, Operazioni cimiteriali, Manutenzioni e agenzie usano lo stesso. | Tre calendari diversi. |
+| 7 | In Censimento la linguetta è "Rilievi per operatore". | Si chiamava "Operatori", come quella di Amministrazione. |
+| 8 | Nel menu resta accesa "Ricerca" sulla scheda in vista estesa e "Censimento" sul Nuovo rilievo. | Non era accesa nessuna voce. |
+| 9 | Agenzia funebre: un elenco solo, "Operazioni", con lo stato. Menu a due voci. | Tre voci: Calendario, Pratiche, Richieste. |
+| 10 | Manutenzioni usa `?tab=` come le altre sezioni. | Usava `?vista=calendario`. |
 
-Cose che consiglio di **non** toccare: la lista unica del menu, con la sola intestazione "Configurazione"; la Mappa fuori dal menu sul computer; Amministrazione e Impostazioni separate (persone e regole da una parte, campi ed elenchi dall'altra); le Verifiche dentro Censimento sul computer e nel menu sul telefono; il menu del telefono.
+I vecchi indirizzi continuano a funzionare: `?tab=agenda`, `?vista=calendario`, `/pratiche` e `/richieste` dell'agenzia.
+
+Il pulsante "Nuovo" sta solo sulla Dashboard, dov'era "Nuovo rilievo": nelle altre pagine c'è già il pulsante principale della sezione ("Nuova pratica", "Nuova concessione") e due pulsanti principali vicini si farebbero concorrenza.
+
+Lasciati come sono, per scelta: la lista unica del menu con la sola intestazione "Configurazione"; la Mappa fuori dal menu sul computer; Amministrazione e Impostazioni separate; le Verifiche dentro Censimento sul computer e nel menu sul telefono; il menu del telefono.
 
 ## Site Map
 
@@ -37,34 +41,34 @@ Indirizzi dopo il `#`. Tra parentesi chi può aprire la pagina, se non è di tut
 **Operatore e Amministratore, sul computer**
 - Dashboard `/`
   - Mappa `/mappa`: si apre da "Apri la mappa"; nel menu resta accesa Dashboard
-- Ricerca `/ricerca`: viste "Schede" e "Defunti"
-  - Scheda nel pannello di lato: si apre da qualunque elenco e dalla Mappa
-  - Scheda in vista estesa `/scheda/ID`
-- Censimento `/censimento`
-  - Avanzamento `?tab=avanzamento`
-  - Quadranti `?tab=quadranti`
-  - Operatori `?tab=operatori` (proposta 7)
-  - Verifiche `?tab=verifiche`
-  - Colombari e cappelle `?tab=strutture`, con la griglia a parete di ogni struttura
-  - Nuovo rilievo `/rilievo`: dal pulsante verde in alto
-- Manutenzioni `/manutenzioni`
-  - Elenco, con la finestra della manutenzione `?id=ID`
-  - Calendario `?vista=calendario` (proposta 10)
+- Ricerca `/ricerca`: viste "Schede" e "Defunti" (`?vista=defunti`)
+  - Scheda nel pannello di lato: si apre da qualunque elenco, dalla Mappa e dalla ricerca in alto
+  - Scheda in vista estesa `/scheda/ID`: nel menu resta accesa Ricerca
+- Operazioni cimiteriali `/operazioni`
+  - Pratiche, con la finestra della pratica `?id=ID`; qui arrivano le richieste delle agenzie
+  - Calendario `?tab=calendario`: settimana o mese, tutti i cimiteri o uno
+  - Registro `?tab=registro`
 - Concessioni `/concessioni`
-  - Concessioni `?tab=concessioni`, con la finestra della concessione `?id=ID`
+  - Concessioni, con la finestra della concessione `?id=ID`
   - Concessionari `?tab=concessionari`
 - Illuminazione votiva `/illuminazione-votiva`
-  - Utenze `?tab=utenze`, con la finestra dell'utenza `?id=ID`
+  - Utenze, con la finestra dell'utenza `?id=ID`
   - Lampade da controllare `?tab=lampade`
-- Operazioni cimiteriali `/operazioni`
-  - Pratiche `?tab=pratiche`, con la finestra della pratica `?id=ID`; qui arrivano le richieste delle agenzie
-  - Agenda `?tab=agenda` (proposta 5)
-  - Registro `?tab=registro`
 - Scadenze e pagamenti `/scadenze`
-  - Scadenzario `?tab=scadenzario`
+  - Scadenzario
   - Invii DAT `?tab=invii`, con il singolo invio `?lotto=ID`
   - Avvisi di pagamento `?tab=avvisi`
   - Morosi `?tab=morosi`
+- Manutenzioni `/manutenzioni`
+  - Elenco, con la finestra della manutenzione `?id=ID`
+  - Calendario `?tab=calendario`, con l'elenco "Da programmare"
+- Censimento `/censimento`
+  - Avanzamento
+  - Quadranti `?tab=quadranti`
+  - Rilievi per operatore `?tab=operatori`
+  - Verifiche `?tab=verifiche`
+  - Colombari e cappelle `?tab=strutture`, con la griglia a parete di ogni struttura
+  - Nuovo rilievo `/rilievo`: da "Nuovo" sulla Dashboard; nel menu resta accesa Censimento
 - Configurazione (solo Amministratore)
   - Amministrazione `/amministrazione`: Operatori, Agenzie funebri, Pagina del cittadino, Regole del Comune, Registro modifiche
   - Impostazioni `/impostazioni`: Campi della scheda, Elenchi
@@ -76,16 +80,15 @@ Indirizzi dopo il `#`. Tra parentesi chi può aprire la pagina, se non è di tut
 
 **Agenzia funebre**
 - Calendario `/`
-- Pratiche `/pratiche`
-- Richieste `/richieste` (proposta 9)
+- Operazioni `/operazioni`: richieste e pratiche insieme, con i filtri di stato (`?stato=`)
 
 ## Navigation Model
 
-- **Primary navigation**: menu laterale blu notte, lista unica. Dieci voci per l'Amministratore, otto per l'Operatore, tre per l'Agenzia. Una sola intestazione, "Configurazione".
+- **Primary navigation**: menu laterale blu notte, lista unica. Dieci voci per l'Amministratore, otto per l'Operatore, due per l'Agenzia. Una sola intestazione, "Configurazione". Dopo Dashboard e Ricerca vengono le quattro voci d'ufficio, poi il lavoro sul campo.
 - **Secondary navigation**: linguette sotto il titolo della pagina, da due a cinque. Ogni linguetta ha il suo indirizzo (`?tab=`).
 - **Dettaglio**: una riga apre una finestra (concessione, pratica, utenza, manutenzione) o il pannello di lato (scheda). Non esiste un quarto livello: dal dettaglio si passa a un altro dettaglio con un collegamento, per esempio dalla scheda ad "Apri in Concessioni".
-- **Utility navigation**: nella barra in alto la scelta del cimitero, la ricerca e il pulsante verde. In fondo al menu l'utente (cambia ruolo, simula senza rete) e la campanella degli alert, con i filtri per categoria.
-- **Mobile navigation**: menu a scomparsa da sinistra con sei voci. Sulla Dashboard quattro azioni rapide: Nuovo rilievo, Ricerca, Segnala, Verifiche.
+- **Utility navigation**: nella barra in alto la scelta del cimitero e la ricerca, che trova tutto senza cambiare pagina. Sulla Dashboard del computer il pulsante verde "Nuovo". In fondo al menu l'utente (cambia ruolo, simula senza rete) e la campanella degli alert, con i filtri per categoria.
+- **Mobile navigation**: menu a scomparsa da sinistra con sei voci. Sulla Dashboard quattro azioni rapide: Nuovo rilievo, Ricerca, Segnala, Verifiche. La ricerca in alto resta su postazioni e aree.
 - **Regola della profondità**: al massimo tre passi, menu, linguetta, dettaglio.
 
 ## Content Hierarchy
@@ -93,8 +96,8 @@ Indirizzi dopo il `#`. Tra parentesi chi può aprire la pagina, se non è di tut
 ### Dashboard
 1. Mappa con i conteggi per stato: è la vista d'insieme del cimitero e la porta della Mappa grande.
 2. Agenda di oggi: le operazioni di oggi e di domani.
-3. Calendario grande: operazioni, manutenzioni, verifiche e scadenze del mese.
-4. Riquadri in basso: Censimento, Manutenzione, Attività recente (proposta 3).
+3. Calendario: operazioni, manutenzioni, verifiche e scadenze del mese.
+4. Riquadri in basso: Censimento, Manutenzione, Scadenze e pagamenti. Ogni numero apre l'elenco che conta.
 
 ### Ricerca
 1. Elenco delle schede o dei defunti, con l'interruttore "Schede / Defunti".
@@ -109,7 +112,7 @@ Indirizzi dopo il `#`. Tra parentesi chi può aprire la pagina, se non è di tut
 
 ### Operazioni cimiteriali
 1. Pratiche da lavorare, aperte e programmate, e richieste delle agenzie in attesa.
-2. Agenda della settimana.
+2. Calendario della settimana: per ogni operazione tipo, defunto, postazione, agenzia, operatori. Un segnale avvisa se due operazioni si sovrappongono.
 3. Registro delle operazioni eseguite.
 
 ### Concessioni
@@ -128,12 +131,12 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 ### Manutenzioni
 1. Segnalazioni aperte e programmate, con foto e priorità.
 2. Filtri per stato e categoria.
-3. Calendario per scegliere il giorno.
+3. Calendario: a destra il giorno scelto e l'elenco "Da programmare". Scelta una voce, un clic sul giorno la programma.
 
 ### Censimento
 1. Avanzamento: schede censite, ritmo, fine stimata.
 2. Verifiche da chiudere.
-3. Quadranti, operatori, colombari e cappelle: dati di servizio.
+3. Quadranti, rilievi per operatore, colombari e cappelle: dati di servizio.
 
 ### Pagina del Cittadino
 1. La casella "Nome e cognome".
@@ -143,7 +146,7 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 ### Agenzia funebre
 1. Calendario delle proprie operazioni.
 2. "Richiedi un'operazione".
-3. Stato di pratiche e richieste.
+3. Le tue operazioni: in attesa, confermate, eseguite, rifiutate.
 
 ## User Flows
 
@@ -167,17 +170,20 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 2. Apre la scheda, controlla sul posto.
 3. Chiude con l'esito: dati confermati o corretti.
 
-### Ufficio: trovare una postazione e lavorarci
-1. Ricerca in alto oppure pagina Ricerca.
-2. Sceglie la riga: la scheda si apre nel pannello di lato (proposta 1: senza cambiare pagina).
+### Ufficio: trovare una cosa e lavorarci
+1. Scrive un nome o un numero nella ricerca in alto, da qualunque pagina.
+2. Sceglie il risultato.
+   - Postazione o defunto: la scheda si apre nel pannello di lato, senza cambiare pagina.
+   - Concessione, pratica o utenza: si apre la sua finestra, nella sua sezione.
+   - Viale o quadrante: si va sulla Mappa.
 3. Dalla scheda parte tutto: concessione, utenza votiva, pratica, segnalazione, documenti.
 
 ### Ufficio: registrare un'operazione cimiteriale
-1. Operazioni cimiteriali, "Nuova pratica" (proposta 2: anche da "Nuovo" in alto).
+1. Dashboard, "Nuovo", Pratica. Oppure Operazioni cimiteriali, "Nuova pratica".
 2. Sceglie tipo, defunto, postazione, giorno e ora, operatori.
    - Su richiesta di un'agenzia: la pratica nasce accogliendo la richiesta.
    - Con tariffa: nasce l'avviso di pagamento.
-3. La pratica passa da aperta a programmata e compare in agenda, sul calendario e tra gli alert di chi la esegue.
+3. La pratica passa da aperta a programmata e compare nel calendario e tra gli alert di chi la esegue.
 4. Il giorno dell'operazione si segna "eseguita": la scheda si aggiorna e l'operazione entra nel Registro.
 
 ### Ufficio: accogliere la richiesta di un'agenzia
@@ -186,21 +192,27 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 3. L'agenzia vede la risposta nel suo calendario e nel suo elenco.
 
 ### Ufficio: nuova concessione
-1. Concessioni, "Nuova concessione".
+1. Dashboard, "Nuovo", Concessione. Oppure Concessioni, "Nuova concessione".
 2. Sceglie una postazione senza concessione, il concessionario (persona o ente), la durata.
 3. Nasce il contratto, scaricabile in PDF, e l'avviso di pagamento della tariffa.
 
 ### Ufficio: dalla scadenza al pagamento
-1. Scadenzario: spunta le righe in scadenza.
-2. "Invia tramite DAT": nasce un invio con le lettere di scadenza (simulato).
-3. Rinnovo o chiusura della concessione; per il rinnovo nasce l'avviso di pagamento.
+1. Dashboard, riquadro "Scadenze e pagamenti": un numero porta alla linguetta giusta.
+2. Scadenzario: spunta le righe in scadenza.
+3. "Invia tramite DAT": nasce un invio con le lettere di scadenza (simulato).
+4. Rinnovo o chiusura della concessione; per il rinnovo nasce l'avviso di pagamento.
    - Pagato: fine.
-   - Scaduto: il nome passa tra i Morosi, con sollecito e diffida.
+   - Scaduto: il nome passa tra i Morosi, con i solleciti.
+
+### Ufficio: programmare una manutenzione
+1. Manutenzioni, Calendario.
+2. Sceglie una voce da "Da programmare", a destra.
+3. Clic sul giorno: si apre la finestra con la data già scritta; sceglie gli operatori e salva.
 
 ### Agenzia funebre: chiedere un'operazione
 1. Entra e vede il suo calendario.
 2. "Richiedi un'operazione": tipo, defunto, giorno e ora proposti.
-3. Aspetta la risposta dell'ufficio: confermata (diventa una pratica) o rifiutata.
+3. La richiesta compare in Operazioni come "In attesa". Diventa "Confermata" quando l'ufficio la accoglie, oppure "Rifiutata" con il motivo.
 
 ### Amministratore: adattare la scheda
 1. Impostazioni, Campi della scheda.
@@ -218,16 +230,17 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 | Contratto sulla postazione | Concessione | Chi la ha è il Concessionario. |
 | Contratto della lampada | Utenza votiva | Chi la paga è l'Abbonato. |
 | Inumazione, tumulazione, esumazione, estumulazione, traslazione | Operazione cimiteriale | Il suo fascicolo è la Pratica. |
-| Domanda di un'agenzia | Richiesta | Diventa una pratica quando l'ufficio la accoglie. |
+| Domanda di un'agenzia | Richiesta | Diventa una pratica quando l'ufficio la accoglie. Per l'agenzia sono entrambe "Operazioni". |
 | Guasto o lavoro da fare | Manutenzione; l'azione è "Segnala" | |
 | Controllo assegnato a un operatore | Verifica | |
 | Censire una postazione sul campo | Rilievo | "Nuovo rilievo". |
 | Lettera che avvisa di una scadenza | Lettera di scadenza | Parte con un Invio DAT. |
 | Documento per pagare | Avviso di pagamento | "Avviso" da solo non si usa. |
 | Notifica nella campanella | Alert | |
-| Vista a giorni | Calendario | Oggi in Operazioni si chiama "Agenda" (proposta 5). |
+| Vista a giorni | Calendario | Una parola sola, ovunque. |
 | Elenco di oggi e domani | Agenda di oggi | Solo sulla Dashboard. |
 | Zona del cimitero | Quadrante | Lettera e colore, gli stessi della mappa. |
+| Creare qualcosa dalla Dashboard | Nuovo | Pratica, Concessione, Allaccio votivo, Segnalazione di manutenzione, Rilievo. |
 
 ## Component Reuse Map
 
@@ -235,10 +248,11 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 |---|---|---|
 | Guscio: menu, barra in alto, contenuto | Tutte le pagine tranne Entra come e Cittadino | Per l'agenzia la barra ha solo il cimitero. Sul telefono il menu è a scomparsa. |
 | Linguette | Tutte le sezioni con più viste | La linguetta scelta sta nell'indirizzo. |
-| Tabella con pagine | Ricerca, Concessioni, Illuminazione votiva, Operazioni, Scadenze, Censimento, Amministrazione | Sul telefono la Ricerca diventa un elenco a card. |
-| Pannello della scheda | Ricerca, Mappa, Dashboard e ogni elenco che cita una scheda | Sul telefono è la pagina `/scheda/ID`. |
+| Tabella con pagine | Ricerca, Concessioni, Illuminazione votiva, Operazioni, Scadenze, Censimento, Amministrazione, Agenzia | Sul telefono la Ricerca diventa un elenco a card. |
+| Pannello della scheda | Ogni pagina: si apre da elenchi, Mappa e ricerca in alto | Sul telefono è la pagina `/scheda/ID`. |
 | Finestra di dettaglio | Concessione, pratica, utenza, manutenzione | Si apre con `?id=` e si chiude con Esc. |
-| Calendario grande | Dashboard, Agenzia funebre | Per l'agenzia solo le sue operazioni. Proposta 6: anche Operazioni e Manutenzioni. |
+| Calendario (`src/components/Calendario.tsx`) | Dashboard, Operazioni cimiteriali, Manutenzioni, Agenzia funebre, Amministrazione › Agenzie | Dashboard: tutto, per mese. Operazioni: solo operazioni, settimana o mese, tutti i cimiteri. Manutenzioni: solo manutenzioni, con "Da programmare" e la scelta del giorno. Agenzia: solo le sue operazioni. |
+| Ricerca in alto | Barra in alto | Sul telefono solo postazioni e aree. |
 | Mappa | Dashboard, Mappa, Censimento › Quadranti, Nuovo rilievo, Cittadino | Sulla Dashboard del telefono è ferma. |
 | Griglia a parete | Colombari e cappelle, scheda, Mappa | |
 | Esporta | Ricerca, Concessioni, Illuminazione votiva, Manutenzioni | In Ricerca apre una finestra con Excel, PDF e totali; nelle altre scarica subito l'Excel dell'elenco. |
@@ -252,6 +266,7 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 - **Manutenzioni**: le chiuse escono dalla vista di lavoro con il filtro di stato; 25 per pagina.
 - **Registro modifiche e Storico della scheda** (crescono a ogni modifica): dal più recente. Quando diventano lunghi servono le pagine.
 - **Alert**: letti e non letti, filtri per categoria. Vanno fatti scadere dopo un periodo, altrimenti la campanella si riempie.
+- **Risultati della ricerca in alto**: al massimo sei postazioni e tre per ogni altro gruppo. Chi ne vuole di più va nella sezione.
 - **Documenti della scheda**: pochi per scheda, elenco semplice.
 - **Fisso**: menu, linguette, Regole del Comune, campi della scheda, elenchi. Cambia solo quando lo cambia l'Amministratore.
 
@@ -259,7 +274,8 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 
 - Pattern: `#/sezione`, più `?tab=linguetta` e `?id=dettaglio`. Esempio: `#/operazioni?id=pr-0002` apre la pratica.
 - Segmenti dinamici: solo la scheda, `#/scheda/CODICE`.
-- Altri parametri: `vista` (in Ricerca "schede" o "defunti"; in Manutenzioni il calendario, vedi proposta 10), `stato` (filtro pronto in Manutenzioni), `q` (quadrante evidenziato), `lotto` (invio DAT aperto), `tutte` (sul telefono tutte le manutenzioni e non solo le mie).
+- Altri parametri: `vista` (in Ricerca "schede" o "defunti"), `stato` (filtro pronto in Manutenzioni e nell'elenco dell'agenzia), `q` (quadrante evidenziato), `lotto` (invio DAT aperto), `tutte` (sul telefono tutte le manutenzioni e non solo le mie), `nuovo=1` (apre la finestra "nuovo" della sezione, poi sparisce dall'indirizzo).
 - Regola: ogni linguetta e ogni dettaglio aperto ha un indirizzo. Così il tasto Indietro del browser funziona, e un alert o un collegamento possono portare al punto esatto.
+- Un indirizzo che cambia tiene vivo quello vecchio: `?tab=agenda`, `?vista=calendario`, `/pratiche` e `/richieste` portano ancora nel posto giusto.
 - Fuori dal menu e senza sessione: `#/cittadino`. È l'indirizzo stampato sul cartello con il QR e non deve cambiare.
-- L'agenzia usa indirizzi suoi (`#/`, `#/pratiche`, `#/richieste`): con un altro ruolo `#/pratiche` non esiste.
+- L'agenzia usa indirizzi suoi (`#/` è il suo calendario, `#/operazioni` il suo elenco): la stessa parola porta a pagine diverse secondo il ruolo.
