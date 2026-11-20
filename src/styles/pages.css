@@ -285,7 +285,6 @@
 /* Satellite / Planimetria: le scritte restano finché la mappa è abbastanza larga */
 .bento__map-seg .seg-label { display: inline; }
 @container (max-width: 520px) { .bento__map-seg .seg-label { display: none; } }
-}
 @media (max-width: 1100px) {
   .page--home { height: auto; min-height: 0; display: block; padding: 20px 20px 24px; }
   .page--home .bento { grid-template-rows: none; }
