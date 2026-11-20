@@ -311,3 +311,18 @@
 .table tbody tr.clickable:focus-visible, .table td.clickable:focus-visible { outline: 2px solid var(--blu); outline-offset: -2px; box-shadow: none; }
 .table td.clickable { cursor: pointer; }
 .cal__day[role='button']:focus-visible, .quad__item:focus-visible, .pro__campo:focus-visible { outline: 2px solid var(--blu); outline-offset: -2px; box-shadow: none; }
+
+
+/* ---------- Censimento > Avanzamento: grafici che si leggono a ogni larghezza ---------- */
+.stato-post { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 16px 24px; }
+.stato-post__legenda { flex: 1 1 210px; min-width: 0; margin: 0; display: grid; grid-template-columns: minmax(0, 1fr) auto auto; gap: 8px 12px; align-items: center; font-size: 13px; }
+.stato-post__riga { display: contents; }
+.stato-post__legenda dt { display: flex; align-items: center; gap: 8px; min-width: 0; white-space: nowrap; font-weight: 600; }
+.stato-post__legenda dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.barre__val, .barre__lab { font-variant-numeric: tabular-nums; }
+/* tabella con molte colonne: le intestazioni lunghe vanno su due righe */
+.table--fitta th { white-space: normal; line-height: 1.25; vertical-align: bottom; }
+.table--fitta th, .table--fitta td { padding-left: 8px; padding-right: 8px; }
+.table--fitta th:first-child, .table--fitta td:first-child { padding-left: 16px; }
+.table--fitta th:last-child, .table--fitta td:last-child { padding-right: 16px; }
+.table abbr { text-decoration: none; cursor: help; }

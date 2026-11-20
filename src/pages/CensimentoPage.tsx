@@ -5,7 +5,7 @@ import {
 import { CemeteryMap, ZoomControls } from '../components/map/CemeteryMap';
 import { LocationPicker } from '../components/map/LocationPicker';
 import { BarraPagine, paginaDi } from '../components/Esporta';
-import { Avatar, Barre, Ciambella, Field, Modal, Progress, Seg, StatoBadge, Switch, Tabs } from '../components/ui';
+import { Avatar, Barre, Ciambella, Dot, Field, Modal, Progress, Seg, Switch, Tabs } from '../components/ui';
 import {
   aggiornaQuadrante, apriParete, apriModale, completaVerifica, contaNelPoligono, creaQuadrante, creaStruttura, eliminaQuadrante, indiceSchede,
   resetFiltri, seleziona, toast, useStore,
@@ -13,7 +13,7 @@ import {
 import { conta, descrizioneScheda, labelLista, occupazioneStruttura, useCimitero, useDatiCimitero, useSchedeCimitero, useUtente } from '../data/selectors';
 import { NOMI_STRUTTURA } from '../config/defaults';
 import type { Faccia, LatLng, Quadrante, Struttura, Verifica } from '../data/types';
-import { aggiungiGiorni, data, dataBreve, dataOra, numero, oggiISO, percentuale } from '../lib/format';
+import { aggiungiGiorni, data, dataBreve, dataOra, meseBreve, numero, oggiISO, percentuale } from '../lib/format';
 import { quadranteDi, vialePiuVicino } from '../lib/geo';
 import { useTelefono } from '../lib/schermo';
 import { setQuery, useRotta, vai } from '../router';
@@ -65,6 +65,9 @@ export function CensimentoPage() {
 
 // ---------------------------------------------------------------------------
 
+// nelle tabelle con molte colonne i nomi lunghi degli stati si abbreviano (il nome intero resta al passaggio del mouse)
+const STATI_BREVI: Record<string, string> = { da_verificare: 'Da verif.', da_manutenzionare: 'Da manut.', inaccessibile: 'Inacc.' };
+
 function Avanzamento() {
   const schede = useSchedeCimitero();
   const db = useStore((s) => s.db);
@@ -72,12 +75,16 @@ function Avanzamento() {
   const { quadranti } = useDatiCimitero();
   const oggi = oggiISO();
   const stimate = quadranti.reduce((t, q) => t + q.stimaManufatti, 0);
-  const giorni = useMemo(() => {
+  // una barra per settimana, dal lunedì: sei barre che si leggono a ogni larghezza
+  const settimane = useMemo(() => {
     const perGiorno = conta(schede, (s) => s.rilevatoIl.slice(0, 10));
+    const lunedi = aggiungiGiorni(oggi, -((new Date(`${oggi}T12:00:00`).getDay() + 6) % 7));
     const out = [];
-    for (let i = 44; i >= 0; i--) {
-      const d = aggiungiGiorni(oggi, -i);
-      out.push({ label: i % 7 === 0 ? d.slice(8, 10) : '', valore: perGiorno[d] ?? 0, titolo: `${dataBreve(d)}: ${perGiorno[d] ?? 0} schede` });
+    for (let w = 5; w >= 0; w--) {
+      const inizio = aggiungiGiorni(lunedi, -7 * w);
+      let tot = 0;
+      for (let g = 0; g < 7; g++) tot += perGiorno[aggiungiGiorni(inizio, g)] ?? 0;
+      out.push({ label: `${Number(inizio.slice(8))} ${meseBreve(Number(inizio.slice(5, 7)) - 1)}`, valore: tot, titolo: `Settimana dal ${dataBreve(inizio)}: ${numero(tot)} schede` });
     }
     return out;
   }, [schede, oggi]);
@@ -106,22 +113,24 @@ function Avanzamento() {
       </div>
       <div className="griglia griglia--3">
         <section className="card card--pad">
-          <h3>Schede censite al giorno · ultime 6 settimane</h3>
-          <div className="mt-16"><Barre dati={giorni} altezza={150} colore="#79AA4F" /></div>
+          <h3>Schede censite a settimana</h3>
+          <div className="mt-16"><Barre dati={settimane} altezza={150} colore="#79AA4F" formatta={numero} /></div>
+          <p className="tiny muted mt-8">Ultime sei settimane. Sotto ogni barra, il lunedì da cui parte.</p>
         </section>
         <section className="card card--pad">
           <h3>Stato delle postazioni</h3>
-          <div className="row gap-16 mt-16 row--wrap">
+          <div className="stato-post mt-16">
             <Ciambella size={150} spessore={20} dati={stati.map((x) => ({ id: x.id, label: x.label, valore: perStato[x.id] ?? 0, colore: x.colore }))}
               centro={<div className="display" style={{ fontSize: 22, fontWeight: 800 }}>{numero(schede.length)}</div>} sotto={<div className="tiny muted">schede</div>} />
-            <div className="col gap-8 grow">
+            <dl className="stato-post__legenda">
               {stati.map((x) => (
-                <div key={x.id} className="row row--between gap-16 small">
-                  <StatoBadge stato={x.id} small />
-                  <span className="mono"><b>{numero(perStato[x.id] ?? 0)}</b> <span className="muted">· {percentuale(perStato[x.id] ?? 0, schede.length)}%</span></span>
+                <div key={x.id} className="stato-post__riga">
+                  <dt><Dot colore={x.colore} />{x.label}</dt>
+                  <dd><b>{numero(perStato[x.id] ?? 0)}</b></dd>
+                  <dd className="muted">{percentuale(perStato[x.id] ?? 0, schede.length)}%</dd>
                 </div>
               ))}
-            </div>
+            </dl>
           </div>
         </section>
         <section className="card card--pad">
@@ -146,11 +155,11 @@ function Avanzamento() {
       <section className="card">
         <div className="card__head"><h3>Avanzamento per quadrante</h3></div>
         <div className="table-wrap">
-          <table className="table">
+          <table className="table table--fitta">
             <thead>
               <tr>
-                <th>Quadrante</th><th>Operatore</th><th style={{ width: '20%' }}>Avanzamento</th><th className="num">Censite</th><th className="num">Stimate</th>
-                {stati.map((x) => <th key={x.id} className="num">{x.label}</th>)}
+                <th>Quadrante</th><th>Operatore</th><th style={{ minWidth: 130 }}>Avanzamento</th><th className="num">Censite su stimate</th>
+                {stati.map((x) => <th key={x.id} className="num">{STATI_BREVI[x.id] ? <abbr title={x.label}>{STATI_BREVI[x.id]}</abbr> : x.label}</th>)}
                 <th>Ultimo rilievo</th>
               </tr>
             </thead>
@@ -165,10 +174,9 @@ function Avanzamento() {
                     <td><span className="row gap-8"><span className="q-row__code" style={{ background: q.colore }}>{q.codice}</span><b>{q.nome.split('·')[1]?.trim() ?? q.nome}</b></span></td>
                     <td>{op ? <span className="row gap-8"><Avatar nome={op.nome} colore={op.colore} size="sm" />{op.nome}</span> : <span className="muted">Non assegnato</span>}</td>
                     <td><div className="row gap-8"><div className="grow"><Progress value={qs.length} max={q.stimaManufatti} colore={q.colore} /></div><b className="mono small">{p}%</b></div></td>
-                    <td className="num">{numero(qs.length)}</td>
-                    <td className="num">{numero(q.stimaManufatti)}</td>
+                    <td className="num nowrap"><b>{numero(qs.length)}</b> <span className="muted">su {numero(q.stimaManufatti)}</span></td>
                     {stati.map((x) => <td key={x.id} className="num">{numero(qs.filter((y) => y.stato === x.id).length)}</td>)}
-                    <td className="small muted nowrap">{ultimo ? dataOra(ultimo) : '—'}</td>
+                    <td className="small muted nowrap" title={ultimo ? dataOra(ultimo) : undefined}>{ultimo ? dataBreve(ultimo.slice(0, 10)) : '—'}</td>
                   </tr>
                 );
               })}
