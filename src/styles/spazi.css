@@ -292,9 +292,8 @@
   .bento__azioni { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; }
   .bento__azioni .azione { min-height: 64px; font-size: 12px; line-height: 1.2; text-align: center; }
   /* i riquadri prendono l'altezza del loro contenuto */
-  .page--home .bento__alert, .page--home .bento__censite, .page--home .bento__manut, .page--home .bento__attivita { height: auto; max-height: none; }
-  .page--home .bento__alert .widget__body, .page--home .bento__attivita .widget__body, .page--home .bento__censite .widget__body, .page--home .bento__manut .widget__body { overflow: visible; margin-bottom: 0; }
-  .page--home .bento__attivita .widget__body { padding-bottom: 8px; }
+  .page--home .bento__alert, .page--home .bento__censite, .page--home .bento__manut, .page--home .bento__scadenze { height: auto; max-height: none; }
+  .page--home .bento__alert .widget__body, .page--home .bento__scadenze .widget__body, .page--home .bento__censite .widget__body, .page--home .bento__manut .widget__body { overflow: visible; margin-bottom: 0; }
   .page--home .calg__testa { padding: 12px; }
   .page--home .calg__giorno { padding: 12px; }
   .page--home .calg__calendari { padding: 12px; }

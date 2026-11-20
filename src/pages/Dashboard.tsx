@@ -1,13 +1,14 @@
 import { useMemo } from 'react';
-import { ArrowRight, CalendarDays, ClipboardCheck, ClipboardList, MapPinPlus, Maximize2, Search, Wrench } from 'lucide-react';
+import { ArrowRight, CalendarClock, CalendarDays, ClipboardCheck, ClipboardList, MapPinPlus, Maximize2, Search, Wrench } from 'lucide-react';
 import { Calendario } from '../components/Calendario';
 import { CemeteryMap } from '../components/map/CemeteryMap';
 import { SceltaStileMappa } from '../components/Topbar';
-import { Avatar, Ciambella, Dot, StatoBadge } from '../components/ui';
+import { Ciambella, Dot } from '../components/ui';
 import { apriModale, resetFiltri, seleziona, setFiltri, useStore } from '../data/store';
-import { conta, descrizioneScheda, useCimitero, useDatiCimitero, useSchedeCimitero } from '../data/selectors';
+import { conta, useCimitero, useDatiCimitero, useSchedeCimitero } from '../data/selectors';
 import { COLORI_OPERAZIONE, NOMI_OPERAZIONE } from '../data/pratiche';
-import { aggiungiGiorni, dataOra, nomeCompleto, numero, oggiISO, percentuale } from '../lib/format';
+import { righeScadenzario, statoAvviso } from '../data/scadenze';
+import { aggiungiGiorni, nomeCompleto, numero, oggiISO, percentuale } from '../lib/format';
 import { useTelefono } from '../lib/schermo';
 import { href, vai } from '../router';
 
@@ -41,7 +42,9 @@ export function Dashboard() {
   const stimate = quadranti.reduce((t, x) => t + x.stimaManufatti, 0);
   const perStato = useMemo(() => conta(schede, (s) => s.stato), [schede]);
   const defunti = useMemo(() => schede.reduce((t, s) => t + s.defunti.length, 0), [schede]);
-  const recenti = useMemo(() => [...schede].sort((a, b) => b.rilevatoIl.localeCompare(a.rilevatoIl)).slice(0, 5), [schede]);
+  // scadenze e pagamenti: gli stessi numeri delle linguette di "Scadenze e pagamenti"
+  const scadenze = useMemo(() => righeScadenzario(db, cimitero?.id ?? ''), [db, cimitero?.id]);
+  const avvisi = useMemo(() => db.avvisi.filter((a) => a.cimiteroId === cimitero?.id).map((a) => statoAvviso(a)), [db.avvisi, cimitero?.id]);
   const settimana = useMemo(() => schede.filter((s) => s.rilevatoIl.slice(0, 10) >= aggiungiGiorni(oggi, -7)).length, [schede, oggi]);
   const urgenti = manutenzioni.filter((m) => m.stato !== 'risolta' && m.stato !== 'annullata' && m.priorita === 'urgente').length;
 
@@ -145,21 +148,13 @@ export function Dashboard() {
           </div>
         </Widget>
 
-        <Widget titolo="Attività recente" icona={<ClipboardList size={16} />} className="bento__attivita">
-          <div className="list">
-            {recenti.map((s) => {
-              const op = db.operatori.find((o) => o.id === s.rilevatoDa);
-              return (
-                <button key={s.id} className="list-item" style={{ padding: '7px 2px' }} onClick={() => seleziona(s.id)}>
-                  {op ? <Avatar nome={op.nome} colore={op.colore} size="sm" /> : <Avatar nome="Ufficio" size="sm" />}
-                  <span className="grow" style={{ minWidth: 0 }}>
-                    <b className="ellipsis" style={{ display: 'block' }}>{descrizioneScheda(s)}</b>
-                    <span className="tiny muted">{op?.nome ?? 'Ufficio'} · {dataOra(s.rilevatoIl)}</span>
-                  </span>
-                  <StatoBadge stato={s.stato} small />
-                </button>
-              );
-            })}
+        <Widget titolo="Scadenze e pagamenti" icona={<CalendarClock size={16} />} link={telefono ? undefined : '/scadenze'} className="bento__scadenze">
+          {/* sul telefono si leggono soltanto: la pagina delle scadenze si usa dal computer */}
+          <div className="mini-kpis">
+            <a href={telefono ? undefined : href('/scadenze')}><b>{numero(scadenze.filter((r) => r.giorni >= 0).length)}</b><span>in scadenza</span></a>
+            <a href={telefono ? undefined : href('/scadenze')}><b>{numero(scadenze.filter((r) => r.giorni < 0).length)}</b><span>scadute</span></a>
+            <a href={telefono ? undefined : href('/scadenze?tab=avvisi')}><b>{numero(avvisi.filter((a) => a === 'da_pagare').length)}</b><span>da pagare</span></a>
+            <a href={telefono ? undefined : href('/scadenze?tab=morosi')} className="is-danger"><b>{numero(avvisi.filter((a) => a === 'scaduto').length)}</b><span>morosi</span></a>
           </div>
         </Widget>
       </div>
