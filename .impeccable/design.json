@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-11-20T15:54:36Z",
+  "generatedAt": "2026-11-20T17:23:21Z",
   "title": "Design System: CimiTera",
   "extensions": {
     "colorMeta": {
@@ -670,7 +670,7 @@
       "refersTo": "button-primary",
       "description": "L'azione principale della schermata. Uno per schermata.",
       "html": "<button class=\"ds-btn ds-btn-primary\">Nuovo rilievo</button>",
-      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; } .ds-btn-primary { background: var(--blu, #1b5a8f); border-color: var(--blu, #1b5a8f); color: #fff; } .ds-btn-primary:hover { background: var(--blu-600, #164d7b); border-color: var(--blu-600, #164d7b); color: #fff; }"
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 5px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; } .ds-btn-primary { background: var(--blu, #1b5a8f); border-color: var(--blu, #1b5a8f); color: #fff; } .ds-btn-primary:hover { background: var(--blu-600, #164d7b); border-color: var(--blu-600, #164d7b); color: #fff; }"
     },
     {
       "name": "Pulsante normale",
@@ -678,7 +678,7 @@
       "refersTo": "button",
       "description": "Tutte le altre azioni.",
       "html": "<button class=\"ds-btn\">Esporta</button>",
-      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; }"
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 5px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; }"
     },
     {
       "name": "Pulsante di conferma",
@@ -686,7 +686,7 @@
       "refersTo": "button-success",
       "description": "Chiude un lavoro: \"Salva\", \"Fatto\".",
       "html": "<button class=\"ds-btn ds-btn-success\">Salva la scheda</button>",
-      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; } .ds-btn-success { background: var(--verde-600, #4a822b); border-color: var(--verde-600, #4a822b); color: #fff; } .ds-btn-success:hover { background: #3f7224; border-color: #3f7224; color: #fff; }"
+      "css": ".ds-btn { display: inline-flex; align-items: center; gap: 7px; height: 38px; padding: 0 14px; border-radius: 5px; border: 1px solid var(--border-strong, #cdd5df); background: var(--surface, #fff); color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: background 0.15s, border-color 0.15s, color 0.15s; } .ds-btn:hover { background: var(--surface-2, #f7f8fa); color: var(--text, #14243a); } .ds-btn:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; } .ds-btn-success { background: var(--verde-600, #4a822b); border-color: var(--verde-600, #4a822b); color: #fff; } .ds-btn-success:hover { background: #3f7224; border-color: #3f7224; color: #fff; }"
     },
     {
       "name": "Campo",
@@ -694,7 +694,7 @@
       "refersTo": "input",
       "description": "Campo di testo con la sua etichetta sopra.",
       "html": "<label class=\"ds-field\"><span>Cognome</span><input class=\"ds-input\" placeholder=\"Es. Cascone\"></label>",
-      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; } .ds-field span { font-size: 12px; font-weight: 700; color: var(--text-2, #33465c); } .ds-input { height: 38px; padding: 0 11px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: #fff; color: var(--text, #14243a); font: inherit; font-size: 14px; transition: border-color 0.15s, box-shadow 0.15s; } .ds-input:hover { border-color: #aab6c4; } .ds-input:focus { outline: none; border-color: var(--blu, #1b5a8f); box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); }"
+      "css": ".ds-field { display: flex; flex-direction: column; gap: 6px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; } .ds-field span { font-size: 12px; font-weight: 700; color: var(--text-2, #33465c); } .ds-input { height: 38px; padding: 0 11px; border-radius: 5px; border: 1px solid var(--border-strong, #cdd5df); background: #fff; color: var(--text, #14243a); font: inherit; font-size: 14px; transition: border-color 0.15s, box-shadow 0.15s; } .ds-input:hover { border-color: #aab6c4; } .ds-input:focus { outline: none; border-color: var(--blu, #1b5a8f); box-shadow: 0 0 0 3px rgba(27, 90, 143, 0.28); }"
     },
     {
       "name": "Filtro",
@@ -702,7 +702,7 @@
       "refersTo": "chip",
       "description": "Filtro che si accende e si spegne.",
       "html": "<span class=\"ds-chips\"><button class=\"ds-chip ds-chip-on\">Loculi</button><button class=\"ds-chip\">Cappelle</button></span>",
-      "css": ".ds-chips { display: inline-flex; gap: 8px; } .ds-chip { display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border-radius: 6px; border: 1px solid var(--border-strong, #cdd5df); background: #fff; color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: border-color 0.15s, background 0.15s; } .ds-chip:hover { border-color: #9fb0c2; } .ds-chip-on { background: var(--blu-50, #eaf2f9); border-color: #9cc0df; color: var(--navy, #0a2f55); } .ds-chip:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; }"
+      "css": ".ds-chips { display: inline-flex; gap: 8px; } .ds-chip { display: inline-flex; align-items: center; height: 34px; padding: 0 12px; border-radius: 5px; border: 1px solid var(--border-strong, #cdd5df); background: #fff; color: var(--text-2, #33465c); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; font-weight: 700; font-size: 13px; cursor: pointer; transition: border-color 0.15s, background 0.15s; } .ds-chip:hover { border-color: #9fb0c2; } .ds-chip-on { background: var(--blu-50, #eaf2f9); border-color: #9cc0df; color: var(--navy, #0a2f55); } .ds-chip:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; }"
     },
     {
       "name": "Etichetta di stato",
@@ -718,7 +718,7 @@
       "refersTo": "card",
       "description": "Il contenitore di ogni pagina: piatto, con un bordo.",
       "html": "<section class=\"ds-card\"><header><h3>Schede censite</h3></header><div><b>4.218</b><span>su 9.600 stimate</span></div></section>",
-      "css": ".ds-card { width: 260px; background: var(--surface, #fff); border: 1px solid var(--border, #e2e7ee); border-radius: 8px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; color: var(--text, #14243a); } .ds-card header { padding: 14px 16px; border-bottom: 1px solid var(--border, #e2e7ee); } .ds-card h3 { margin: 0; font-family: Montserrat, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; } .ds-card div { padding: 16px; display: flex; flex-direction: column; gap: 2px; } .ds-card b { font-family: Montserrat, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; } .ds-card span { font-size: 12px; color: var(--muted, #5d6d82); }"
+      "css": ".ds-card { width: 260px; background: var(--surface, #fff); border: 1px solid var(--border, #e2e7ee); border-radius: 7px; font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; color: var(--text, #14243a); } .ds-card header { padding: 14px 16px; border-bottom: 1px solid var(--border, #e2e7ee); } .ds-card h3 { margin: 0; font-family: Montserrat, sans-serif; font-size: 14px; font-weight: 700; letter-spacing: -0.01em; } .ds-card div { padding: 16px; display: flex; flex-direction: column; gap: 2px; } .ds-card b { font-family: Montserrat, sans-serif; font-size: 28px; font-weight: 800; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; } .ds-card span { font-size: 12px; color: var(--muted, #5d6d82); }"
     },
     {
       "name": "Voce del menu",
@@ -726,7 +726,7 @@
       "refersTo": "nav-item",
       "description": "Menu laterale blu notte, voce attiva in blu pieno.",
       "html": "<nav class=\"ds-nav\"><a class=\"ds-nav-item ds-nav-on\" href=\"#\">Dashboard</a><a class=\"ds-nav-item\" href=\"#\">Ricerca</a><a class=\"ds-nav-item\" href=\"#\">Concessioni</a></nav>",
-      "css": ".ds-nav { width: 212px; padding: 12px; display: flex; flex-direction: column; gap: 3px; background: var(--navy-900, #0f1b2d); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; } .ds-nav-item { display: flex; align-items: center; height: 44px; padding: 0 14px; border-radius: 6px; color: #c9d5e3; font-weight: 700; font-size: 14px; text-decoration: none; transition: background 0.15s, color 0.15s; } .ds-nav-item:hover { background: rgba(255, 255, 255, 0.06); color: #fff; } .ds-nav-on, .ds-nav-on:hover { background: var(--blu, #1b5a8f); color: #fff; } .ds-nav-item:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; }"
+      "css": ".ds-nav { width: 212px; padding: 12px; display: flex; flex-direction: column; gap: 3px; background: var(--navy-900, #0f1b2d); font-family: 'Nunito Sans Variable', 'Nunito Sans', system-ui, sans-serif; } .ds-nav-item { display: flex; align-items: center; height: 44px; padding: 0 14px; border-radius: 5px; color: #c9d5e3; font-weight: 700; font-size: 14px; text-decoration: none; transition: background 0.15s, color 0.15s; } .ds-nav-item:hover { background: rgba(255, 255, 255, 0.06); color: #fff; } .ds-nav-on, .ds-nav-on:hover { background: var(--blu, #1b5a8f); color: #fff; } .ds-nav-item:focus-visible { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px #1b5a8f; }"
     }
   ],
   "narrative": {
@@ -789,7 +789,7 @@
     ],
     "dos": [
       "Do usare solo le variabili di `src/styles/base.css` per colori, angoli e ombre.",
-      "Do tenere i riquadri piatti: bordo da 1 px `border`, angolo 8 px, nessuna ombra.",
+      "Do tenere i riquadri piatti: bordo da 1 px `border`, angolo 7 px, nessuna ombra.",
       "Do usare le sette misure di testo (11, 12, 13, 14, 16, 20, 28 px) e i tre pesi di Nunito Sans (400, 600, 700).",
       "Do scrivere le etichette normali, con la sola iniziale maiuscola.",
       "Do scrivere sempre lo stato a parole accanto al colore.",
@@ -802,7 +802,7 @@
       "Don't usare sfumature di colore, né sugli sfondi né sul testo né sulle barre.",
       "Don't mettere le icone dentro riquadrini pastello.",
       "Don't aggiungere ombre, aloni o sollevamenti al passaggio del mouse.",
-      "Don't usare angoli più grandi di 8 px, né misure di testo con i mezzi pixel.",
+      "Don't usare angoli più grandi di 7 px, né misure di testo con i mezzi pixel.",
       "Don't usare il maiuscolo spaziato per etichette e intestazioni.",
       "Don't scrivere un colore a mano in una pagina: se manca, va aggiunto alle variabili con un nome.",
       "Don't usare `faint` o il verde chiaro `verde` per un testo da leggere: il contrasto non basta.",

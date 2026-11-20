@@ -87,9 +87,9 @@ typography:
     lineHeight: 1.25
 rounded:
   cella: "2px"
-  xs: "4px"
-  sm: "6px"
-  md: "8px"
+  xs: "3px"
+  sm: "5px"
+  md: "7px"
   tondo: "999px"
 spacing:
   "1": "4px"
@@ -289,9 +289,9 @@ Il sistema è piatto. I riquadri si staccano dal fondo con un bordo da 1 px e co
 Angoli appena smussati, da una scala di quattro misure. Più l'elemento è piccolo, più l'angolo è piccolo.
 
 - **2 px** (`cella`): le caselline delle griglie dei loculi e le barre dei grafici, in alto.
-- **4 px** (`--radius-xs`): elementi piccoli dentro altri elementi: casella di spunta, voce del calendario, etichetta sulla foto.
-- **6 px** (`--radius-sm`): tutto quello che si preme o si compila: pulsanti, campi, filtri, voci del menu, righe cliccabili.
-- **8 px** (`--radius`): i contenitori: riquadri, finestre, menu a comparsa, avvisi, foto.
+- **3 px** (`--radius-xs`): elementi piccoli dentro altri elementi: casella di spunta, voce del calendario, etichetta sulla foto.
+- **5 px** (`--radius-sm`): tutto quello che si preme o si compila: pulsanti, campi, filtri, voci del menu, righe cliccabili.
+- **7 px** (`--radius`): i contenitori: riquadri, finestre, menu a comparsa, avvisi, foto.
 - **Tondo** (999 px o 50%): etichette di stato, contatori, interruttori, pallini, cerchi con le iniziali.
 
 I bordi sono da 1 px. Un bordo più spesso (3 o 4 px, solo a sinistra) si usa soltanto per dire il tipo o lo stato di una voce in agenda, nel calendario e nelle griglie dei loculi: lì il colore è il dato.
@@ -302,7 +302,7 @@ L'unica forma fuori scala è la sagoma del telefono nell'anteprima della Scheda 
 
 ### Buttons
 Sobri e tutti uguali: stessa altezza dei campi, così stanno in riga.
-- **Shape:** angolo da 6 px, bordo da 1 px, altezza 38 px (32 px il piccolo, 26 px il minimo, 46 px il grande); testo 13 px a peso 700.
+- **Shape:** angolo da 5 px, bordo da 1 px, altezza 38 px (32 px il piccolo, 26 px il minimo, 46 px il grande); testo 13 px a peso 700.
 - **Normale:** fondo bianco, bordo `border-strong`, testo `text-2`. Al passaggio: fondo `surface-2`.
 - **Principale:** fondo `blu`, testo bianco; al passaggio `blu-600`. Uno per schermata.
 - **Conferma:** fondo `verde-600`, testo bianco. Per chiudere un lavoro ("Salva", "Fatto").
@@ -313,7 +313,7 @@ Sobri e tutti uguali: stessa altezza dei campi, così stanno in riga.
 
 ### Chips
 Filtri che si accendono e si spengono.
-- **Style:** fondo bianco, bordo `border-strong`, angolo 6 px, altezza 34 px (28 px il piccolo), testo 13 px a peso 700.
+- **Style:** fondo bianco, bordo `border-strong`, angolo 5 px, altezza 34 px (28 px il piccolo), testo 13 px a peso 700.
 - **Acceso:** fondo `blu-50`, bordo e testo blu, casella di spunta piena.
 
 ### Badges
@@ -326,7 +326,7 @@ Filtri che si accendono e si spengono.
 - **Quadrante:** quadratino bianco con la lettera scura e il bordo del colore del quadrante, lo stesso della mappa.
 
 ### Cards / Containers
-- **Corner Style:** 8 px.
+- **Corner Style:** 7 px.
 - **Background:** bianco su fondo pagina `bg`.
 - **Shadow Strategy:** nessuna (vedi Elevation & Depth).
 - **Border:** 1 px `border`.
@@ -335,7 +335,7 @@ Filtri che si accendono e si spengono.
 - Mai un riquadro dentro un riquadro: dentro si separa con una riga o con un fondo `surface-2`.
 
 ### Inputs / Fields
-- **Style:** fondo bianco, bordo `border-strong` da 1 px, angolo 6 px, altezza 38 px. Etichetta sopra, 12 px a peso 700.
+- **Style:** fondo bianco, bordo `border-strong` da 1 px, angolo 5 px, altezza 38 px. Etichetta sopra, 12 px a peso 700.
 - **Focus:** bordo `blu` e anello `--focus`.
 - **Errore:** bordo `danger` e una riga di testo sotto che dice cosa correggere.
 
@@ -345,7 +345,7 @@ Filtri che si accendono e si spengono.
 - Numeri a destra con le cifre allineate. Una riga che si apre si raggiunge con Tab e si apre con Invio.
 
 ### Navigation
-- **Menu laterale:** fondo `navy-900` in tinta unita. Voci alte 44 px, angolo 6 px, testo 14 px a peso 700 in azzurro chiaro; al passaggio un velo bianco al 6%; la voce attiva ha il fondo `blu` pieno e il testo bianco, senza alone.
+- **Menu laterale:** fondo `navy-900` in tinta unita. Voci alte 44 px, angolo 5 px, testo 14 px a peso 700 in azzurro chiaro; al passaggio un velo bianco al 6%; la voce attiva ha il fondo `blu` pieno e il testo bianco, senza alone.
 - **Linguette:** testo 13 px a peso 700, riga blu da 2 px sotto quella attiva.
 - **Telefono:** il menu si apre da sinistra con il pulsante in alto; le voci sono le stesse ma ridotte a quelle che servono sul campo.
 
@@ -359,7 +359,7 @@ Il componente che distingue l'app. Pallini pieni del colore dello stato con bord
 
 ### Do:
 - **Do** usare solo le variabili di `src/styles/base.css` per colori, angoli e ombre.
-- **Do** tenere i riquadri piatti: bordo da 1 px `border`, angolo 8 px, nessuna ombra.
+- **Do** tenere i riquadri piatti: bordo da 1 px `border`, angolo 7 px, nessuna ombra.
 - **Do** usare le sette misure di testo (11, 12, 13, 14, 16, 20, 28 px) e i tre pesi di Nunito Sans (400, 600, 700).
 - **Do** scrivere le etichette normali, con la sola iniziale maiuscola.
 - **Do** scrivere sempre lo stato a parole accanto al colore.
@@ -372,7 +372,7 @@ Il componente che distingue l'app. Pallini pieni del colore dello stato con bord
 - **Don't** usare sfumature di colore, né sugli sfondi né sul testo né sulle barre.
 - **Don't** mettere le icone dentro riquadrini pastello.
 - **Don't** aggiungere ombre, aloni o sollevamenti al passaggio del mouse.
-- **Don't** usare angoli più grandi di 8 px, né misure di testo con i mezzi pixel.
+- **Don't** usare angoli più grandi di 7 px, né misure di testo con i mezzi pixel.
 - **Don't** usare il maiuscolo spaziato per etichette e intestazioni.
 - **Don't** scrivere un colore a mano in una pagina: se manca, va aggiunto alle variabili con un nome.
 - **Don't** usare `faint` o il verde chiaro `verde` per un testo da leggere: il contrasto non basta.

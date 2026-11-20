@@ -149,7 +149,7 @@ function ModaleManutenzione({ schedaId, categoriaIniziale }: { schedaId?: string
         <Field label="Descrizione del problema"><textarea className="textarea" value={descrizione} onChange={(e) => setDescrizione(e.target.value)} placeholder="Es. lastra incrinata nell'angolo inferiore destro" /></Field>
         <Field label="Foto del problema (facoltativa)">
           <div className="row gap-12">
-            {foto && <img src={foto} alt="" style={{ width: 96, height: 72, objectFit: 'cover', borderRadius: 8 }} />}
+            {foto && <img src={foto} alt="" style={{ width: 96, height: 72, objectFit: 'cover', borderRadius: 'var(--radius)' }} />}
             <ScegliFoto onFoto={setFoto}><Camera size={15} />{foto ? 'Cambia foto' : 'Scatta o carica'}</ScegliFoto>
           </div>
         </Field>
