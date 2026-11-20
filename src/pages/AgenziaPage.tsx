@@ -4,7 +4,7 @@ import { BadgeAvviso } from '../components/Avvisi';
 import { Calendario } from '../components/Calendario';
 import { EditorDefunti } from '../components/scheda/SchedaForm';
 import { Empty, Field, Modal, Seg } from '../components/ui';
-import { COLORI_OPERAZIONE, NOMI_OPERAZIONE, NOMI_STATO_RICHIESTA, STATI_PRATICA, TIPI_OPERAZIONE, inviaRichiesta, nomeOperazione } from '../data/pratiche';
+import { COLORI_OPERAZIONE, NOMI_OPERAZIONE, STATI_PRATICA, TIPI_OPERAZIONE, inviaRichiesta, nomeOperazione } from '../data/pratiche';
 import { descrizioneScheda, useCimitero, useUtente } from '../data/selectors';
 import { indiceSchede, toast, useStore } from '../data/store';
 import type { Defunto, Pratica, Richiedente, RichiestaAgenzia, Scheda, TipoOperazione } from '../data/types';
@@ -18,7 +18,17 @@ import { tinta } from '../lib/tinta';
 // Propone giorno e ora; la postazione la assegna l'ufficio quando apre la pratica.
 
 const DEFUNTO_VUOTO: Defunto = { nome: '', cognome: '', dataNascita: null, dataMorte: null };
-const CLASSE_RICHIESTA: Record<RichiestaAgenzia['stato'], string> = { in_attesa: 'badge--arancio', accolta: 'badge--verde', rifiutata: 'badge--rosso' };
+
+// Per l'agenzia una richiesta e la pratica che ne nasce sono la stessa operazione in due momenti: un elenco solo, con lo stato.
+type StatoAgenzia = 'in_attesa' | 'confermata' | 'eseguita' | 'rifiutata' | 'annullata';
+const STATI_AGENZIA: { id: StatoAgenzia; label: string; plurale: string; classe: string }[] = [
+  { id: 'in_attesa', label: 'In attesa', plurale: 'In attesa', classe: 'badge--arancio' },
+  { id: 'confermata', label: 'Confermata', plurale: 'Confermate', classe: 'badge--blu' },
+  { id: 'eseguita', label: 'Eseguita', plurale: 'Eseguite', classe: 'badge--verde' },
+  { id: 'rifiutata', label: 'Rifiutata', plurale: 'Rifiutate', classe: 'badge--rosso' },
+  { id: 'annullata', label: 'Annullata', plurale: 'Annullate', classe: '' },
+];
+interface Riga { id: string; numero: string; tipo: TipoOperazione; nome: string; defunto: Defunto; stato: StatoAgenzia; ordine: string; p?: Pratica; r?: RichiestaAgenzia }
 
 function BadgeTipo({ tipo, testo }: { tipo: TipoOperazione; testo?: string }) {
   const c = COLORI_OPERAZIONE[tipo];
@@ -50,7 +60,7 @@ function ModaleRichiesta({ agenziaId, onChiudi }: { agenziaId: string; onChiudi:
     if (!giorno || !orario || giorno < oggiISO()) return toast('Scegli un giorno e un\'ora da oggi in poi', 'errore');
     inviaRichiesta({ agenziaId, cimiteroId: cim.id, tipo, defunto, richiedente, dataOra: `${giorno}T${orario}`, note: note.trim() || undefined });
     onChiudi();
-    vai('/richieste');
+    vai('/operazioni?stato=in_attesa');
   };
   return (
     <Modal titolo="Richiedi un'operazione" sottotitolo="Proponi giorno e ora. L'ufficio assegna la postazione e ti conferma l'operazione." size="lg" onClose={onChiudi}
@@ -135,75 +145,72 @@ export function AgenziaPage() {
   const agenzia = db.agenzie.find((a) => a.id === utente.agenziaId);
   if (!agenzia) return <div className="page"><Empty titolo="Agenzia non trovata" testo="Esci e rientra dalla schermata iniziale." /></div>;
 
-  const vista = rotta.parti[0] === 'pratiche' ? 'pratiche' : rotta.parti[0] === 'richieste' ? 'richieste' : 'calendario';
+  const vista = rotta.parti[0] === undefined ? 'calendario' : 'operazioni';
   const schede = indiceSchede(db.schede);
-  const pratiche = db.pratiche.filter((p) => p.agenziaId === agenzia.id).sort((a, b) => (b.dataOra ?? b.apertaIl).localeCompare(a.dataOra ?? a.apertaIl));
-  const richieste = db.richieste.filter((r) => r.agenziaId === agenzia.id).sort((a, b) => b.inviataIl.localeCompare(a.inviataIl) || b.numero.localeCompare(a.numero));
+  const pratiche = db.pratiche.filter((p) => p.agenziaId === agenzia.id);
   const sel = rotta.query.get('id') ? pratiche.find((p) => p.id === rotta.query.get('id')) : undefined;
   const avviso = new Map(db.avvisi.filter((a) => a.motivo === 'pratica' && a.stato !== 'annullato').map((a) => [a.riferimentoId, a]));
+  // una richiesta accolta è già nell'elenco con la sua pratica
+  const richieste = db.richieste.filter((r) => r.agenziaId === agenzia.id && !(r.praticaId && pratiche.some((p) => p.id === r.praticaId)));
+  const righe: Riga[] = [
+    ...pratiche.map((p): Riga => ({ id: p.id, numero: p.numero, tipo: p.tipo, nome: nomeOperazione(p), defunto: p.defunto, stato: p.stato === 'eseguita' ? 'eseguita' : p.stato === 'annullata' ? 'annullata' : 'confermata', ordine: p.dataOra ?? p.apertaIl, p })),
+    ...richieste.map((r): Riga => ({ id: r.id, numero: r.numero, tipo: r.tipo, nome: NOMI_OPERAZIONE[r.tipo], defunto: r.defunto, stato: r.stato === 'rifiutata' ? 'rifiutata' : 'in_attesa', ordine: r.dataOra, r })),
+  ].sort((a, b) => b.ordine.localeCompare(a.ordine));
+  const conta = (st: StatoAgenzia) => righe.filter((x) => x.stato === st).length;
+  const f = rotta.query.get('stato');
+  const filtro = STATI_AGENZIA.some((x) => x.id === f && conta(x.id)) ? (f as StatoAgenzia) : null;
+  const lista = filtro ? righe.filter((x) => x.stato === filtro) : righe;
   const bottone = <button className="btn btn--primary" onClick={() => setNuova(true)}><Plus size={16} />Richiedi un'operazione</button>;
 
   return (
     <div className="page">
       <div className="page-head">
         <div className="page-head__title">
-          <h1>{vista === 'calendario' ? 'Calendario' : vista === 'pratiche' ? 'Le tue pratiche' : 'Le tue richieste'}</h1>
+          <h1>{vista === 'calendario' ? 'Calendario' : 'Le tue operazioni'}</h1>
         </div>
         <div className="page-head__actions">{bottone}</div>
       </div>
 
-      {vista === 'calendario' && <Calendario agenziaId={agenzia.id} onEvento={(e) => (e.praticaId ? setQuery('id', e.praticaId) : vai('/richieste'))} />}
+      {vista === 'calendario' && <Calendario agenziaId={agenzia.id} onEvento={(e) => (e.praticaId ? setQuery('id', e.praticaId) : vai('/operazioni?stato=in_attesa'))} />}
 
-      {vista === 'pratiche' && (
+      {vista === 'operazioni' && (
         <section className="card">
+          <div className="row row--wrap gap-8" style={{ padding: '12px 16px', borderBottom: '1px solid var(--border)' }}>
+            <button className={`chip chip--sm ${!filtro ? 'is-on' : ''}`} onClick={() => setQuery('stato', null)}>Tutte<span className="chip__n">{righe.length}</span></button>
+            {STATI_AGENZIA.filter((x) => conta(x.id)).map((x) => (
+              <button key={x.id} className={`chip chip--sm ${filtro === x.id ? 'is-on' : ''}`} onClick={() => setQuery('stato', filtro === x.id ? null : x.id)}>{x.plurale}<span className="chip__n">{conta(x.id)}</span></button>
+            ))}
+          </div>
           <div className="table-wrap">
             <table className="table">
               <thead><tr><th>Numero</th><th>Operazione</th><th>Defunto</th><th>Postazione</th><th>Quando</th><th>Pagamento</th><th>Stato</th></tr></thead>
               <tbody>
-                {pratiche.map((p) => {
-                  const s = schede.get(p.schedaId);
+                {lista.map((x) => {
+                  const st = STATI_AGENZIA.find((y) => y.id === x.stato)!;
+                  const sc = x.p ? schede.get(x.p.schedaId) : undefined;
+                  const quando = x.p ? x.p.dataOra : x.r!.dataOra;
                   return (
-                    <tr key={p.id} className="clickable" {...attivabile(() => setQuery('id', p.id))}>
-                      <td className="id">{p.numero}</td>
-                      <td><BadgeTipo tipo={p.tipo} testo={nomeOperazione(p)} /></td>
-                      <td><b>{nomeCompleto(p.defunto)}</b></td>
-                      <td><span className="id">{p.schedaId}</span><div className="tiny muted">{s?.viale}</div></td>
-                      <td className="nowrap">{p.dataOra ? `${dataBreve(p.dataOra.slice(0, 10))} · ${p.dataOra.slice(11, 16)}` : <span className="muted">da programmare</span>}</td>
-                      <td>{avviso.get(p.id) ? <BadgeAvviso a={avviso.get(p.id)!} /> : <span className="muted">—</span>}</td>
-                      <td><BadgeStato p={p} /></td>
+                    <tr key={x.id} className={x.p ? 'clickable' : undefined} {...(x.p ? attivabile(() => setQuery('id', x.p!.id)) : {})}>
+                      <td className="id">{x.numero}</td>
+                      <td><BadgeTipo tipo={x.tipo} testo={x.nome} /></td>
+                      <td><b>{nomeCompleto(x.defunto)}</b></td>
+                      <td>{x.p ? <><span className="id">{x.p.schedaId}</span><div className="tiny muted">{sc?.viale}</div></> : <span className="muted">La assegna l'ufficio</span>}</td>
+                      <td className="nowrap">
+                        {quando ? `${dataBreve(quando.slice(0, 10))} · ${quando.slice(11, 16)}` : <span className="muted">da programmare</span>}
+                        {x.r && <div className="tiny muted">proposta da te · inviata il {data(x.r.inviataIl)}</div>}
+                      </td>
+                      <td>{x.p && avviso.get(x.p.id) ? <BadgeAvviso a={avviso.get(x.p.id)!} /> : <span className="muted">—</span>}</td>
+                      <td>
+                        <span className={`badge badge--sm ${st.classe}`}>{st.label}</span>
+                        {x.stato === 'in_attesa' && <div className="tiny muted">L'ufficio la sta valutando</div>}
+                        {x.stato === 'rifiutata' && x.r?.motivoRifiuto && <div className="tiny muted">{x.r.motivoRifiuto}</div>}
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-            {!pratiche.length && <div className="empty"><h3>Nessuna pratica</h3><p>Le pratiche nascono quando l'ufficio accoglie una tua richiesta.</p></div>}
-          </div>
-        </section>
-      )}
-
-      {vista === 'richieste' && (
-        <section className="card">
-          <div className="table-wrap">
-            <table className="table">
-              <thead><tr><th>Numero</th><th>Operazione</th><th>Defunto</th><th>Proposta per</th><th>Inviata il</th><th>Stato</th><th>Esito</th></tr></thead>
-              <tbody>
-                {richieste.map((r) => {
-                  const p = r.praticaId ? db.pratiche.find((x) => x.id === r.praticaId) : undefined;
-                  return (
-                    <tr key={r.id} className={p ? 'clickable' : undefined} {...(p ? attivabile(() => setQuery('id', p.id)) : {})}>
-                      <td className="id">{r.numero}</td>
-                      <td><BadgeTipo tipo={r.tipo} /></td>
-                      <td><b>{nomeCompleto(r.defunto)}</b></td>
-                      <td className="nowrap">{dataBreve(r.dataOra.slice(0, 10))} · {r.dataOra.slice(11, 16)}</td>
-                      <td className="nowrap">{data(r.inviataIl)}</td>
-                      <td><span className={`badge badge--sm ${CLASSE_RICHIESTA[r.stato]}`}>{NOMI_STATO_RICHIESTA[r.stato]}</span></td>
-                      <td className="small">{r.stato === 'accolta' ? `Pratica ${p?.numero ?? ''}${p?.dataOra ? ` · ${dataBreve(p.dataOra.slice(0, 10))} alle ${p.dataOra.slice(11, 16)}` : ' · da programmare'}` : r.stato === 'rifiutata' ? r.motivoRifiuto : 'L\'ufficio la sta valutando'}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-            {!richieste.length && <div className="empty"><h3>Nessuna richiesta</h3><p>Con "Richiedi un'operazione" proponi giorno e ora all'ufficio.</p></div>}
+            {!lista.length && <div className="empty"><h3>Nessuna operazione</h3><p>Con "Richiedi un'operazione" proponi giorno e ora all'ufficio.</p></div>}
           </div>
         </section>
       )}

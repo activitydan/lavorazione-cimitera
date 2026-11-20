@@ -1,8 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import {
-  CalendarClock, CalendarDays, ClipboardCheck, ClipboardList, CloudOff, FileText, LayoutDashboard, Lightbulb, Map as MapIcon, MapPinPlus, Repeat, ScrollText, Search, Send, Settings, ShieldCheck, Wrench,
-  type LucideIcon,
-} from 'lucide-react';
+import { CalendarClock, CalendarDays, ClipboardCheck, ClipboardList, CloudOff, FileText, LayoutDashboard, Lightbulb, Map as MapIcon, MapPinPlus, Repeat, ScrollText, Search, Settings, ShieldCheck, Wrench, type LucideIcon } from 'lucide-react';
 import { esci, setRete, setUi, useStore } from '../data/store';
 import { useUtente } from '../data/selectors';
 import type { Ruolo } from '../data/types';
@@ -51,8 +48,7 @@ export const VOCI_TELEFONO: VoceMenu[] = [
 // L'agenzia funebre vede solo le sue cose, uguale sul telefono e sul computer.
 export const VOCI_AGENZIA: VoceMenu[] = [
   { path: '/', label: 'Calendario', icon: CalendarDays },
-  { path: '/pratiche', label: 'Pratiche', icon: FileText },
-  { path: '/richieste', label: 'Richieste', icon: Send },
+  { path: '/operazioni', label: 'Operazioni', icon: FileText },
 ];
 
 function vocePer(path: string): VoceMenu | undefined {
@@ -131,6 +127,7 @@ export function Sidebar() {
     // la scheda in vista estesa si apre da Ricerca; sul computer il Nuovo rilievo è lavoro di Censimento
     if (p === '/ricerca' && rotta.path.startsWith('/scheda')) return true;
     if (p === '/censimento' && !telefono && rotta.path === '/rilievo') return true;
+    if (agenzia && p === '/operazioni' && (rotta.path === '/pratiche' || rotta.path === '/richieste')) return true;
     return rotta.path.startsWith(p);
   };
   let gruppo: string | undefined;

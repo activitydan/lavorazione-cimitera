@@ -120,7 +120,7 @@ export function apriPratica(d: NuovaPratica, silenzioso = false): Pratica {
   if (d.richiestaId) {
     // nata dalla richiesta di un'agenzia: la richiesta è accolta e l'agenzia lo sa
     aggiornaDb((db) => ({ richieste: db.richieste.map((r) => (r.id === d.richiestaId ? { ...r, stato: 'accolta' as const, praticaId: p.id } : r)) }));
-    if (d.agenziaId) avvisa([`agenzia:${d.agenziaId}`], { categoria: p.tipo, titolo: 'Richiesta accolta', messaggio: `${NOMI_OPERAZIONE[p.tipo]} · ${nomeCompleto(p.defunto)}: pratica ${p.numero}`, link: `/pratiche?id=${p.id}` });
+    if (d.agenziaId) avvisa([`agenzia:${d.agenziaId}`], { categoria: p.tipo, titolo: 'Richiesta accolta', messaggio: `${NOMI_OPERAZIONE[p.tipo]} · ${nomeCompleto(p.defunto)}: pratica ${p.numero}`, link: `/operazioni?id=${p.id}` });
   }
   if (!silenzioso) toast(`Pratica ${p.numero} aperta`);
   return p;
@@ -136,7 +136,7 @@ export function programmaPratica(id: string, dataOra: string, operatoriIds: stri
   cambia(id, { stato: 'programmata', dataOra, operatoriIds });
   const quando = `il ${data(dataOra.slice(0, 10))} alle ${dataOra.slice(11, 16)}`;
   if (p.agenziaId && p.dataOra !== dataOra)
-    avvisa([`agenzia:${p.agenziaId}`], { categoria: p.tipo, livello: p.dataOra ? 'attenzione' : 'info', titolo: p.dataOra ? 'Operazione spostata' : 'Operazione programmata', messaggio: `${cosa}: ${quando}`, link: `/pratiche?id=${id}` });
+    avvisa([`agenzia:${p.agenziaId}`], { categoria: p.tipo, livello: p.dataOra ? 'attenzione' : 'info', titolo: p.dataOra ? 'Operazione spostata' : 'Operazione programmata', messaggio: `${cosa}: ${quando}`, link: `/operazioni?id=${id}` });
   avvisa(operatoriIds.filter((o) => !prima.includes(o)), { categoria: p.tipo, titolo: 'Operazione assegnata a te', messaggio: `${cosa}, il ${data(dataOra.slice(0, 10))} alle ${dataOra.slice(11, 16)}`, link });
   avvisa(prima.filter((o) => !operatoriIds.includes(o)), { categoria: p.tipo, titolo: 'Assegnazione tolta', messaggio: cosa, link });
   if (p.dataOra && p.dataOra !== dataOra)
@@ -149,7 +149,7 @@ export function annullaPratica(id: string, motivo: string) {
   cambia(id, { stato: 'annullata', annullataIl: oggiISO(), motivoAnnullamento: motivo });
   annullaAvvisiDellaPratica(id);
   avvisa(p.operatoriIds ?? [], { categoria: p.tipo, livello: 'attenzione', titolo: 'Operazione annullata', messaggio: `${NOMI_OPERAZIONE[p.tipo]} · ${nomeCompleto(p.defunto)} · ${motivo}`, link: `/operazioni?id=${id}` });
-  if (p.agenziaId) avvisa([`agenzia:${p.agenziaId}`], { categoria: p.tipo, livello: 'attenzione', titolo: 'Operazione annullata', messaggio: `${NOMI_OPERAZIONE[p.tipo]} · ${nomeCompleto(p.defunto)} · ${motivo}`, link: `/pratiche?id=${id}` });
+  if (p.agenziaId) avvisa([`agenzia:${p.agenziaId}`], { categoria: p.tipo, livello: 'attenzione', titolo: 'Operazione annullata', messaggio: `${NOMI_OPERAZIONE[p.tipo]} · ${nomeCompleto(p.defunto)} · ${motivo}`, link: `/operazioni?id=${id}` });
   toast('Pratica annullata');
 }
 
@@ -228,7 +228,7 @@ export function rifiutaRichiesta(id: string, motivo: string) {
   const r = leggiStato().db.richieste.find((x) => x.id === id);
   if (!r) return;
   aggiornaDb((db) => ({ richieste: db.richieste.map((x) => (x.id === id ? { ...x, stato: 'rifiutata' as const, motivoRifiuto: motivo } : x)) }));
-  avvisa([`agenzia:${r.agenziaId}`], { categoria: r.tipo, livello: 'attenzione', titolo: 'Richiesta rifiutata', messaggio: `${NOMI_OPERAZIONE[r.tipo]} · ${nomeCompleto(r.defunto)} · ${motivo}`, link: '/richieste' });
+  avvisa([`agenzia:${r.agenziaId}`], { categoria: r.tipo, livello: 'attenzione', titolo: 'Richiesta rifiutata', messaggio: `${NOMI_OPERAZIONE[r.tipo]} · ${nomeCompleto(r.defunto)} · ${motivo}`, link: '/operazioni?stato=rifiutata' });
   toast('Richiesta rifiutata: l\'agenzia è stata avvisata');
 }
 

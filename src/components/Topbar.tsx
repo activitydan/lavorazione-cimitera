@@ -243,15 +243,17 @@ export function CampanellaAlert({ nelMenu }: { nelMenu?: boolean }) {
   const lista = scelta ? alert.filter((a) => a.categoria === scelta) : alert;
   const telefono = useTelefono();
   const pratiche = useStore((s) => s.db.pratiche);
+  // l'agenzia ha le sue pagine: i suoi alert si aprono sempre così come sono, anche sul telefono
+  const agenzia = useStore((s) => s.sessione?.ruolo === 'agenzia');
   const apri = (a: AlertItem) => {
     segnaLetti([a.id]);
     setAperto(false);
     if (!a.link) return;
     // sul telefono le Operazioni cimiteriali non si aprono: l'alert porta alla scheda della postazione
-    const m = telefono ? /^\/operazioni\?id=(.+)$/.exec(a.link) : null;
+    const m = telefono && !agenzia ? /^\/operazioni\?id=(.+)$/.exec(a.link) : null;
     const p = m ? pratiche.find((x) => x.id === m[1]) : undefined;
     if (p) vai(`/scheda/${p.schedaId}`);
-    else if (!telefono || !/^\/(operazioni|concessioni|scadenze|illuminazione-votiva|amministrazione|impostazioni)/.test(a.link)) vai(a.link);
+    else if (agenzia || !telefono || !/^\/(operazioni|concessioni|scadenze|illuminazione-votiva|amministrazione|impostazioni)/.test(a.link)) vai(a.link);
   };
   return (
     <div ref={ref} className={nelMenu ? 'campanella campanella--menu' : 'campanella'} style={{ position: 'relative' }}>
