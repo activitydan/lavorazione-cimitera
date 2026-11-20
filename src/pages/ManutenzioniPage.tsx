@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
-import {
-  Ban, CalendarDays, Camera, CheckCircle2, ChevronLeft, ChevronRight, Download, ExternalLink, List, Map as MapIcon, Plus, Search, X,
-} from 'lucide-react';
+import { Ban, CalendarDays, Camera, CheckCircle2, Download, ExternalLink, List, Map as MapIcon, Plus, Search, X } from 'lucide-react';
 import { BarraPagine, paginaDi } from '../components/Esporta';
 import { ScegliFoto } from '../components/scheda/Media';
 import { DaInviare } from '../components/StrisciaRete';
@@ -13,12 +11,13 @@ import {
 import { descrizioneScheda, labelLista, prioritaDef, useDatiCimitero, useUtente } from '../data/selectors';
 import type { Manutenzione, Scheda } from '../data/types';
 import { righeManutenzioni, scaricaExcel } from '../lib/excel';
-import { aggiungiGiorni, dataBreve, data, GIORNI_BREVI, meseAnno, normalizza, numero, oggiISO } from '../lib/format';
+import { aggiungiGiorni, dataBreve, data, normalizza, numero, oggiISO } from '../lib/format';
 import { segnapostoImmagine } from '../lib/photo';
 import { useTelefono } from '../lib/schermo';
 import { setQuery, useRotta, vai } from '../router';
-import { attivabile, useEsc } from '../lib/tastiera';
+import { useEsc } from '../lib/tastiera';
 import { tinta } from '../lib/tinta';
+import { Calendario } from '../components/Calendario';
 
 type Vista = 'elenco' | 'calendario';
 const PER_PAGINA = 25;
@@ -169,80 +168,46 @@ export function ManutenzioniPage() {
         </div>
       )}
 
-      {vista === 'calendario' && <Calendario manutenzioni={manutenzioni} />}
+      {vista === 'calendario' && <Programmazione manutenzioni={manutenzioni} />}
 
       {sel && <DettaglioManutenzione m={sel} onChiudi={() => setQuery('id', null)} />}
     </div>
   );
 }
 
-function Calendario({ manutenzioni }: { manutenzioni: Manutenzione[] }) {
+/** Il calendario delle manutenzioni è quello grande dell'app, con in più l'elenco di ciò che aspetta un giorno. */
+function Programmazione({ manutenzioni }: { manutenzioni: Manutenzione[] }) {
   const config = useStore((s) => s.config);
-  const oggi = oggiISO();
-  const [mese, setMese] = useState(() => ({ y: Number(oggi.slice(0, 4)), m: Number(oggi.slice(5, 7)) - 1 }));
   const [daProgrammare, setDaProgrammare] = useState<string | null>(null);
   const [programma, setProgramma] = useState<{ id: string; data: string } | null>(null);
-  const primo = new Date(mese.y, mese.m, 1);
-  const offset = (primo.getDay() + 6) % 7;
-  const giorni = new Date(mese.y, mese.m + 1, 0).getDate();
-  const celle = Array.from({ length: Math.ceil((offset + giorni) / 7) * 7 }, (_, i) => {
-    const g = i - offset + 1;
-    return g >= 1 && g <= giorni ? `${mese.y}-${String(mese.m + 1).padStart(2, '0')}-${String(g).padStart(2, '0')}` : null;
-  });
   // le urgenti in cima alla lista da programmare
   const peso = { urgente: 0, alta: 1, media: 2, bassa: 3 };
   const aperte = manutenzioni.filter((m) => m.stato === 'aperta').sort((a, b) => peso[a.priorita] - peso[b.priorita] || a.segnalataIl.localeCompare(b.segnalataIl));
-  const sposta = (d: number) => setMese(({ y, m }) => ({ y: m + d < 0 ? y - 1 : m + d > 11 ? y + 1 : y, m: (m + d + 12) % 12 }));
 
   return (
-    <div className="cal-wrap">
-      <section className="card cal">
-        <div className="card__head">
-          <h2 style={{ textTransform: 'capitalize' }}>{meseAnno(mese.y, mese.m)}</h2>
-          <div className="row gap-4">
-            <button className="btn btn--sm btn--icon" onClick={() => sposta(-1)} aria-label="Mese precedente"><ChevronLeft size={16} /></button>
-            <button className="btn btn--sm" onClick={() => setMese({ y: Number(oggi.slice(0, 4)), m: Number(oggi.slice(5, 7)) - 1 })}>Oggi</button>
-            <button className="btn btn--sm btn--icon" onClick={() => sposta(1)} aria-label="Mese successivo"><ChevronRight size={16} /></button>
-          </div>
-        </div>
-        {daProgrammare && <div className="callout" style={{ margin: '12px 16px 0' }}>Scegli il giorno in cui programmare <b>{daProgrammare}</b>.</div>}
-        <div className="cal__grid">
-          {GIORNI_BREVI.map((g) => <div key={g} className="cal__dow">{g}</div>)}
-          {celle.map((d, i) => {
-            const items = d ? manutenzioni.filter((m) => m.dataProgrammata === d && (m.stato === 'programmata' || m.stato === 'risolta')) : [];
-            return (
-              <div
-                key={i}
-                className={`cal__day ${!d ? 'is-out' : ''} ${d === oggi ? 'is-today' : ''} ${daProgrammare && d ? 'is-target' : ''}`}
-                {...(d && daProgrammare ? { ...attivabile(() => setProgramma({ id: daProgrammare, data: d })), role: 'button', 'aria-label': `Programma il ${data(d)}` } : {})}
-              >
-                {d && <span className="cal__n">{Number(d.slice(8))}</span>}
-                {items.slice(0, 4).map((m) => (
-                  <button key={m.id} className="cal__item" style={{ borderLeftColor: prioritaDef(m.priorita).colore, opacity: m.stato === 'risolta' ? 0.55 : 1 }} onClick={(e) => { e.stopPropagation(); setQuery('id', m.id); }} title={`${m.id} · ${m.descrizione}`}>
-                    {m.stato === 'risolta' ? '✓ ' : ''}{labelLista(config.categorieManutenzione, m.categoria)}
-                  </button>
-                ))}
-                {items.length > 4 && <span className="tiny muted">+{items.length - 4}</span>}
-              </div>
-            );
-          })}
-        </div>
-      </section>
-      <aside className="card cal-side">
-        <div className="card__head"><h3>Da programmare <span className="badge badge--sm">{aperte.length}</span></h3></div>
-        <div className="list" style={{ maxHeight: 560, overflow: 'auto' }}>
-          {aperte.map((m) => (
-            <button key={m.id} className={`list-item ${daProgrammare === m.id ? 'is-sel' : ''}`} onClick={() => setDaProgrammare(daProgrammare === m.id ? null : m.id)} style={daProgrammare === m.id ? { background: 'var(--blu-50)' } : undefined}>
-              <span className="dot" style={{ background: prioritaDef(m.priorita).colore }} />
-              <span className="grow" style={{ minWidth: 0 }}>
-                <b className="small">{labelLista(config.categorieManutenzione, m.categoria)}</b>
-                <span className="tiny muted ellipsis" style={{ display: 'block' }}>{m.schedaId || m.luogo} · {m.descrizione}</span>
-              </span>
-            </button>
-          ))}
-          {!aperte.length && <p className="small muted" style={{ padding: 16 }}>Niente da programmare.</p>}
-        </div>
-      </aside>
+    <>
+      <Calendario
+        solo={['manutenzione']}
+        onEvento={(e) => e.manutenzioneId && setQuery('id', e.manutenzioneId)}
+        scegliGiorno={daProgrammare ? { testo: <>Scegli il giorno in cui programmare <b>{daProgrammare}</b>.</>, onScegli: (g) => setProgramma({ id: daProgrammare, data: g }) } : undefined}
+        sotto={
+          <>
+            <div className="calg__sotto-testa"><h3>Da programmare</h3><span className="badge badge--sm">{aperte.length}</span></div>
+            <div className="list">
+              {aperte.map((m) => (
+                <button key={m.id} className={`list-item ${daProgrammare === m.id ? 'is-sel' : ''}`} aria-pressed={daProgrammare === m.id} onClick={() => setDaProgrammare(daProgrammare === m.id ? null : m.id)} style={daProgrammare === m.id ? { background: 'var(--blu-50)' } : undefined}>
+                  <span className="dot" style={{ background: prioritaDef(m.priorita).colore }} />
+                  <span className="grow" style={{ minWidth: 0 }}>
+                    <b className="small">{labelLista(config.categorieManutenzione, m.categoria)}</b>
+                    <span className="tiny muted ellipsis" style={{ display: 'block' }}>{m.schedaId || m.luogo} · {m.descrizione}</span>
+                  </span>
+                </button>
+              ))}
+              {!aperte.length && <p className="small muted" style={{ padding: 16 }}>Niente da programmare.</p>}
+            </div>
+          </>
+        }
+      />
       {programma && (
         <ModaleProgramma
           id={programma.id}
@@ -253,7 +218,7 @@ function Calendario({ manutenzioni }: { manutenzioni: Manutenzione[] }) {
           }}
         />
       )}
-    </div>
+    </>
   );
 }
 

@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
-import {
-  AlertTriangle, Ban, BookOpenCheck, CalendarClock, CalendarDays, CheckCircle2, ChevronLeft, ChevronRight, ExternalLink, FileText, FolderOpen, Plus, Printer, Search, X,
-} from 'lucide-react';
+import { AlertTriangle, Ban, BookOpenCheck, CalendarClock, CalendarDays, CheckCircle2, ExternalLink, FileText, FolderOpen, Plus, Printer, Search, X } from 'lucide-react';
 import { AvvisiDi, BadgeAvviso } from '../components/Avvisi';
 import { BarraPagine, paginaDi } from '../components/Esporta';
 import { EditorDefunti } from '../components/scheda/SchedaForm';
@@ -15,11 +13,12 @@ import { indiceSchede, seleziona, toast, useStore } from '../data/store';
 import { descrizioneScheda, useCimitero } from '../data/selectors';
 import type { Defunto, DestinazioneResti, Pratica, Richiedente, RichiestaAgenzia, Scheda, TipoOperazione } from '../data/types';
 import { utenzeDi } from '../data/utenze';
-import { aggiungiGiorni, data, dataBreve, euro, GIORNI_BREVI, nomeCompleto, normalizza, numero, oggiISO } from '../lib/format';
+import { aggiungiGiorni, data, dataBreve, euro, nomeCompleto, normalizza, numero, oggiISO } from '../lib/format';
 import { pdfPratica, pdfRegistro } from '../lib/pdf';
 import { setQuery, useNuovo, useRotta } from '../router';
 import { attivabile, useEsc } from '../lib/tastiera';
-import { tinta, tintaTesto } from '../lib/tinta';
+import { tinta } from '../lib/tinta';
+import { Calendario } from '../components/Calendario';
 
 type Tab = 'pratiche' | 'calendario' | 'registro';
 
@@ -63,7 +62,7 @@ export function OperazioniPage() {
       ]} />
       {tab === 'pratiche' && <RichiesteAgenzie onApri={setNuova} />}
       {tab === 'pratiche' && <Pratiche selId={selId} />}
-      {tab === 'calendario' && <Agenda />}
+      {tab === 'calendario' && <Calendario solo={TIPI_OPERAZIONE} settimana cimiteri onEvento={(e) => (e.praticaId ? setQuery('id', e.praticaId) : setQuery('tab', null))} />}
       {tab === 'registro' && <Registro />}
       {sel && <Dettaglio p={sel} onChiudi={() => setQuery('id', null)} />}
       {nuova && <ModaleNuova richiesta={nuova === true ? undefined : nuova} onChiudi={() => setNuova(false)} onCreata={(id) => { setNuova(false); setQuery('id', id); }} />}
@@ -494,98 +493,6 @@ function ModaleNuova({ richiesta, onChiudi, onCreata }: { richiesta?: RichiestaA
         </div>
       </div>
     </Modal>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Agenda: tutte le operazioni programmate, funerali compresi
-// ---------------------------------------------------------------------------
-
-function VoceAgenda({ p, tutte }: { p: Pratica; tutte: Pratica[] }) {
-  const db = useStore((s) => s.db);
-  const s = indiceSchede(db.schede).get(p.schedaId);
-  const agenzia = db.agenzie.find((a) => a.id === p.agenziaId);
-  const doppie = sovrapposizioni(p, tutte);
-  const c = COLORI_OPERAZIONE[p.tipo];
-  return (
-    <button className="agenda__voce" style={{ borderLeftColor: c, opacity: p.stato === 'eseguita' ? 0.6 : 1 }} onClick={() => setQuery('id', p.id)} title={doppie.length ? `Alla stessa ora: ${doppie.join(', ')}` : undefined}>
-      <span className="row row--between">
-        <b className="mono">{ora(p)}</b>
-        {doppie.length > 0 && <AlertTriangle size={14} color="#D9473F" />}
-        {p.stato === 'eseguita' && <CheckCircle2 size={14} color="#3F9A3C" />}
-      </span>
-      <span className="small strong" style={{ color: tintaTesto(c) }}>{NOMI_OPERAZIONE[p.tipo]}</span>
-      <b className="ellipsis">{nomeCompleto(p.defunto)}</b>
-      <span className="tiny muted ellipsis">{p.schedaId}{s ? ` · ${s.viale}` : ''}</span>
-      {agenzia && <span className="tiny muted ellipsis">{agenzia.nome}</span>}
-      <span className="row gap-4">
-        {(p.operatoriIds ?? []).map((id) => {
-          const o = db.operatori.find((x) => x.id === id);
-          return o ? <Avatar key={id} nome={o.nome} colore={o.colore} size="sm" /> : null;
-        })}
-      </span>
-    </button>
-  );
-}
-
-function Agenda() {
-  const db = useStore((s) => s.db);
-  const oggi = oggiISO();
-  const [vista, setVista] = useState<'settimana' | 'giorno'>('settimana');
-  const [giorno, setGiorno] = useState(oggi);
-  const [cimitero, setCimitero] = useState('');
-  const [tipo, setTipo] = useState('');
-  const programmate = useMemo(
-    () => db.pratiche.filter((p) => p.dataOra && (p.stato === 'programmata' || p.stato === 'eseguita') && (!cimitero || p.cimiteroId === cimitero) && (!tipo || p.tipo === tipo)),
-    [db.pratiche, cimitero, tipo],
-  );
-  // lunedì della settimana del giorno scelto
-  const d = new Date(`${giorno}T12:00:00`);
-  const lunedi = aggiungiGiorni(giorno, -((d.getDay() + 6) % 7));
-  const giorni = vista === 'settimana' ? Array.from({ length: 7 }, (_, i) => aggiungiGiorni(lunedi, i)) : [giorno];
-  const passo = vista === 'settimana' ? 7 : 1;
-  const del = (g: string) => programmate.filter((p) => p.dataOra!.startsWith(g)).sort((a, b) => a.dataOra!.localeCompare(b.dataOra!));
-  return (
-    <section className="card">
-      <div className="card__head" style={{ flexWrap: 'wrap' }}>
-        <div className="row gap-8 row--wrap">
-          <Seg small light value={vista} onChange={setVista} options={[{ id: 'settimana', label: 'Settimana' }, { id: 'giorno', label: 'Giorno' }]} />
-          <button className="btn btn--sm btn--icon" onClick={() => setGiorno(aggiungiGiorni(giorno, -passo))} aria-label="Indietro"><ChevronLeft size={16} /></button>
-          <button className="btn btn--sm" onClick={() => setGiorno(oggi)}>Oggi</button>
-          <button className="btn btn--sm btn--icon" onClick={() => setGiorno(aggiungiGiorni(giorno, passo))} aria-label="Avanti"><ChevronRight size={16} /></button>
-          <b>{vista === 'settimana' ? `${dataBreve(giorni[0])} – ${dataBreve(giorni[6])}` : data(giorno)}</b>
-        </div>
-        <div className="row gap-8">
-          <select className="select select--sm" style={{ width: 'auto' }} value={cimitero} onChange={(e) => setCimitero(e.target.value)}>
-            <option value="">Tutti i cimiteri</option>
-            {db.cimiteri.map((c) => <option key={c.id} value={c.id}>{c.breve}</option>)}
-          </select>
-          <select className="select select--sm" style={{ width: 'auto' }} value={tipo} onChange={(e) => setTipo(e.target.value)}>
-            <option value="">Tutte le operazioni</option>
-            {TIPI_OPERAZIONE.map((x) => <option key={x} value={x}>{NOMI_OPERAZIONE[x]}</option>)}
-          </select>
-        </div>
-      </div>
-      <div className={`agenda agenda--${vista}`}>
-        {giorni.map((g, i) => {
-          const voci = del(g);
-          const gs = new Date(`${g}T12:00:00`);
-          return (
-            <div key={g} className={`agenda__giorno ${g === oggi ? 'is-oggi' : ''}`}>
-              <button className="agenda__testa" onClick={() => { setGiorno(g); setVista('giorno'); }}>
-                <span className="upper muted">{GIORNI_BREVI[vista === 'settimana' ? i : (gs.getDay() + 6) % 7]}</span>
-                <b>{Number(g.slice(8))}</b>
-                <span className="tiny muted">{voci.length || ''}</span>
-              </button>
-              <div className="agenda__voci">
-                {voci.map((p) => <VoceAgenda key={p.id} p={p} tutte={programmate} />)}
-                {!voci.length && <span className="tiny muted" style={{ padding: 8 }}>Nessuna operazione</span>}
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
   );
 }
 

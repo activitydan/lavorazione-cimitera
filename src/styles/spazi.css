@@ -348,3 +348,20 @@
 .sidebar__foot .utente, .sidebar__foot .user-chip { min-width: 0; max-width: 100%; }
 .sidebar__foot .user-chip__txt { min-width: 0; }
 .sidebar__foot .user-chip__txt b, .sidebar__foot .user-chip__txt span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+
+/* ---------- Calendario unico: vista a settimana, giorno da scegliere, elenco in più a destra ---------- */
+.calg .agenda { border-top: none; align-content: start; }
+.calg .agenda__giorno { min-height: 420px; }
+.calg button.agenda__testa { cursor: copy; }
+.calg button.agenda__testa:hover { background: var(--blu-50); }
+.calg__corpo--settimana { grid-template-columns: minmax(0, 1fr); }
+.calg__corpo--settimana .calg__lato { border-left: none; border-top: 1px solid var(--border); }
+.calg__corpo--settimana .calg__giorno { display: none; }
+.calg__corpo--settimana .calg__calendari { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 16px; border-top: none; padding: 12px 16px; }
+.calg__corpo--settimana .calg__calendari .upper { margin: 0 4px 0 0; }
+.calg .agenda__voce { cursor: pointer; }
+.calg__avviso { margin: 12px 16px; }
+.calg__doppia { display: flex; align-items: center; gap: 4px; color: var(--danger-700); }
+.calg__sotto { border-top: 1px solid var(--border); max-height: 340px; overflow: auto; }
+.calg__sotto-testa { display: flex; align-items: center; gap: 8px; padding: 12px 16px 4px; position: sticky; top: 0; background: var(--surface); }

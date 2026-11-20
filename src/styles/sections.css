@@ -34,7 +34,6 @@
 .prima-dopo--uno { grid-template-columns: minmax(0, 520px); }
 .prima-dopo figure { margin: 0; }
 .prima-dopo figcaption { font-size: 12px; color: var(--muted); margin-top: 6px; font-weight: 700; }
-.cal-wrap { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 16px; align-items: start; }
 .cal__grid { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 1px; background: var(--border); border-top: 1px solid var(--border); margin-top: 12px; border-radius: 0 0 var(--radius) var(--radius); overflow: hidden; }
 .cal__dow { background: var(--surface-2); text-align: center; font-size: 11px; font-weight: 700; text-transform: capitalize; color: var(--muted); padding: 6px 0; }
 .cal__day { background: #fff; min-height: 104px; padding: 6px; display: flex; flex-direction: column; gap: 3px; min-width: 0; }
@@ -45,7 +44,7 @@
 .cal__n { font-size: 12px; font-weight: 700; width: 22px; height: 22px; border-radius: 50%; display: grid; place-items: center; }
 .cal__item { text-align: left; font-size: 11px; font-weight: 700; border: none; border-left: 3px solid; background: var(--surface-2); border-radius: var(--radius-xs); padding: 3px 5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; color: var(--text-2); }
 .cal__item:hover { background: var(--blu-50); }
-@media (max-width: 1100px) { .cal-wrap { grid-template-columns: 1fr; } .cal__day { min-height: 70px; } }
+@media (max-width: 1100px) { .cal__day { min-height: 70px; } }
 @media (max-width: 760px) { .prima-dopo { grid-template-columns: 1fr; } }
 
 /* ---------- report ---------- */
