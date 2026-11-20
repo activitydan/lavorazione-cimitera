@@ -357,8 +357,8 @@ function Avvisi() {
     <div className="col gap-16">
       <div className="kpi-grid">
         <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Emesso nel {scelto}</span><span className="kpi__value">{euro(somma(dellAnno))}</span><span className="kpi__sub">{numero(dellAnno.length)} {dellAnno.length === 1 ? 'avviso' : 'avvisi'}</span></span></div>
-        <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Incassato</span><span className="kpi__value" style={{ color: '#3F9A3C' }}>{euro(somma(dellAnno.filter((a) => a.stato === 'pagato')))}</span></span></div>
-        <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Scaduto</span><span className="kpi__value" style={{ color: '#D9473F' }}>{euro(somma(dellAnno.filter((a) => statoAvviso(a) === 'scaduto')))}</span></span></div>
+        <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Incassato</span><span className="kpi__value" style={{ color: 'var(--ok)' }}>{euro(somma(dellAnno.filter((a) => a.stato === 'pagato')))}</span></span></div>
+        <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Scaduto</span><span className="kpi__value" style={{ color: 'var(--danger)' }}>{euro(somma(dellAnno.filter((a) => statoAvviso(a) === 'scaduto')))}</span></span></div>
       </div>
       <section className="card">
         <div className="card__head" style={{ flexWrap: 'wrap' }}>

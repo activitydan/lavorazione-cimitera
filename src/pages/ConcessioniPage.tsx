@@ -434,7 +434,7 @@ function ModaleNuova({ onChiudi, onCreata }: { onChiudi: () => void; onCreata: (
   };
 
   return (
-    <Modal titolo="Nuova concessione" size="lg" onClose={onChiudi} icona={<span className="list-item__icon" style={{ background: '#EAF2F9', color: '#1B5A8F' }}><FileSignature size={18} /></span>}
+    <Modal titolo="Nuova concessione" size="lg" onClose={onChiudi} icona={<span className="list-item__icon"><FileSignature size={18} /></span>}
       footer={<><button className="btn" onClick={onChiudi}>Annulla</button><button className="btn btn--primary" onClick={salva}>Registra la concessione</button></>}>
       <div className="col gap-16">
         <Field label="Postazione">

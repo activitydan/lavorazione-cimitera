@@ -11,7 +11,7 @@
 }
 .cmap__leaflet.is-drawing { cursor: crosshair; }
 .cmap__leaflet.is-drawing .leaflet-interactive { cursor: crosshair; }
-.leaflet-control-attribution { font-size: 10px; background: rgba(255, 255, 255, 0.75) !important; border-radius: 6px 0 0 0; }
+.leaflet-control-attribution { font-size: 10px; background: rgba(255, 255, 255, 0.75) !important; border-radius: var(--radius-xs) 0 0 0; }
 
 .map-ctrl {
   position: absolute;
@@ -21,7 +21,7 @@
   display: flex;
   flex-direction: column;
   background: #fff;
-  border-radius: 12px;
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-2);
   overflow: hidden;
   border: 1px solid var(--border);
@@ -80,7 +80,7 @@
   color: #fff;
   background: rgba(15, 27, 45, 0.78);
   padding: 2px 7px;
-  border-radius: 6px;
+  border-radius: var(--radius-xs);
   pointer-events: none;
 }
 .cnt {
@@ -89,7 +89,7 @@
   min-width: 22px;
   height: 22px;
   padding: 0 6px;
-  border-radius: 11px;
+  border-radius: 999px;
   background: var(--blu);
   color: #fff;
   font-weight: 800;
@@ -107,7 +107,7 @@
   font-size: 11px;
   font-weight: 800;
   padding: 4px 9px;
-  border-radius: 8px 8px 8px 0;
+  border-radius: var(--radius-sm) var(--radius-sm) var(--radius-sm) 0;
   white-space: nowrap;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
   margin-top: -6px;
@@ -124,7 +124,7 @@
 }
 
 .tt {
-  border-radius: 9px !important;
+  border-radius: var(--radius-sm) !important;
   border: none !important;
   box-shadow: var(--shadow-2) !important;
   padding: 7px 10px !important;
@@ -151,8 +151,8 @@
   transform: translateX(-50%);
   width: 300px;
   background: #fff;
-  border-radius: 14px;
-  box-shadow: 0 18px 40px rgba(10, 30, 60, 0.28), 0 2px 6px rgba(10, 30, 60, 0.12);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-2);
   padding: 12px;
   animation: pop 0.16s ease;
 }
@@ -170,7 +170,7 @@
 }
 .map-anchor--below .map-card::after { bottom: auto; top: -7px; }
 .map-card__top { display: flex; gap: 11px; }
-.map-card__thumb { width: 74px; height: 62px; border-radius: 9px; object-fit: cover; flex: none; background: var(--surface-3); }
+.map-card__thumb { width: 74px; height: 62px; border-radius: var(--radius-sm); object-fit: cover; flex: none; background: var(--surface-3); }
 .map-card__id { font-family: var(--font-display); font-weight: 800; font-size: 15px; color: var(--navy); }
 .map-card__sub { color: var(--muted); font-size: 12.5px; }
 .map-card__name { font-weight: 800; font-size: 13.5px; margin-top: 2px; }
@@ -191,7 +191,7 @@
   flex-wrap: wrap;
   background: rgba(255, 255, 255, 0.97);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
   padding: 9px 14px;
   box-shadow: var(--shadow-2);
   font-size: 13px;
@@ -200,7 +200,7 @@
   width: fit-content;
   max-width: calc(100% - 28px);
 }
-.map-legend__item { display: inline-flex; align-items: center; gap: 7px; border: none; background: transparent; padding: 3px 4px; border-radius: 7px; font-weight: 700; color: inherit; }
+.map-legend__item { display: inline-flex; align-items: center; gap: 7px; border: none; background: transparent; padding: 3px 4px; border-radius: var(--radius-xs); font-weight: 700; color: inherit; }
 .map-legend__item:hover { background: var(--surface-2); }
 .map-legend__item.is-off { opacity: 0.38; }
 .map-legend__item .n { color: var(--faint); font-weight: 700; font-size: 11.5px; }

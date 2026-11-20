@@ -168,7 +168,7 @@ export function Calendario({ agenziaId, onEvento, azione }: { agenziaId?: string
     <section className="card calg">
       <div className="card__head calg__testa">
         <div className="row gap-8 row--wrap">
-          <span className="widget__ico" style={{ background: '#2F6FB314', color: '#2F6FB3' }}><CalendarDays size={16} /></span>
+          <span className="widget__ico"><CalendarDays size={16} /></span>
           <h2 style={{ textTransform: 'capitalize' }}>{meseAnno(mese.y, mese.m)}</h2>
           <button className="btn btn--sm btn--icon" onClick={() => sposta(-1)} aria-label="Mese precedente"><ChevronLeft size={16} /></button>
           <button className="btn btn--sm" onClick={vaiOggi}>Oggi</button>

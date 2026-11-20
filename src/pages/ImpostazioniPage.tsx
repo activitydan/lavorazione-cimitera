@@ -187,7 +187,7 @@ function EditorCampo({ campo, onEliminato }: { campo: CampoDef; onEliminato: () 
           <select className="select" value={b.tipo} onChange={(e) => set({ tipo: e.target.value as TipoCampo })}>
             {TIPI_CAMPO.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
           </select>
-          {b.tipo !== campo.tipo && n > 0 && <span className="field__hint" style={{ color: '#a85710' }}>Attenzione: {n} schede hanno già un valore, potrebbe non essere compatibile.</span>}
+          {b.tipo !== campo.tipo && n > 0 && <span className="field__hint" style={{ color: 'var(--orange-700)' }}>Attenzione: {n} schede hanno già un valore, potrebbe non essere compatibile.</span>}
         </Field>
         <Field label="Sezione della scheda">
           <select className="select" value={b.sezione} onChange={(e) => set({ sezione: e.target.value })}>
@@ -290,7 +290,7 @@ function AnteprimaScheda({ evidenzia }: { evidenzia?: string }) {
   return (
     <div className="anteprima">
       <div className="anteprima__phone">
-        <div className="anteprima__bar"><span className="wordmark__name" style={{ fontSize: 15, color: '#fff' }}>Cimi<span style={{ color: '#8bbd5e' }}>Tera</span></span><span className="tiny" style={{ color: '#a9bcd2' }}>Rilievo</span></div>
+        <div className="anteprima__bar"><span className="wordmark__name" style={{ fontSize: 15, color: '#fff' }}>Cimi<span style={{ color: 'var(--verde)' }}>Tera</span></span><span className="tiny" style={{ color: '#a9bcd2' }}>Rilievo</span></div>
         <div className="anteprima__body">
           <div className="row row--between"><b>Scheda {config.tipologie.find((t) => t.id === tip)?.label.toLowerCase()}</b>
             <select className="select select--sm" style={{ width: 'auto' }} value={tip} onChange={(e) => setTip(e.target.value)} aria-label="Tipologia dell'anteprima">

@@ -60,7 +60,7 @@ export function AvvisoDettaglio({ a, onChiudi }: { a: AvvisoPagamento; onChiudi:
             {a.passi.map((p, i) => <div key={i} className="small"><b>{NOMI_PASSO[p.tipo]}</b> <span className="muted">· {data(p.data)}</span></div>)}
           </div>
         )}
-        {st === 'scaduto' && <p className="small" style={{ color: '#a85710' }}>Scaduto: si può ancora pagare.</p>}
+        {st === 'scaduto' && <p className="small" style={{ color: 'var(--orange-700)' }}>Scaduto: si può ancora pagare.</p>}
         {annulla && (
           <Field label="Motivo dell'annullamento">
             <div className="row gap-8">

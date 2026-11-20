@@ -210,7 +210,7 @@ export function SchedaView({ s, estesa }: { s: Scheda; estesa?: boolean }) {
           {lampada && s.lampadaAccesa === false && (
             <button className="btn btn--sm mt-8" onClick={() => apriModale({ tipo: 'manutenzione', schedaId: s.id, categoria: 'lampada_guasta' })}><Wrench size={14} />Segnala guasto</button>
           )}
-          {!lampada && s.lampadaAccesa === true && <p className="small mt-8" style={{ color: '#a85710' }}>Lampada accesa senza un'utenza attiva: l'ufficio la trova tra le lampade da controllare.</p>}
+          {!lampada && s.lampadaAccesa === true && <p className="small mt-8" style={{ color: 'var(--orange-700)' }}>Lampada accesa senza un'utenza attiva: l'ufficio la trova tra le lampade da controllare.</p>}
           {!telefono && utenze.length > 0 && <a className="btn btn--xs mt-8" href={href(`/illuminazione-votiva?id=${utenze[0].id}`)}>Apri in Illuminazione votiva</a>}
         </section>
       )}

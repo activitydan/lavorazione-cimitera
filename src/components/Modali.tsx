@@ -107,7 +107,7 @@ function ModaleManutenzione({ schedaId, categoriaIniziale }: { schedaId?: string
     <Modal
       titolo="Segnala manutenzione"
       sottotitolo={comune ? 'La segnalazione compare in Manutenzioni e nel calendario.' : 'La segnalazione compare in Manutenzioni e la scheda passa a “Da manutenzionare”.'}
-      icona={<span className="list-item__icon" style={{ background: '#fdeeed', color: '#D9473F' }}><Wrench size={18} /></span>}
+      icona={<span className="list-item__icon"><Wrench size={18} /></span>}
       onClose={chiudi}
       footer={<><button className="btn" onClick={chiudi}>Annulla</button><button className="btn btn--primary" onClick={invia}>Registra segnalazione</button></>}
     >
@@ -177,7 +177,7 @@ function ModaleVerifica({ schedaId }: { schedaId?: string }) {
   return (
     <Modal
       titolo="Assegna una verifica"
-      icona={<span className="list-item__icon" style={{ background: '#fdf6dc', color: '#8a6a00' }}><ClipboardCheck size={18} /></span>}
+      icona={<span className="list-item__icon"><ClipboardCheck size={18} /></span>}
       onClose={chiudi}
       footer={<><button className="btn" onClick={chiudi}>Annulla</button><button className="btn btn--primary" onClick={invia}>Assegna</button></>}
     >
@@ -226,7 +226,7 @@ function ModaleGps({ schedaId }: { schedaId: string }) {
   return (
     <Modal
       titolo={`Modifica GPS · ${s.id}`}
-      icona={<span className="list-item__icon" style={{ background: '#EAF2F9', color: '#1B5A8F' }}><Crosshair size={18} /></span>}
+      icona={<span className="list-item__icon"><Crosshair size={18} /></span>}
       onClose={chiudi}
       size="lg"
       footer={

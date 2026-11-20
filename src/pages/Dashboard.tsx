@@ -11,13 +11,13 @@ import { aggiungiGiorni, dataOra, nomeCompleto, numero, oggiISO, percentuale } f
 import { useTelefono } from '../lib/schermo';
 import { href, vai } from '../router';
 
-function Widget({ titolo, icona, link, linkLabel = 'Apri', children, className, colore = '#1B5A8F' }: {
-  titolo: string; icona: React.ReactNode; link?: string; linkLabel?: string; children: React.ReactNode; className?: string; colore?: string;
+function Widget({ titolo, icona, link, linkLabel = 'Apri', children, className }: {
+  titolo: string; icona: React.ReactNode; link?: string; linkLabel?: string; children: React.ReactNode; className?: string;
 }) {
   return (
     <section className={`card widget ${className ?? ''}`}>
       <div className="widget__head">
-        <h3><span className="widget__ico" style={{ background: `${colore}14`, color: colore }}>{icona}</span>{titolo}</h3>
+        <h3><span className="widget__ico">{icona}</span>{titolo}</h3>
         {link && <a className="widget__link" href={href(link)}>{linkLabel}<ArrowRight size={14} /></a>}
       </div>
       <div className="widget__body">{children}</div>
@@ -99,7 +99,7 @@ export function Dashboard() {
           </div>
         )}
 
-        <Widget titolo="Agenda di oggi" icona={<CalendarDays size={16} />} colore="#2F6FB3" link={telefono ? undefined : '/operazioni?tab=agenda'} linkLabel="Apri l'agenda" className="bento__alert">
+        <Widget titolo="Agenda di oggi" icona={<CalendarDays size={16} />} link={telefono ? undefined : '/operazioni?tab=agenda'} linkLabel="Apri l'agenda" className="bento__alert">
           <div className="alert-list">
             {agenda.length === 0 && <p className="small muted">Nessuna operazione oggi e domani.</p>}
             {(telefono ? agenda.slice(0, 5) : agenda).map((p) => (
@@ -136,7 +136,7 @@ export function Dashboard() {
           </div>
         </Widget>
 
-        <Widget titolo="Manutenzione" icona={<Wrench size={16} />} link="/manutenzioni" colore="#E07B22" className="bento__manut">
+        <Widget titolo="Manutenzione" icona={<Wrench size={16} />} link="/manutenzioni" className="bento__manut">
           <div className="mini-kpis">
             <a href={href(`/manutenzioni?stato=aperta${tutte}`)}><b>{manutenzioni.filter((m) => m.stato === 'aperta').length}</b><span>aperte</span></a>
             <a href={href(`/manutenzioni?stato=programmata${tutte}`)}><b>{manutenzioni.filter((m) => m.stato === 'programmata').length}</b><span>programmate</span></a>
@@ -145,7 +145,7 @@ export function Dashboard() {
           </div>
         </Widget>
 
-        <Widget titolo="Attività recente" icona={<ClipboardList size={16} />} colore="#79AA4F" className="bento__attivita">
+        <Widget titolo="Attività recente" icona={<ClipboardList size={16} />} className="bento__attivita">
           <div className="list">
             {recenti.map((s) => {
               const op = db.operatori.find((o) => o.id === s.rilevatoDa);

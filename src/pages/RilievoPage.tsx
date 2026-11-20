@@ -194,7 +194,7 @@ export function RilievoPage() {
       <div className="rilievo__head">
         <div>
           <h1>Nuovo rilievo</h1>
-          <p className="muted">{cim.nome} · la scheda riceverà l'ID <b className="mono" style={{ color: '#0A2F55' }}>{id}</b></p>
+          <p className="muted">{cim.nome} · la scheda riceverà l'ID <b className="mono" style={{ color: 'var(--navy)' }}>{id}</b></p>
         </div>
         <button className="btn btn--sm btn--ghost" onClick={() => { esitoFoto.current = null; setB(iniziale()); setPasso(0); }}><RotateCcw size={14} />Ricomincia</button>
       </div>

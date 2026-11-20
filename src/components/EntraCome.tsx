@@ -29,7 +29,7 @@ export function EntraCome() {
             <div className="entra__lista">
               {agenzie.map((a) => (
                 <button key={a.id} className="entra__voce" onClick={() => { entra({ ruolo: 'agenzia', agenziaId: a.id }); vai('/'); }}>
-                  <span className="entra__ico" style={{ background: '#EEF6E8', color: '#4A822B' }}><Building2 size={20} /></span>
+                  <span className="entra__ico"><Building2 size={20} /></span>
                   <span className="grow">
                     <b>{a.nome}</b>
                     <span>Agenzia funebre</span>
@@ -45,7 +45,7 @@ export function EntraCome() {
             <h1 className="entra__titolo">Entra come</h1>
             <div className="entra__lista">
               <button className="entra__voce" onClick={() => vai('/cittadino')}>
-                <span className="entra__ico" style={{ background: '#EEF6E8', color: '#4A822B' }}><Search size={20} /></span>
+                <span className="entra__ico"><Search size={20} /></span>
                 <span className="grow">
                   <b>Cittadino</b>
                   <span>Cerca dove si trova un defunto</span>
@@ -53,7 +53,7 @@ export function EntraCome() {
                 <ChevronRight size={18} />
               </button>
               <button className="entra__voce" onClick={() => setScegliOperatore(true)}>
-                <span className="entra__ico" style={{ background: '#EAF2F9', color: '#1B5A8F' }}><ClipboardList size={20} /></span>
+                <span className="entra__ico"><ClipboardList size={20} /></span>
                 <span className="grow">
                   <b>Operatore</b>
                   <span>Censimento sul campo e lavoro d'ufficio</span>
@@ -62,7 +62,7 @@ export function EntraCome() {
               </button>
               {agenzie.length > 0 && (
                 <button className="entra__voce" onClick={() => setScegli('agenzia')}>
-                  <span className="entra__ico" style={{ background: '#F3EEF8', color: '#7B4FA8' }}><Building2 size={20} /></span>
+                  <span className="entra__ico"><Building2 size={20} /></span>
                   <span className="grow">
                     <b>Agenzia funebre</b>
                     <span>Le tue operazioni e le richieste all'ufficio</span>
@@ -71,7 +71,7 @@ export function EntraCome() {
                 </button>
               )}
               <button className="entra__voce" onClick={() => { entra({ ruolo: 'amministratore' }); dopo(); }}>
-                <span className="entra__ico" style={{ background: '#E9EDF3', color: '#0A2F55' }}><ShieldCheck size={20} /></span>
+                <span className="entra__ico"><ShieldCheck size={20} /></span>
                 <span className="grow">
                   <b>Amministratore</b>
                   <span>{UFFICIO}: tutto, più operatori e impostazioni</span>

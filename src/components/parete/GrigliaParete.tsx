@@ -123,7 +123,7 @@ function Contenuto({ v }: { v: { strutturaId: string; schedaId?: string } }) {
       <div className="modal modal--xl parete">
         <div className="modal__head">
           <div className="row gap-12">
-            <span className="list-item__icon" style={{ background: '#EAF2F9', color: '#1B5A8F' }}><Grid3x3 size={20} /></span>
+            <span className="list-item__icon"><Grid3x3 size={20} /></span>
             <div>
               <h2>{struttura.nome}</h2>
               <p>
@@ -152,7 +152,7 @@ function Contenuto({ v }: { v: { strutturaId: string; schedaId?: string } }) {
               <div className="parete__card">
                 <FotoScheda s={scelto} modificabile={false} />
                 <div className="row row--between mt-12">
-                  <b className="display" style={{ color: '#0A2F55' }}>{scelto.id}</b>
+                  <b className="display" style={{ color: 'var(--navy)' }}>{scelto.id}</b>
                   <StatoBadge stato={scelto.stato} small />
                 </div>
                 {scelto.defunti.length ? (

@@ -231,7 +231,7 @@ function Calendario({ manutenzioni }: { manutenzioni: Manutenzione[] }) {
         <div className="card__head"><h3>Da programmare <span className="badge badge--sm">{aperte.length}</span></h3></div>
         <div className="list" style={{ maxHeight: 560, overflow: 'auto' }}>
           {aperte.map((m) => (
-            <button key={m.id} className={`list-item ${daProgrammare === m.id ? 'is-sel' : ''}`} onClick={() => setDaProgrammare(daProgrammare === m.id ? null : m.id)} style={daProgrammare === m.id ? { background: '#EAF2F9' } : undefined}>
+            <button key={m.id} className={`list-item ${daProgrammare === m.id ? 'is-sel' : ''}`} onClick={() => setDaProgrammare(daProgrammare === m.id ? null : m.id)} style={daProgrammare === m.id ? { background: 'var(--blu-50)' } : undefined}>
               <span className="dot" style={{ background: prioritaDef(m.priorita).colore }} />
               <span className="grow" style={{ minWidth: 0 }}>
                 <b className="small">{labelLista(config.categorieManutenzione, m.categoria)}</b>

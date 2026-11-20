@@ -150,7 +150,7 @@ function RicercaGlobale() {
           {risultati.map((r, i) =>
             r.k === 'area' ? (
               <button key={r.a.id} className={`popover__item ${i === att ? 'is-active' : ''}`} onMouseEnter={() => setAtt(i)} onClick={() => scegli(i)}>
-                <span className="list-item__icon" style={{ background: '#EAF2F9', color: '#1B5A8F', width: 32, height: 32 }}>
+                <span className="list-item__icon">
                   {r.a.tipo === 'viale' ? <RouteIcon size={16} /> : <Layers size={16} />}
                 </span>
                 <span className="grow">

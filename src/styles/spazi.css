@@ -81,7 +81,7 @@
   justify-content: center;
   gap: 24px;
   padding: 24px 16px;
-  background: radial-gradient(circle at 50% 30%, #ffffff, #e9eef4);
+  background: var(--bg);
 }
 .entra__box { width: 100%; max-width: 440px; display: flex; flex-direction: column; gap: 16px; }
 .entra__logo { display: flex; flex-direction: column; align-items: center; gap: 12px; margin-bottom: 8px; }
@@ -96,17 +96,17 @@
   width: 100%;
   padding: 12px 16px;
   border: 1px solid var(--border);
-  border-radius: 14px;
+  border-radius: var(--radius);
   background: #fff;
   text-align: left;
   color: var(--text);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition: border-color 0.15s;
 }
-.entra__voce:hover { border-color: var(--blu); box-shadow: var(--shadow-1); }
+.entra__voce:hover { border-color: var(--blu); }
 .entra__voce .grow { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
 .entra__voce .grow > span { font-size: 13px; color: var(--muted); }
 .entra__voce > svg { color: var(--muted); flex: none; }
-.entra__ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; }
+.entra__ico { display: grid; place-items: center; flex: none; color: var(--navy); }
 .entra__nota { font-size: 12.5px; color: var(--muted); text-align: center; }
 .entra__firma { font-size: 12px; color: var(--muted); letter-spacing: 0.04em; }
 
@@ -124,7 +124,7 @@
   width: 100%;
   padding: 12px;
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: var(--radius);
   background: #fff;
   text-align: left;
   color: var(--text);
@@ -135,10 +135,10 @@
 
 /* ---------- Ricerca: finestra Esporta ed elenco a card sul telefono ---------- */
 .esporta { display: flex; flex-direction: column; gap: 12px; }
-.esporta__voce { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--border); border-radius: 12px; }
+.esporta__voce { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: 1px solid var(--border); border-radius: var(--radius); }
 .esporta__voce .grow { min-width: 0; }
-.esporta__ico { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; flex: none; }
-.esporta__colonne { margin: 0; padding: 12px 16px; border: 1px dashed var(--border); border-radius: 12px; }
+.esporta__ico { display: grid; place-items: center; flex: none; color: var(--navy); }
+.esporta__colonne { margin: 0; padding: 12px 16px; border: 1px dashed var(--border); border-radius: var(--radius); }
 .ricerca__card-list { display: flex; flex-direction: column; }
 .ricerca__card { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border: none; border-bottom: 1px solid var(--border); background: transparent; text-align: left; color: var(--text); width: 100%; }
 .ricerca__card .grow { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -148,7 +148,7 @@
 
 /* ---------- Censimento ---------- */
 .tip-riga { display: flex; flex-direction: column; gap: 4px; }
-.tip-riga__barra { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--surface-3); }
+.tip-riga__barra { display: flex; height: 12px; border-radius: var(--radius-xs); overflow: hidden; background: var(--surface-3); }
 .tip-riga__barra span { display: block; height: 100%; }
 .ver-card { display: flex; align-items: center; gap: 12px; border: none; background: transparent; padding: 0; text-align: left; color: var(--text); width: 100%; }
 .ver-card .grow { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
@@ -157,12 +157,12 @@
 .drawer--admin { position: sticky; top: 0; width: auto; max-height: calc(100dvh - 140px); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: none; transform: none; animation: none; }
 
 /* ---------- lavoro senza rete ---------- */
-.striscia-rete { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: #fdf1e3; color: #7a4a10; border-bottom: 1px solid #f1d3ad; font-size: 13px; flex: none; }
+.striscia-rete { display: flex; align-items: center; gap: 8px; padding: 8px 16px; background: var(--orange-50); color: var(--orange-700); border-bottom: 1px solid var(--orange-200); font-size: 13px; flex: none; }
 .striscia-rete .grow { min-width: 0; }
 @media (max-width: 760px) { .striscia-rete .grow { display: none; } .striscia-rete b { flex: 1; } }
 
 /* ---------- Concessioni ---------- */
-.soggetto { padding: 12px; border: 1px solid var(--border); border-radius: 12px; background: var(--surface-2); display: flex; flex-direction: column; gap: 4px; }
+.soggetto { padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); background: var(--surface-2); display: flex; flex-direction: column; gap: 4px; }
 .modal--xl .griglia--2 { align-items: start; }
 .input.num { text-align: right; font-variant-numeric: tabular-nums; }
 
@@ -177,14 +177,14 @@
 .agenda__testa b { font-size: 16px; }
 .agenda__voci { display: flex; flex-direction: column; gap: 8px; padding: 8px; }
 .agenda--giorno .agenda__voci { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); }
-.agenda__voce { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border: 1px solid var(--border); border-left: 4px solid var(--blu); border-radius: 8px; background: #fff; text-align: left; color: var(--text); min-width: 0; }
-.agenda__voce:hover { box-shadow: var(--shadow-1); }
+.agenda__voce { display: flex; flex-direction: column; gap: 2px; padding: 8px 12px; border: 1px solid var(--border); border-left: 4px solid var(--blu); border-radius: var(--radius-sm); background: #fff; text-align: left; color: var(--text); min-width: 0; }
+.agenda__voce:hover { background: var(--surface-2); }
 .ricerca__altrove { display: flex; flex-direction: column; gap: 4px; padding: 12px 16px; border-top: 1px solid var(--border); }
 @media (max-width: 1100px) { .agenda--settimana { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
 
 /* ---------- Scadenze e pagamenti ---------- */
-.simulato { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; padding: 8px 12px; border-radius: 8px; background: #fdf1e3; color: #7a4a10; font-size: 12.5px; }
-.canale { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: 12px; cursor: pointer; }
+.simulato { display: flex; align-items: center; gap: 8px; margin: 0 0 16px; padding: 8px 12px; border-radius: var(--radius-sm); background: var(--orange-50); color: var(--orange-700); font-size: 12.5px; }
+.canale { display: flex; align-items: center; gap: 12px; padding: 12px; border: 1px solid var(--border); border-radius: var(--radius); cursor: pointer; }
 .canale.is-on { border-color: var(--blu); background: var(--blu-50); }
 .canale .grow { display: flex; flex-direction: column; gap: 2px; }
 
@@ -212,14 +212,14 @@
 .calg__punti i { width: 7px; height: 7px; border-radius: 50%; }
 .calg__lato { border-left: 1px solid var(--border); display: flex; flex-direction: column; min-height: 0; }
 .calg__giorno { flex: 1; padding: 16px; display: flex; flex-direction: column; gap: 8px; max-height: 470px; overflow: auto; }
-.calg__voce { display: flex; align-items: flex-start; gap: 10px; text-align: left; border: 1px solid var(--border); border-left: 4px solid; border-radius: 9px; background: #fff; padding: 8px 10px; cursor: pointer; }
+.calg__voce { display: flex; align-items: flex-start; gap: 10px; text-align: left; border: 1px solid var(--border); border-left: 4px solid; border-radius: var(--radius-sm); background: #fff; padding: 8px 10px; cursor: pointer; }
 .calg__voce:hover { background: var(--surface-2); }
 .calg__voce .grow { display: flex; flex-direction: column; min-width: 0; font-size: 13px; }
 .calg__voce .mono { font-size: 12.5px; padding-top: 1px; min-width: 38px; }
 .calg__calendari { border-top: 1px solid var(--border); padding: 12px 16px 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 4px 8px; }
 .calg__calendari .upper { grid-column: 1 / -1; margin-bottom: 4px; }
 .calg__cal { display: flex; align-items: center; gap: 8px; border: none; background: none; padding: 4px 0; font-size: 12.5px; font-weight: 700; color: var(--text); cursor: pointer; text-align: left; }
-.calg__spunta { width: 16px; height: 16px; flex: none; border-radius: 4px; border: 2px solid var(--border-strong); display: grid; place-items: center; color: #fff; }
+.calg__spunta { width: 16px; height: 16px; flex: none; border-radius: var(--radius-xs); border: 2px solid var(--border-strong); display: grid; place-items: center; color: #fff; }
 @media (max-width: 1100px) {
   .calg__corpo { grid-template-columns: minmax(0, 1fr); }
   .calg__lato { border-left: none; border-top: 1px solid var(--border); }
@@ -246,14 +246,14 @@
 .doc { padding: 4px 6px 4px 10px; }
 .doc__apri { border: none; background: none; text-align: left; padding: 4px 0; cursor: pointer; color: inherit; min-width: 0; }
 .doc__apri:hover b { text-decoration: underline; }
-.doc__nuovo { margin-top: 8px; padding: 12px; border: 1px dashed var(--border-strong); border-radius: 10px; display: flex; flex-direction: column; gap: 8px; }
+.doc__nuovo { margin-top: 8px; padding: 12px; border: 1px dashed var(--border-strong); border-radius: var(--radius-sm); display: flex; flex-direction: column; gap: 8px; }
 .cella2d { position: relative; }
 .cella2d__spazi { position: absolute; top: 3px; right: 5px; font-style: normal; font-size: 9px; font-weight: 800; opacity: 0.75; }
 
 
 /* ---------- Amministrazione: pagina del cittadino con il QR ---------- */
 .cittadino-qr { display: grid; grid-template-columns: 220px minmax(0, 1fr); gap: 24px; padding: 16px; align-items: start; }
-.cittadino-qr__img { width: 220px; height: 220px; border: 1px solid var(--border); border-radius: 12px; display: grid; place-items: center; background: #fff; }
+.cittadino-qr__img { width: 220px; height: 220px; border: 1px solid var(--border); border-radius: var(--radius); display: grid; place-items: center; background: #fff; }
 .cittadino-qr__img img { width: 196px; height: 196px; }
 @media (max-width: 760px) { .cittadino-qr { grid-template-columns: 1fr; } }
 
@@ -277,7 +277,7 @@
 /* ---------- Dashboard sul telefono: la stessa del computer, in colonna ---------- */
 .azione--verde { background: var(--verde-600); border-color: var(--verde-600); color: #fff; }
 .azione--verde svg { color: #fff; }
-.azione--verde:hover { background: #3f7324; border-color: #3f7324; color: #fff; }
+.azione--verde:hover { background: var(--verde-700); border-color: var(--verde-700); color: #fff; }
 @media (max-width: 760px) {
   .page--home { padding: 12px 12px 32px; height: auto; min-height: 0; }
   .page--home .bento { display: flex; flex-direction: column; gap: 12px; }

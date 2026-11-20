@@ -110,7 +110,7 @@ export function IlluminazionePage() {
             <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Utenze attive</span><span className="kpi__value">{numero(attive.length)}</span></span></div>
             <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Punti luce accesi</span><span className="kpi__value">{numero(attive.reduce((t, u) => t + u.puntiLuce, 0))}</span></span></div>
             <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Canoni di un anno</span><span className="kpi__value">{euro(attive.reduce((t, u) => t + canoneAnnuo(u, db.regole), 0))}</span></span></div>
-            <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Da allacciare</span><span className="kpi__value" style={{ color: conta('da_allacciare') ? '#2F6FB3' : undefined }}>{conta('da_allacciare')}</span></span></div>
+            <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Da allacciare</span><span className="kpi__value" style={{ color: conta('da_allacciare') ? 'var(--blu)' : undefined }}>{conta('da_allacciare')}</span></span></div>
           </div>
           <section className="card">
             <div className="card__head" style={{ flexWrap: 'wrap' }}>
@@ -346,7 +346,7 @@ function ModaleAllaccio({ schedaIniziale, onChiudi, onCreata }: { schedaIniziale
   };
 
   return (
-    <Modal titolo="Nuovo allaccio" size="lg" onClose={onChiudi} icona={<span className="list-item__icon" style={{ background: '#fff7e0', color: '#B8860B' }}><Lightbulb size={18} /></span>}
+    <Modal titolo="Nuovo allaccio" size="lg" onClose={onChiudi} icona={<span className="list-item__icon"><Lightbulb size={18} /></span>}
       footer={<><button className="btn" onClick={onChiudi}>Annulla</button><button className="btn btn--primary" onClick={salva}>Registra l'utenza</button></>}>
       <div className="col gap-16">
         <Field label="Postazione">

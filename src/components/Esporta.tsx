@@ -88,7 +88,7 @@ export function FinestraEsporta({ schede, cosa, righeDefunti, nomeFile = 'ricerc
     <Modal titolo="Esporta" sottotitolo={cosa} onClose={onChiudi} size="lg">
       <div className="esporta">
         <section className="esporta__voce">
-          <span className="esporta__ico" style={{ background: '#eef6e7', color: '#3F9A3C' }}><FileSpreadsheet size={20} /></span>
+          <span className="esporta__ico"><FileSpreadsheet size={20} /></span>
           <div className="grow">
             <b>Excel</b>
             <p className="small muted">{righeDefunti ? `Una riga per defunto: ${numero(righeDefunti.length)} righe.` : `Una riga per scheda: ${numero(schede.length)} righe.`}</p>
@@ -121,7 +121,7 @@ export function FinestraEsporta({ schede, cosa, righeDefunti, nomeFile = 'ricerc
           </div>
         )}
         <section className="esporta__voce">
-          <span className="esporta__ico" style={{ background: '#fbeceb', color: '#D9473F' }}><FileText size={20} /></span>
+          <span className="esporta__ico"><FileText size={20} /></span>
           <div className="grow">
             <b>PDF delle schede</b>
             <p className="small muted">Una pagina per scheda, con foto e dati: {numero(schede.length)} pagine.</p>
@@ -129,7 +129,7 @@ export function FinestraEsporta({ schede, cosa, righeDefunti, nomeFile = 'ricerc
           <button className="btn" disabled={!!lavoro || !schede.length} onClick={pdf}>{lavoro ?? 'Genera'}</button>
         </section>
         <section className="esporta__voce">
-          <span className="esporta__ico" style={{ background: '#EAF2F9', color: '#1B5A8F' }}><Sigma size={20} /></span>
+          <span className="esporta__ico"><Sigma size={20} /></span>
           <div className="grow">
             <b>Excel dei totali</b>
             <p className="small muted">Riepiloghi per quadrante, stato, tipologia e viale.</p>

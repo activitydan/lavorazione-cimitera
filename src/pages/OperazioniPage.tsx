@@ -422,7 +422,7 @@ function ModaleNuova({ richiesta, onChiudi, onCreata }: { richiesta?: RichiestaA
   };
   return (
     <Modal titolo={richiesta ? `Nuova pratica · richiesta ${richiesta.numero}` : 'Nuova pratica'} sottotitolo={richiesta ? `L'agenzia propone il ${data(richiesta.dataOra.slice(0, 10))} alle ${richiesta.dataOra.slice(11, 16)}. Scegli la postazione: la richiesta risulta accolta.` : 'Una pratica per una sola operazione su un solo defunto.'} size="lg" onClose={onChiudi}
-      icona={<span className="list-item__icon" style={{ background: '#EAF2F9', color: '#1B5A8F' }}><FileText size={18} /></span>}
+      icona={<span className="list-item__icon"><FileText size={18} /></span>}
       footer={<><span className="small muted grow">{dUfficio ? 'D\'ufficio: nessuna tariffa' : `Tariffa: ${euro(tariffe[tipo])}`}</span><button className="btn" onClick={onChiudi}>Annulla</button><button className="btn btn--primary" onClick={salva}>Apri la pratica</button></>}>
       <div className="col gap-16">
         <Field label="Operazione">

@@ -109,7 +109,7 @@ function Avanzamento() {
         <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Schede censite</span><span className="kpi__value">{numero(schede.length)}<small>/ {numero(stimate)}</small></span><Progress value={schede.length} max={stimate} verde small /></span></div>
         <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Ultimi 30 giorni</span><span className="kpi__value">{numero(ultimi30)}</span><span className="kpi__sub">circa {media} schede per giorno lavorativo</span></span></div>
         <div className="card kpi-card"><span className="kpi"><span className="kpi__label">Fine stimata</span><span className="kpi__value" style={{ fontSize: 22 }}>{fine ? dataBreve(fine) : '—'}</span><span className="kpi__sub">{numero(restanti)} postazioni da censire</span></span></div>
-        <button className="card kpi-card card--link" onClick={() => setQuery('tab', 'verifiche')}><span className="kpi"><span className="kpi__label">Da verificare</span><span className="kpi__value" style={{ color: '#B8860B' }}>{daVerificare}</span><span className="kpi__sub">{incompleti} con dati anagrafici incompleti</span></span></button>
+        <button className="card kpi-card card--link" onClick={() => setQuery('tab', 'verifiche')}><span className="kpi"><span className="kpi__label">Da verificare</span><span className="kpi__value" style={{ color: 'var(--warn-700)' }}>{daVerificare}</span><span className="kpi__sub">{incompleti} con dati anagrafici incompleti</span></span></button>
       </div>
       <div className="griglia griglia--3">
         <section className="card card--pad">
@@ -554,7 +554,7 @@ function Strutture() {
               return (
                 <tr key={st.id}>
                   <td><b>{st.nome}</b></td>
-                  <td><span className={`badge badge--sm ${st.tipo === 'colombaio' ? 'badge--blu' : ''}`} style={st.tipo === 'cappella' ? { background: '#f3edf9', color: '#7B4FA8' } : undefined}>{NOMI_STRUTTURA[st.tipo]}</span></td>
+                  <td><span className={`badge badge--sm ${st.tipo === 'colombaio' ? 'badge--blu' : ''}`}>{NOMI_STRUTTURA[st.tipo]}</span></td>
                   <td className="nowrap">{st.viale}</td>
                   <td className="num">{numero(occ.totale)}</td>
                   <td className="num">{numero(occ.occupati)}</td>
