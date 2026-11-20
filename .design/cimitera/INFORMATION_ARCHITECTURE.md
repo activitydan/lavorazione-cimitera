@@ -38,7 +38,9 @@ Dopo le dieci proposte restava un problema, segnalato da Dan: la stessa agenda s
 | Le notifiche | La campanella | Solo cose successe o da decidere; non ripete più l'agenda. |
 | Scegliere il giorno di una manutenzione | Manutenzioni › Programmazione | È uno strumento di lavoro, non un secondo calendario da consultare. |
 
-- La Dashboard sta di nuovo in una schermata: mappa, Agenda di oggi, e sotto Censimento, Manutenzione, Scadenze e pagamenti.
+- La Dashboard sta di nuovo in una schermata: mappa, Agenda di oggi, e sotto il pannello dei segnali.
+- Il pannello dei segnali ha le sei sezioni di lavoro nell'ordine del menu (Operazioni cimiteriali, Concessioni, Illuminazione votiva, Scadenze e pagamenti, Manutenzioni, Censimento), ognuna con tre numeri: dice se in quella sezione c'è qualcosa che aspetta. Ha preso il posto dei tre riquadri Censimento, Manutenzione, Scadenze e pagamenti, che avevano forme diverse e lasciavano fuori metà delle sezioni.
+- Nel pannello non c'è "Apri": porterebbe dove porta già il menu. Ogni numero apre invece l'elenco già filtrato, cosa che il menu non fa.
 - "Agenda di oggi" mostra operazioni cimiteriali e manutenzioni di oggi e di domani, divise per giorno.
 - Operazioni cimiteriali ha due linguette, Pratiche e Registro. I vecchi collegamenti alla linguetta Calendario aprono la finestra del calendario.
 - Sul telefono il comando è "Calendario" nell'intestazione di "Agenda di oggi".
@@ -105,6 +107,7 @@ Indirizzi dopo il `#`. Tra parentesi chi può aprire la pagina, se non è di tut
 - **Secondary navigation**: linguette sotto il titolo della pagina, da due a cinque. Ogni linguetta ha il suo indirizzo (`?tab=`).
 - **Dettaglio**: una riga apre una finestra (concessione, pratica, utenza, manutenzione) o il pannello di lato (scheda). Non esiste un quarto livello: dal dettaglio si passa a un altro dettaglio con un collegamento, per esempio dalla scheda ad "Apri in Concessioni".
 - **Utility navigation**: nella barra in alto la scelta del cimitero, la ricerca, che trova tutto senza cambiare pagina, e il pulsante "Calendario", che apre il calendario in una finestra da ogni pagina. Sulla Dashboard del computer anche il pulsante verde "Nuovo". In fondo al menu l'utente (cambia ruolo, simula senza rete) e la campanella degli alert, con i filtri per categoria.
+- **Dalla Dashboard alle sezioni**: i numeri del pannello dei segnali sono collegamenti all'elenco già filtrato. Sul telefono restano le due sezioni che lì si aprono, Manutenzioni e Censimento.
 - **Mobile navigation**: menu a scomparsa da sinistra con sei voci. Sulla Dashboard quattro azioni rapide: Nuovo rilievo, Ricerca, Segnala, Verifiche. Il calendario si apre da "Agenda di oggi". La ricerca in alto resta su postazioni e aree.
 - **Regola della profondità**: al massimo tre passi, menu, linguetta, dettaglio.
 
@@ -113,7 +116,7 @@ Indirizzi dopo il `#`. Tra parentesi chi può aprire la pagina, se non è di tut
 ### Dashboard
 1. Mappa con i conteggi per stato: è la vista d'insieme del cimitero e la porta della Mappa grande.
 2. Agenda di oggi: operazioni e manutenzioni di oggi e di domani.
-3. Riquadri in basso: Censimento, Manutenzione, Scadenze e pagamenti. Ogni numero apre l'elenco che conta.
+3. Pannello dei segnali: le sei sezioni di lavoro nell'ordine del menu, tre numeri ciascuna. Ogni numero apre l'elenco già filtrato; lo zero è spento, il rosso segna ciò che è in ritardo (morosi, manutenzioni urgenti, verifiche in ritardo).
 4. Tutto in una schermata, senza scorrere. Il calendario completo si apre dal pulsante in alto.
 
 ### Ricerca
@@ -214,7 +217,7 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 3. Nasce il contratto, scaricabile in PDF, e l'avviso di pagamento della tariffa.
 
 ### Ufficio: dalla scadenza al pagamento
-1. Dashboard, riquadro "Scadenze e pagamenti": un numero porta alla linguetta giusta.
+1. Dashboard, pannello dei segnali, "Scadenze e pagamenti": un numero porta all'elenco giusto.
 2. Scadenzario: spunta le righe in scadenza.
 3. "Invia tramite DAT": nasce un invio con le lettere di scadenza (simulato).
 4. Rinnovo o chiusura della concessione; per il rinnovo nasce l'avviso di pagamento.
@@ -292,7 +295,7 @@ Le linguette seguono il giro: cosa scade (Scadenzario), la lettera che parte (In
 
 - Pattern: `#/sezione`, più `?tab=linguetta` e `?id=dettaglio`. Esempio: `#/operazioni?id=pr-0002` apre la pratica.
 - Segmenti dinamici: solo la scheda, `#/scheda/CODICE`.
-- Altri parametri: `vista` (in Ricerca "schede" o "defunti"), `stato` (filtro pronto in Manutenzioni e nell'elenco dell'agenzia), `q` (quadrante evidenziato), `lotto` (invio DAT aperto), `tutte` (sul telefono tutte le manutenzioni e non solo le mie), `nuovo=1` (apre la finestra "nuovo" della sezione, poi sparisce dall'indirizzo).
+- Altri parametri: `vista` (in Ricerca "schede" o "defunti"), `stato` (filtro pronto: in Manutenzioni, Operazioni cimiteriali, Concessioni, Illuminazione votiva, Scadenze e pagamenti e nell'elenco dell'agenzia; è così che i numeri della Dashboard aprono l'elenco già filtrato), `q` (quadrante evidenziato), `lotto` (invio DAT aperto), `tutte` (sul telefono tutte le manutenzioni e non solo le mie), `nuovo=1` (apre la finestra "nuovo" della sezione, poi sparisce dall'indirizzo).
 - Regola: ogni linguetta e ogni dettaglio aperto ha un indirizzo. Così il tasto Indietro del browser funziona, e un alert o un collegamento possono portare al punto esatto.
 - Un indirizzo che cambia tiene vivo quello vecchio: `?vista=calendario`, `/pratiche` e `/richieste` portano ancora nel posto giusto; `?tab=agenda` e `?tab=calendario` di Operazioni cimiteriali aprono la finestra del calendario.
 - La finestra del calendario non ha un indirizzo suo: si apre e si chiude sopra la pagina, come il pannello della scheda.

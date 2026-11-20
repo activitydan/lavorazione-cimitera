@@ -1,16 +1,18 @@
 import { Fragment, useMemo } from 'react';
-import { ArrowRight, CalendarClock, CalendarDays, ClipboardCheck, ClipboardList, MapPinPlus, Maximize2, Search, Wrench } from 'lucide-react';
+import { ArrowRight, CalendarDays, ClipboardCheck, MapPinPlus, Maximize2, Search, Wrench } from 'lucide-react';
 import { CALENDARI } from '../components/Calendario';
 import { CemeteryMap } from '../components/map/CemeteryMap';
 import { SceltaStileMappa } from '../components/Topbar';
-import { Ciambella, Dot } from '../components/ui';
+import { Dot } from '../components/ui';
 import { apriModale, resetFiltri, seleziona, setFiltri, setUi, useStore } from '../data/store';
 import { conta, labelLista, useCimitero, useDatiCimitero, useSchedeCimitero } from '../data/selectors';
 import { COLORI_OPERAZIONE, NOMI_OPERAZIONE } from '../data/pratiche';
-import { righeScadenzario, statoAvviso } from '../data/scadenze';
+import { righeScadenzario, statoAvviso, ultimaLettera } from '../data/scadenze';
 import { aggiungiGiorni, nomeCompleto, numero, oggiISO, percentuale } from '../lib/format';
 import { useTelefono } from '../lib/schermo';
 import { href, vai } from '../router';
+import { statoEffettivo } from '../data/concessioni';
+import { indiceUtenze, statoUtenza } from '../data/utenze';
 
 function Widget({ titolo, icona, link, linkLabel = 'Apri', azione, children, className }: {
   titolo: string; icona: React.ReactNode; link?: string; linkLabel?: string; azione?: React.ReactNode; children: React.ReactNode; className?: string;
@@ -57,15 +59,61 @@ export function Dashboard() {
 
   const stimate = quadranti.reduce((t, x) => t + x.stimaManufatti, 0);
   const perStato = useMemo(() => conta(schede, (s) => s.stato), [schede]);
-  const defunti = useMemo(() => schede.reduce((t, s) => t + s.defunti.length, 0), [schede]);
   // scadenze e pagamenti: gli stessi numeri delle linguette di "Scadenze e pagamenti"
   const scadenze = useMemo(() => righeScadenzario(db, cimitero?.id ?? ''), [db, cimitero?.id]);
   const avvisi = useMemo(() => db.avvisi.filter((a) => a.cimiteroId === cimitero?.id).map((a) => statoAvviso(a)), [db.avvisi, cimitero?.id]);
-  const settimana = useMemo(() => schede.filter((s) => s.rilevatoIl.slice(0, 10) >= aggiungiGiorni(oggi, -7)).length, [schede, oggi]);
-  const urgenti = manutenzioni.filter((m) => m.stato !== 'risolta' && m.stato !== 'annullata' && m.priorita === 'urgente').length;
+
+  // I segnali delle sezioni: quante cose aspettano in ognuna, nell'ordine del menu. Ogni numero apre l'elenco già filtrato;
+  // sul telefono restano le due sezioni che lì si aprono.
+  const blocchi = useMemo(() => {
+    const qui = cimitero?.id;
+    const tutte = telefono ? '&tutte=1' : '';
+    const pratiche = db.pratiche.filter((p) => p.cimiteroId === qui);
+    const concessioni = db.concessioni.filter((c) => c.cimiteroId === qui && c.stato !== 'chiusa').map((c) => {
+      const e = statoEffettivo(c, db.regole);
+      return e.stato === 'chiusa' ? (e.motivo === 'scaduta' ? 'scaduta' : 'chiusa') : e.stato;
+    });
+    const utenze = db.utenze.filter((u) => u.cimiteroId === qui).map((u) => statoUtenza(u));
+    const conUtenza = indiceUtenze(db.utenze);
+    const lampade = schede.filter((sc) => sc.lampadaAccesa === true && !(conUtenza.get(sc.id) ?? []).some((u) => u.stato === 'attiva')).length;
+    const mie = new Set(schede.map((sc) => sc.id));
+    const verifiche = db.verifiche.filter((v) => v.stato === 'aperta' && mie.has(v.schedaId));
+    const conta = <T,>(lista: T[], x: T) => lista.filter((y) => y === x).length;
+    return [
+      { titolo: 'Operazioni cimiteriali', voci: [
+        { n: db.richieste.filter((r) => r.cimiteroId === qui && r.stato === 'in_attesa').length, label: 'richieste', link: '/operazioni' },
+        { n: pratiche.filter((p) => p.stato === 'aperta').length, label: 'da programmare', link: '/operazioni?stato=aperta' },
+        { n: pratiche.filter((p) => p.stato === 'programmata').length, label: 'programmate', link: '/operazioni?stato=programmata' },
+      ] },
+      { titolo: 'Concessioni', voci: [
+        { n: conta(concessioni, 'in_scadenza'), label: 'in scadenza', link: '/concessioni?stato=in_scadenza' },
+        { n: conta(concessioni, 'scaduta'), label: 'scadute', link: '/concessioni?stato=scaduta' },
+        { n: conta(concessioni, 'in_decadenza'), label: 'in decadenza', link: '/concessioni?stato=in_decadenza' },
+      ] },
+      { titolo: 'Illuminazione votiva', voci: [
+        { n: conta(utenze, 'da_allacciare'), label: 'da allacciare', link: '/illuminazione-votiva?stato=da_allacciare' },
+        { n: conta(utenze, 'sospesa'), label: 'sospese', link: '/illuminazione-votiva?stato=sospesa' },
+        { n: lampade, label: 'da controllare', link: '/illuminazione-votiva?tab=lampade' },
+      ] },
+      { titolo: 'Scadenze e pagamenti', voci: [
+        { n: scadenze.filter((r) => !ultimaLettera(db.invii, r.chiave)).length, label: 'senza lettera', link: '/scadenze?stato=senza_lettera' },
+        { n: conta(avvisi, 'da_pagare'), label: 'da pagare', link: '/scadenze?tab=avvisi' },
+        { n: conta(avvisi, 'scaduto'), label: 'morosi', link: '/scadenze?tab=morosi', alto: true },
+      ] },
+      { titolo: 'Manutenzioni', campo: true, voci: [
+        { n: manutenzioni.filter((m) => m.stato === 'aperta').length, label: 'da programmare', link: `/manutenzioni?stato=aperta${tutte}` },
+        { n: manutenzioni.filter((m) => m.stato === 'programmata').length, label: 'programmate', link: `/manutenzioni?stato=programmata${tutte}` },
+        { n: manutenzioni.filter((m) => m.stato !== 'risolta' && m.stato !== 'annullata' && m.priorita === 'urgente').length, label: 'urgenti', link: telefono ? '/manutenzioni?tutte=1' : '/manutenzioni', alto: true },
+      ] },
+      { titolo: 'Censimento', campo: true, voci: [
+        { n: `${stimate ? percentuale(schede.length, stimate) : 0}%`, label: 'censito', link: telefono ? '' : '/censimento', nota: `${numero(schede.length)} schede su ${numero(stimate)} stimate` },
+        { n: verifiche.length, label: 'verifiche aperte', link: '/censimento?tab=verifiche' },
+        { n: verifiche.filter((v) => v.scadenza < oggi).length, label: 'in ritardo', link: '/censimento?tab=verifiche', alto: true },
+      ] },
+    ] as { titolo: string; campo?: boolean; voci: { n: number | string; label: string; link: string; alto?: boolean; nota?: string }[] }[];
+  }, [db, schede, manutenzioni, scadenze, avvisi, stimate, cimitero?.id, telefono, oggi]);
 
   if (!cimitero) return null;
-  const tutte = telefono ? '&tutte=1' : '';
   const vaiMappa = (patch: Parameters<typeof setFiltri>[0]) => {
     resetFiltri();
     setFiltri(patch);
@@ -139,41 +187,21 @@ export function Dashboard() {
         </Widget>
 
         {/* il calendario grande, sotto tutta la mappa: tutto ciò che è in programma */}
-        <Widget titolo="Censimento" icona={<ClipboardList size={16} />} link={telefono ? '/censimento?tab=verifiche' : '/censimento'} linkLabel={telefono ? 'Verifiche' : 'Apri'} className="bento__censite">
-          <div className="row gap-16">
-            <Ciambella
-              size={112}
-              spessore={13}
-              dati={[{ id: 'c', label: 'Censite', valore: schede.length, colore: '#79AA4F' }, { id: 'r', label: 'Da censire', valore: Math.max(0, stimate - schede.length), colore: '#E2E7EE' }]}
-              centro={<div className="display" style={{ fontSize: 20, fontWeight: 800 }}>{stimate ? percentuale(schede.length, stimate) : 0}%</div>}
-              sotto={<div className="tiny muted">censito</div>}
-            />
-            <div className="col gap-4 grow">
-              <div className="kpi__value">{numero(schede.length)}<small>/ {numero(stimate)} schede</small></div>
-              <div className="small muted">+{numero(settimana)} negli ultimi 7 giorni</div>
-              <div className="small muted">{numero(defunti)} defunti registrati</div>
+        <section className="card segnali" aria-label="Cosa aspetta in ogni sezione">
+          {blocchi.filter((b) => !telefono || b.campo).map((b) => (
+            <div key={b.titolo} className="segnali__blocco">
+              <h3>{b.titolo}</h3>
+              <div className="mini-kpis">
+                {b.voci.map((v) => (
+                  <a key={v.label} href={v.link ? href(v.link) : undefined} title={v.nota} className={`${v.alto && v.n !== 0 ? 'is-danger' : ''} ${v.n === 0 ? 'is-zero' : ''}`}>
+                    <b>{typeof v.n === 'number' ? numero(v.n) : v.n}</b>
+                    <span>{v.label}</span>
+                  </a>
+                ))}
+              </div>
             </div>
-          </div>
-        </Widget>
-
-        <Widget titolo="Manutenzione" icona={<Wrench size={16} />} link="/manutenzioni" className="bento__manut">
-          <div className="mini-kpis">
-            <a href={href(`/manutenzioni?stato=aperta${tutte}`)}><b>{manutenzioni.filter((m) => m.stato === 'aperta').length}</b><span>aperte</span></a>
-            <a href={href(`/manutenzioni?stato=programmata${tutte}`)}><b>{manutenzioni.filter((m) => m.stato === 'programmata').length}</b><span>programmate</span></a>
-            <a href={href(`/manutenzioni?stato=risolta${tutte}`)}><b>{manutenzioni.filter((m) => m.stato === 'risolta').length}</b><span>risolte</span></a>
-            <a href={href(telefono ? '/manutenzioni?tutte=1' : '/manutenzioni')} className="is-danger"><b>{urgenti}</b><span>urgenti</span></a>
-          </div>
-        </Widget>
-
-        <Widget titolo="Scadenze e pagamenti" icona={<CalendarClock size={16} />} link={telefono ? undefined : '/scadenze'} className="bento__scadenze">
-          {/* sul telefono si leggono soltanto: la pagina delle scadenze si usa dal computer */}
-          <div className="mini-kpis">
-            <a href={telefono ? undefined : href('/scadenze')}><b>{numero(scadenze.filter((r) => r.giorni >= 0).length)}</b><span>in scadenza</span></a>
-            <a href={telefono ? undefined : href('/scadenze')}><b>{numero(scadenze.filter((r) => r.giorni < 0).length)}</b><span>scadute</span></a>
-            <a href={telefono ? undefined : href('/scadenze?tab=avvisi')}><b>{numero(avvisi.filter((a) => a === 'da_pagare').length)}</b><span>da pagare</span></a>
-            <a href={telefono ? undefined : href('/scadenze?tab=morosi')} className="is-danger"><b>{numero(avvisi.filter((a) => a === 'scaduto').length)}</b><span>morosi</span></a>
-          </div>
-        </Widget>
+          ))}
+        </section>
       </div>
     </div>
   );

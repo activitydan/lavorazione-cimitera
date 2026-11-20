@@ -40,7 +40,11 @@ export function IlluminazionePage() {
   const schede = indiceSchede(db.schede);
   const utenze = useMemo(() => db.utenze.filter((u) => u.cimiteroId === cim.id), [db.utenze, cim.id]);
   const [q, setQ] = useState('');
-  const [stati, setStati] = useState<StatoUtenza[]>(['da_allacciare', 'attiva', 'sospesa']);
+  // dalla Dashboard si arriva con ?stato=...: l'elenco si apre già filtrato
+  const [stati, setStati] = useState<StatoUtenza[]>(() => {
+    const st = rotta.query.get('stato') as StatoUtenza | null;
+    return st && st in NOMI_STATO_UTENZA ? [st] : ['da_allacciare', 'attiva', 'sospesa'];
+  });
   const [pagina, setPagina] = useState(0);
   const [nuova, setNuova] = useState<{ scheda?: Scheda } | null>(null);
   useNuovo(() => setNuova({}));

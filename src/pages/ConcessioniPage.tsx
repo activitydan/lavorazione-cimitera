@@ -41,7 +41,11 @@ export function ConcessioniPage() {
   const concessioni = useMemo(() => db.concessioni.filter((c) => c.cimiteroId === cim.id), [db.concessioni, cim.id]);
   const schede = indiceSchede(db.schede);
   const [q, setQ] = useState('');
-  const [filtri, setFiltri] = useState<Filtro[]>(['attiva', 'in_scadenza', 'in_decadenza', 'scaduta']);
+  // dalla Dashboard si arriva con ?stato=...: l'elenco si apre già filtrato
+  const [filtri, setFiltri] = useState<Filtro[]>(() => {
+    const st = rotta.query.get('stato') as Filtro | null;
+    return st && FILTRI.some((f) => f.id === st) ? [st] : ['attiva', 'in_scadenza', 'in_decadenza', 'scaduta'];
+  });
   const [tipo, setTipo] = useState('');
   const [pagina, setPagina] = useState(0);
   const [nuova, setNuova] = useState(false);

@@ -64,7 +64,9 @@ function Scadenzario({ righe }: { righe: RigaScadenza[] }) {
   const db = useStore((s) => s.db);
   const cim = useCimitero();
   const [tipi, setTipi] = useState<TipoScadenza[]>(['concessione', 'fine_turno', 'da_liberare']);
-  const [senzaLettera, setSenzaLettera] = useState(false);
+  // dalla Dashboard si arriva con ?stato=senza_lettera
+  const rotta = useRotta();
+  const [senzaLettera, setSenzaLettera] = useState(() => rotta.query.get('stato') === 'senza_lettera');
   const [scelte, setScelte] = useState<Set<string>>(new Set());
   const [pagina, setPagina] = useState(0);
   const [invio, setInvio] = useState(false);

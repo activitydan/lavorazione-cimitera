@@ -124,7 +124,12 @@ function Pratiche({ selId }: { selId: string | null }) {
   const db = useStore((s) => s.db);
   const schede = indiceSchede(db.schede);
   const [q, setQ] = useState('');
-  const [stati, setStati] = useState<string[]>(['aperta', 'programmata']);
+  // dalla Dashboard si arriva con ?stato=...: l'elenco si apre già filtrato
+  const rotta = useRotta();
+  const [stati, setStati] = useState<string[]>(() => {
+    const st = rotta.query.get('stato');
+    return st && STATI_PRATICA.some((x) => x.id === st) ? [st] : ['aperta', 'programmata'];
+  });
   const [tipo, setTipo] = useState('');
   const [pagina, setPagina] = useState(0);
   const tutte = useMemo(() => db.pratiche.filter((p) => p.cimiteroId === cim.id), [db.pratiche, cim.id]);
